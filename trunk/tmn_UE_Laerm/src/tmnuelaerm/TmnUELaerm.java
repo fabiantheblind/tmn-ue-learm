@@ -52,7 +52,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 	ParticleSystem ps;
 //	Some Arraylists to store the objects
 	ArrayList <Particle> ptclsList =  new ArrayList<Particle>();
-	ArrayList<Repeller> repellers = new ArrayList<Repeller>();
+	ArrayList<Repeller> repellers;
 //	for the particles
 	int numPtcls = 500; // number of particles
 	
@@ -78,31 +78,31 @@ public ArrayList<ObstacleObject> obstclObjList;
 		colorMode(HSB,360,100,100);
 		background(0);
 		size(500,400);
-//		frameRate(25);
+		frameRate(25);
 
 		//PDXIII TUIO Stuff
 		// enable on system installed fonts
-//		hint(ENABLE_NATIVE_FONTS);
-//		font = createFont("Gentium", 18);
-//		textFont(font,18);
+		hint(ENABLE_NATIVE_FONTS);
+		font = createFont("Gentium", 18);
+		textFont(font,18);
 
 		//init TUIO
-//		tuioClient.addTuioListener(this);
-//		tuioClient.connect();
+		tuioClient.addTuioListener(this);
+		tuioClient.connect();
 
 		
-//		obstclObjList = new ArrayList<ObstacleObject>();
+		obstclObjList = new ArrayList<ObstacleObject>();
 		
 		// making ObstacleObjects
-//		for (obstclCounter = 0; obstclCounter < 2; obstclCounter++){
-//			int obstclNo = obstclCounter + 1;
-//			float firstX = obstclNo*150;
-//			float firstY = height/2;
-//			PVector obstclPos = new PVector (firstX, firstY);
-//			obstclObjList.add(new ObstacleObject(this, obstclNo, obstclPos));
-//			
-//		}
-		
+		for (obstclCounter = 0; obstclCounter < 2; obstclCounter++){
+			int obstclNo = obstclCounter + 1;
+			float firstX = obstclNo*150;
+			float firstY = height/2;
+			PVector obstclPos = new PVector (firstX, firstY);
+			obstclObjList.add(new ObstacleObject(this, obstclNo, obstclPos));
+			
+		}
+		//end PDXIII TUIO Stuff
 		
 //		particle stuff
 		  // Call a function to generate new Path object with 12 segments
@@ -111,16 +111,16 @@ public ArrayList<ObstacleObject> obstclObjList;
 		initParticles(numPtcls);
 //		we need the particle system to interact with the repellers
 		ps = new ParticleSystem(this,1,new PVector(width/2,height/2),ptclsList);
-//		make some repellers
-		for(int i = 0; i <=360;i+=360/numRepellers){
-			
-			Repeller rep = new Repeller(this,width / 2 + sin(radians(i))*100,height / 2 + cos(radians(i))*100);
-			rep.setG(pow(10,3));
-		    repellers.add(rep);
-
-		  }
-	  time = millis();
-	  counter = 0;	
+		//make some repellers
+//		for(int i = 0; i <=360;i+=360/numRepellers){
+//			
+//			Repeller rep = new Repeller(this,width / 2 + sin(radians(i))*100,height / 2 + cos(radians(i))*100);
+//			rep.setG(pow(10,3));
+//		repellers.add(rep);
+//		}
+		
+	time = millis();
+	counter = 0;	
 		
 	}
 
@@ -132,43 +132,55 @@ public ArrayList<ObstacleObject> obstclObjList;
 		smooth();
 		
 		
-		  for (int i = 0; i < ptclsList.size(); i++) {
-			    Particle ptkl =  ptclsList.get(i);
-			    // Path following and separation are worked on in this function
-			    ptkl.applyForces(ptclsList,path);
+		for (int i = 0; i < ptclsList.size(); i++) {
+				Particle ptkl =  ptclsList.get(i);
+				// Path following and separation are worked on in this function
+				ptkl.applyForces(ptclsList,path);
 				// Call the generic run method (update, borders, display, etc.)
-			    ptkl.run();
-			  }
-		  // Apply repeller objects to all Particles
-		  ps.applyRepellers(repellers);
-		  
-		  // Run the Particle System
-		  ps.run();
-		  // Display all repellers
-		  for (int i = 0; i < repellers.size(); i++) {
-		    Repeller r = (Repeller) repellers.get(i); 
-		    r.display();
-		    r.drag();
-		  }
+				ptkl.run();
+			}
+		
+		// Get all Repellers into repellers
+		
+		repellers = new ArrayList<Repeller>();
 
-		  counter++;
-		  
+		for(int i = 0; i < obstclObjList.size(); i++){
+			
+			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(i);
+			
+			repellers.add(obstclObject.repeller01);
+		
+		}
+		// Apply repeller objects to all Particles
+		ps.applyRepellers(repellers);
+		
+		// Run the Particle System
+		ps.run();
+		// Display all repellers
+//		for (int i = 0; i < repellers.size(); i++) {
+//			Repeller r = (Repeller) repellers.get(i); 
+//			r.display();
+//			r.drag();
+//		}
+
+		counter++;
+		
 		
 		//PDXIII TUIO Stuff
 		//just for adjustment
-//		drawGrid();
-//		
-//		tuioCursorList = new ArrayList<TuioCursor> (tuioClient.getTuioCursors());
-//		
-//		drawObstacleObjects();
-//		
-//		drawCursors();
-//		
-//		noStroke();
-//		fill(0);
-//		text(tuioCursorList.size(), 50, 50);
-//		noFill();
-		  
+		drawGrid();
+		
+		tuioCursorList = new ArrayList<TuioCursor> (tuioClient.getTuioCursors());
+		
+		drawObstacleObjects();
+		
+		drawCursors();
+		
+		noStroke();
+		fill(0);
+		text(tuioCursorList.size(), 50, 50);
+		noFill();
+		//end PDXIII TUIO Stuff
 		  writeIMGs();
 
 	}
@@ -187,28 +199,30 @@ public ArrayList<ObstacleObject> obstclObjList;
 			  imgNum++;
 		}
 	}
+	
 	//PDXIII TUIO Stuff
+	public void drawObstacleObjects(){
+		
+		for(int i = 0; i < obstclObjList.size(); i++){
+			
+			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(i);
+			obstclObject.draw();
+		}
+	}
+	
+	public void drawCursors(){
+		
+		for (int i=0; i<tuioCursorList.size(); i++) {
+			TuioCursor tcur = (TuioCursor)tuioCursorList.get(i);
+			
+			stroke(100,255,255);
+			noFill();
+			ellipse( tcur.getScreenX(width), tcur.getScreenY(height),10,10);
+		}
+	}
+	
+	//end PDXIII TUIO Stuff
 
-//	public void drawObstacleObjects(){
-//		
-//		for(int i = 0; i < obstclObjList.size(); i++){
-//			
-//			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(i);
-//			obstclObject.draw();
-//		}
-//	}
-//	
-//	public void drawCursors(){
-//		
-//		for (int i=0; i<tuioCursorList.size(); i++) {
-//			TuioCursor tcur = (TuioCursor)tuioCursorList.get(i);
-//			
-//			stroke(100,255,255);
-//			noFill();
-//			ellipse( tcur.getScreenX(width), tcur.getScreenY(height),10,10);
-//		}
-//	}
-//	
 
 	// TUIO methods
 	@Override

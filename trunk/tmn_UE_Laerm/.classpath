@@ -15,7 +15,7 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="tmn_UE_Laerm/lib/base/core"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Volumes/database worx/_the_moron_net/_own_footage/moron_softwareDevelopment/moron_eclipse/moron_eclipseLibs/TUIO_Processing/library/libTUIO.jar"/>
+	<classpathentry kind="lib" path="/Volumes/DATA/CODE/CodeDownloads/TUIO_Processing/library/libTUIO.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>

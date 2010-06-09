@@ -36,6 +36,16 @@ import processing.core.PVector;
 	 color2 = p.color(0,0, 100, 70);
 	}
 	
+	public Repeller(PApplet p_, PVector loc_)  {
+		p = p_;
+		loc = loc_;
+		drag = new PVector(0,0);
+		G = 100;
+		
+		color1 = p.color(0,0, 100, 100);
+		color2 = p.color(0,0, 100, 70);
+		}
+	
 	public Repeller(PApplet p_,float x, float y, float G_,float radius_)  {
 		p = p_;
 	 loc = new PVector(x,y);
@@ -66,6 +76,11 @@ import processing.core.PVector;
 	 dir.mult(force);                           // Get force vector --> magnitude * direction
 	 return dir;
 	}  
+	
+	public void update(PVector loc_){
+		
+		loc = loc_;
+	}
 	
 	public void setG(float G_in){
 		G = G_in;
