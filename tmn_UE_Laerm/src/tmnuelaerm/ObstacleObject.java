@@ -6,6 +6,7 @@ import TUIO.TuioClient;
 import TUIO.TuioCursor;
 //import TUIO.TuioProcessing;
 */
+import particleSystem.Repeller;
 import processing.core.*;
 
 
@@ -43,6 +44,9 @@ public class ObstacleObject {
 	public float boundsY1;
 	public float boundsY2;
 	
+	public Repeller repeller01;
+	
+	
 	public float scale = 1;
 	public PShape svg;
 	public PApplet pa;
@@ -61,6 +65,10 @@ public class ObstacleObject {
 		pa = _pa;
 		id = PApplet.nf(_id,2);
 		obstclName = "Object" + id + ".svg";
+		
+		repeller01 = new Repeller(pa, obstclTrans);
+		repeller01.setG(pa.pow(10,3));
+
 		
 		svg = pa.loadShape(obstclName);
 		svg.disableStyle();
@@ -90,7 +98,7 @@ public class ObstacleObject {
 				setScale();
 			}
 		}else{
-			pa.fill(0);
+			pa.fill(255,200);
 		}
 		
 		pa.noStroke();
@@ -106,6 +114,8 @@ public class ObstacleObject {
 		boundingBox();
 		pa.stroke(255);
 		pa.noFill();
+		
+		repeller01.display();
 
 		scale = 1;
 		coursor01Pos = newCoursor01Pos;
@@ -154,12 +164,15 @@ public class ObstacleObject {
 	public void setSize(){
 		
 		obstclSize.mult(scale);
+		repeller01.radius *= scale;
+		repeller01.G *= scale;
 		
 	}
 	
 	public void move(PVector nowPos){
 		
 		obstclTrans = PVector.sub(nowPos, offSet);
+		repeller01.update(obstclTrans);
 	}
 
 	public void boundingBox(){
