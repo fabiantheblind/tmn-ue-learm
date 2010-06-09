@@ -17,6 +17,15 @@ import tmnuelaerm.ObstacleObject;
 import processing.core.PApplet;
 
 
+import particleSystem.Particle;
+import particleSystem.ParticleSystem;
+import particleSystem.Path;
+import particleSystem.Repeller;
+import processing.core.PApplet;
+import processing.core.PVector;
+import processing.core.PFont;
+
+
 public class TmnUELaerm extends PApplet implements TuioListener{
 
 	/**
@@ -35,12 +44,41 @@ public ArrayList<ObstacleObject> obstclObjList;
 	public ArrayList<TuioCursor> tuioCursorList;
 
 	public PFont font;
+	
+//	Setup the Particles
+	// A path object (series of connected points)
+	Path path;
+//	our particle System
+	ParticleSystem ps;
+//	Some Arraylists to store the objects
+	ArrayList <Particle> ptclsList =  new ArrayList<Particle>();
+	ArrayList<Repeller> repellers = new ArrayList<Repeller>();
+//	for the particles
+	int numPtcls = 500; // number of particles
+	
+//	every particle can have his own force / radius / speed
+//	they can be chaged later
+	float ptclRadius = 5; // standard radius for the particles
+	public float myForce = 0.5f; // std force for the particles 
+	public float mySpeed = 0.5f; // std speed for the particles
+
+//	some repellers
+	int numRepellers = 5;
+	
+//	to count the time
+	public int counter;
+//	just for unique filenames when saving a frame as .jpg in the folder data
+	public float time;
+//	this is for exporting image sequences
+	public boolean writeImg = false;
+	public int imgNum = 0;
+	
 
 	public void setup() {
-		
+		colorMode(HSB,360,100,100);
+		background(0);
 		size(500,400);
-		
-		frameRate(25);
+//		frameRate(25);
 
 		//PDXIII TUIO Stuff
 		// enable on system installed fonts
@@ -65,14 +103,56 @@ public ArrayList<ObstacleObject> obstclObjList;
 //			
 //		}
 		
+		
+//		particle stuff
+		  // Call a function to generate new Path object with 12 segments
+		initCirclePath(23);
+		  // We are now making random Particles and storing them in an ArrayList ptclsList
+		initParticles(numPtcls);
+//		we need the particle system to interact with the repellers
+		ps = new ParticleSystem(this,1,new PVector(width/2,height/2),ptclsList);
+//		make some repellers
+		for(int i = 0; i <=360;i+=360/numRepellers){
+			
+			Repeller rep = new Repeller(this,width / 2 + sin(radians(i))*100,height / 2 + cos(radians(i))*100);
+			rep.setG(pow(10,3));
+		    repellers.add(rep);
+
+		  }
+	  time = millis();
+	  counter = 0;	
+		
 	}
 
 	public void draw() {
 		
-		background(125);
-		
+//		background(125);
+//		just a clearScreen method
+		cls();
 		smooth();
 		
+		
+		  for (int i = 0; i < ptclsList.size(); i++) {
+			    Particle ptkl =  ptclsList.get(i);
+			    // Path following and separation are worked on in this function
+			    ptkl.applyForces(ptclsList,path);
+				// Call the generic run method (update, borders, display, etc.)
+			    ptkl.run();
+			  }
+		  // Apply repeller objects to all Particles
+		  ps.applyRepellers(repellers);
+		  
+		  // Run the Particle System
+		  ps.run();
+		  // Display all repellers
+		  for (int i = 0; i < repellers.size(); i++) {
+		    Repeller r = (Repeller) repellers.get(i); 
+		    r.display();
+		    r.drag();
+		  }
+
+		  counter++;
+		  
 		
 		//PDXIII TUIO Stuff
 		//just for adjustment
@@ -88,8 +168,25 @@ public ArrayList<ObstacleObject> obstclObjList;
 //		fill(0);
 //		text(tuioCursorList.size(), 50, 50);
 //		noFill();
+		  
+		  writeIMGs();
+
 	}
 	
+//	write an rect at everyframe
+	void cls(){
+		noStroke();
+		fill(360,0,0,23);
+		rect(0,0,width,height);
+	}
+	
+	public void writeIMGs(){
+		if(writeImg){
+			String sa = nf(imgNum,6);
+			  saveFrame("./data/ParticleSystem-"+sa+".tif");
+			  imgNum++;
+		}
+	}
 	//PDXIII TUIO Stuff
 
 //	public void drawObstacleObjects(){
@@ -261,6 +358,103 @@ public ArrayList<ObstacleObject> obstclObjList;
 	}
 	//grid end
 	
+//		Particle stuff
+	
+//	This a number of points circling  around the center. for a smother path 
+//	give him more segments
+	void initCirclePath(int segments){
+		
+		path = new Path(this);
+		for(int i = 0; i <=360;i+=360/segments){
+			  path.addPoint(width / 2 + sin(radians(i))*100,height / 2 + cos(radians(i))*100);
+		}
+	}
+	void initParticles(int numPtkls){
+		
+		  ptclsList =  new ArrayList<Particle>();
+		  for (int i = 0; i < numPtkls; i++) {
+		    newPtkl(random(width),random(height),ptclsList);
+		    
+//		    Set some random force and speed
+//		    ptclsList.get(i).setMaxforce(random(-5,5));
+//		    ptclsList.get(i).setMaxspeed(random(-2,2));
+
+		  }
+	}
+		  
+		void newPtkl(float x, float y,ArrayList<Particle> ptclsList) {
+				
+//				  float maxforce = 0.3f;    // Maximum steering force
+//				  float maxspeed =  0.3f;    // Maximum speed
+//				  float myMaxspeed = Particle.maxspeed;
+//				  float myMaxforce = Particle.maxforce;//+random(-1f,1f);
+				Particle ptcl = new Particle(this,new PVector(x,y),new PVector(x,y), ptclRadius);
+				ptcl.setMaxforce(10f);
+				ptcl.setMaxforce(5f);
+				ptcl.setMaxspeed(2f);
+
+				  ptclsList.add(ptcl);
+//				or use:
+//				  ptclsList.add(new Particle(this,new PVector(x,y),new PVector(x,y), Particle.radius));
+
+			}
+			
+		public void keyPressed() {
+			  if (key == 'd') {
+//				do something fancy
+			  }
+			  
+			    if( key==CODED ){
+			        if( keyCode == UP ){ 
+			        	myForce += 0.1f;
+			        }
+			        if( keyCode == DOWN ){ 
+			        	myForce -= 0.1f;
+			        }
+			        if( keyCode == LEFT ){ 
+			        	mySpeed += 0.1f;
+			        }
+			        if( keyCode == RIGHT ){ 
+			        	mySpeed -= 0.1f;
+			        }
+			    }
+			}
+
+			
+			public void keyReleased(){
+				
+				if (key == 's' || key == 'S') {
+					saveFrame("./data/MyImg"+time+".jpg");
+					
+				}	
+				if (key == 'e' || key == 'E') {
+				exit();			
+				}
+				if (key == 'i' || key == 'I') {
+					writeImg = true;
+				}
+				if (key == 'o' || key == 'O') {
+					writeImg = false;
+				}
+				
+				
+			}
+			public void mousePressed() {
+//			  newPtkl(mouseX,mouseY,ptclsList);
+				
+				for (int i = 0; i < repellers.size(); i++) {
+				    Repeller r = (Repeller) repellers.get(i); 
+				    r.clicked(mouseX,mouseY);
+				  }
+			}
+			
+			public void mouseReleased() {
+				  for (int i = 0; i < repellers.size(); i++) {
+				    Repeller r = (Repeller) repellers.get(i); 
+				    r.stopDragging();
+				  }
+				}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PApplet.main(new String[] { tmnuelaerm.TmnUELaerm.class.getName() });
