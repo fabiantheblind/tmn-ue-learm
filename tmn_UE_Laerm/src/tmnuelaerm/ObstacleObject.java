@@ -102,7 +102,7 @@ public class ObstacleObject {
 		}
 		
 		pa.noStroke();
-		setRotation();
+		//setRotation();
 
 		pa.shape(svg, obstclXpos, obstclYpos, obstclSize.x, obstclSize.y);
 		boundingBox.rotate(obstclRotate);
