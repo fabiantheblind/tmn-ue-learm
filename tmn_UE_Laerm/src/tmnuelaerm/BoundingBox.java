@@ -27,6 +27,7 @@ public class BoundingBox extends PApplet{
 			vertex(point.getX(), point.getY());
 		}
 		endShape();
+		
 		noStroke();
 	}
 

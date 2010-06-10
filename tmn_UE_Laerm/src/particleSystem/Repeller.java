@@ -109,22 +109,22 @@ import processing.core.PVector;
 	
 	// The methods below are for mouse interaction
 	public void clicked(int mx, int my) {
-	 float d = p.dist(mx,my,loc.x,loc.y);
-	 if (d < radius) {
-	   dragging = true;
-	   drag.x = loc.x-mx;
-	   drag.y = loc.y-my;
+		float d = p.dist(mx,my,loc.x,loc.y);
+		if (d < radius) {
+			dragging = true;
+			drag.x = loc.x-mx;
+			drag.y = loc.y-my;
 	 }
 	}
 	
 	void rollover(int mx, int my) {
-	 float d = p.dist(mx,my,loc.x,loc.y);
-	 if (d < radius) {
-	   rollover = true;
-	 } 
-	 else {
-	   rollover = false;
-	 }
+		float d = p.dist(mx,my,loc.x,loc.y);
+		if (d < radius) {
+			rollover = true;
+		}
+		else {
+			rollover = false;
+		}
 	}
 	
 	public void stopDragging() {
@@ -132,15 +132,11 @@ import processing.core.PVector;
 	}
 	
 	public void drag() {
-	 if (dragging) {
-	   loc.x = p.mouseX + drag.x;
-	   loc.y = p.mouseY + drag.y;
-	 }
+		if (dragging) {
+			loc.x = p.mouseX + drag.x;
+			loc.y = p.mouseY + drag.y;
+		}
 	}
-	
-	
-	
-	
-	}
+}
 	
 
