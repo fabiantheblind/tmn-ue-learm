@@ -12,6 +12,7 @@ import TUIO.TuioTime;
 
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PImage;
 import processing.core.PVector;
 import tmnuelaerm.ObstacleObject;
 import processing.core.PApplet;
@@ -74,11 +75,21 @@ public ArrayList<ObstacleObject> obstclObjList;
 	public int imgNum = 0;
 	
 
+	//PDXIII background Stuff
+	public PImage fadingBG;
+	public float tinter;
+	
+	//end PDXIII background Stuff
+
+	
 	public void setup() {
 		colorMode(HSB,360,100,100);
 		background(0);
 		size(1024,768);
 		frameRate(25);
+
+		//PDXIII background Stuff
+		fadingBG = loadImage("fadingBG.png");
 
 		//PDXIII TUIO Stuff
 		// enable on system installed fonts
@@ -94,7 +105,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		obstclObjList = new ArrayList<ObstacleObject>();
 		
 		// making ObstacleObjects
-		for (obstclCounter = 0; obstclCounter < 2; obstclCounter++){
+		for (obstclCounter = 0; obstclCounter < 4; obstclCounter++){
 			int obstclNo = obstclCounter + 1;
 			float firstX = obstclNo*150;
 			float firstY = height/2;
@@ -128,6 +139,17 @@ public ArrayList<ObstacleObject> obstclObjList;
 		
 //		background(125);
 //		just a clearScreen method
+		
+		//PDXIII background Stuff
+		tint(tinter, 255, 255,100);
+		image(fadingBG,0,0);
+		
+		tinter += 0.5f;
+		
+		if(tinter > 360){ tinter = 0;}
+		//end PDXIII background Stuff
+
+		
 		cls();
 		smooth();
 		
