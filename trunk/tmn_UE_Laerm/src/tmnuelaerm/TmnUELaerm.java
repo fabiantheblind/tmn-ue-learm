@@ -85,11 +85,11 @@ public ArrayList<ObstacleObject> obstclObjList;
 	public void setup() {
 		colorMode(HSB,360,100,100);
 		background(0);
-		size(1024,768);
+		size(500,400);
 		frameRate(25);
 
 		//PDXIII background Stuff
-		fadingBG = loadImage("fadingBG.png");
+		//fadingBG = loadImage("fadingBG.png");
 
 		//PDXIII TUIO Stuff
 		// enable on system installed fonts
@@ -105,7 +105,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		obstclObjList = new ArrayList<ObstacleObject>();
 		
 		// making ObstacleObjects
-		for (obstclCounter = 0; obstclCounter < 4; obstclCounter++){
+		for (obstclCounter = 0; obstclCounter < 2; obstclCounter++){
 			int obstclNo = obstclCounter + 1;
 			float firstX = obstclNo*150;
 			float firstY = height/2;
@@ -141,8 +141,8 @@ public ArrayList<ObstacleObject> obstclObjList;
 //		just a clearScreen method
 		
 		//PDXIII background Stuff
-		tint(tinter, 255, 255,100);
-		image(fadingBG,0,0);
+//		tint(tinter, 255, 255,100);
+//		image(fadingBG,0,0);
 		
 		tinter += 0.5f;
 		
