@@ -77,7 +77,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 	public void setup() {
 		colorMode(HSB,360,100,100);
 		background(0);
-		size(500,400);
+		size(1024,768);
 		frameRate(25);
 
 		//PDXIII TUIO Stuff
