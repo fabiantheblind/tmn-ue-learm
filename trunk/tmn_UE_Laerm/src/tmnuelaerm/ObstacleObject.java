@@ -44,7 +44,8 @@ public class ObstacleObject {
 	public float boundsY1;
 	public float boundsY2;
 	
-	public Repeller repeller01;
+//	public Repeller repeller01;
+	public ArrayList <Repeller> ObstclsRepellerList;
 	
 	
 	public float scale = 1;
@@ -66,8 +67,11 @@ public class ObstacleObject {
 		id = PApplet.nf(_id,2);
 		obstclName = "Object" + id + ".svg";
 		
-		repeller01 = new Repeller(pa, obstclTrans);
-		repeller01.setG(pa.pow(10,3));
+		ObstclsRepellerList = new ArrayList<Repeller>();
+		ObstclsRepellerList.add(new Repeller(pa, obstclTrans));
+//		repeller01 = new Repeller(pa, obstclTrans);
+		ObstclsRepellerList.get(0).setG(pa.pow(10,3));
+//		repeller01.setG(pa.pow(10,3));
 
 		
 		svg = pa.loadShape(obstclName);
@@ -115,7 +119,7 @@ public class ObstacleObject {
 		pa.stroke(255);
 		pa.noFill();
 		
-		repeller01.display();
+		ObstclsRepellerList.get(0).display();
 
 		scale = 1;
 		coursor01Pos = newCoursor01Pos;
@@ -164,15 +168,15 @@ public class ObstacleObject {
 	public void setSize(){
 		
 		obstclSize.mult(scale);
-		repeller01.radius *= scale;
-		repeller01.G *= scale;
+		ObstclsRepellerList.get(0).radius *= scale;
+		ObstclsRepellerList.get(0).G *= scale;
 		
 	}
 	
 	public void move(PVector nowPos){
 		
 		obstclTrans = PVector.sub(nowPos, offSet);
-		repeller01.update(obstclTrans);
+		ObstclsRepellerList.get(0).update(obstclTrans);
 	}
 
 	public void boundingBox(){
