@@ -23,6 +23,13 @@ public class Path {
 	    radius = 20;
 	    points = new ArrayList<PVector>();
 	  }
+	  
+	  public Path(PApplet p_,float r_) {
+		    // Arbitrary radius of 20
+			  p = p_;
+		    r_ = radius;
+		    points = new ArrayList<PVector>();
+		  }
 
 	  // Add a point to the path
 	  public void addPoint(float x, float y) {

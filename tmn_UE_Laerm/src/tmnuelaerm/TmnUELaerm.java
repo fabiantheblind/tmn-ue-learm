@@ -85,7 +85,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 	public void setup() {
 		colorMode(HSB,360,100,100);
 		background(0);
-		size(500,400);
+		size(768,576);
 		frameRate(25);
 
 		//PDXIII background Stuff
@@ -105,7 +105,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		obstclObjList = new ArrayList<ObstacleObject>();
 		
 		// making ObstacleObjects
-		for (obstclCounter = 0; obstclCounter < 2; obstclCounter++){
+		for (obstclCounter = 0; obstclCounter < 1; obstclCounter++){
 			int obstclNo = obstclCounter + 1;
 			float firstX = obstclNo*150;
 			float firstY = height/2;
@@ -113,6 +113,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 			obstclObjList.add(new ObstacleObject(this, obstclNo, obstclPos));
 			
 		}
+//	e
 		//end PDXIII TUIO Stuff
 		
 //		particle stuff
@@ -170,7 +171,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 			
 			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(i);
 			
-			repellers.add(obstclObject.repeller01);
+			repellers.add(obstclObject.ObstclsRepellerList.get(0));
 		
 		}
 		// Apply repeller objects to all Particles
@@ -214,6 +215,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		rect(0,0,width,height);
 	}
 	
+	// just  writing TIff Sequenzes for videos
 	public void writeIMGs(){
 		if(writeImg){
 			String sa = nf(imgNum,6);
@@ -326,6 +328,18 @@ public ArrayList<ObstacleObject> obstclObjList;
 				}
 			}
 		}
+		
+//		PARTICLE STUFF
+//		this method sets the Force and Speed if the Particles depending on the Radius
+//		of the Repellers in the Obstacle Object
+//		bigger repeller means more force and speed
+		ptclsReactOnObject();
+		
+//		this method sets the radius of the path depending on the radius 
+//		of the Repellers in the Obstacle Object
+//		bigger repellers means wider path
+
+		pathReactOnObject();
 	}
 	
 	@Override
@@ -400,11 +414,13 @@ public ArrayList<ObstacleObject> obstclObjList;
 //	give him more segments
 	void initCirclePath(int segments){
 		
-		path = new Path(this);
+		path = new Path(this,10f);
 		for(int i = 0; i <=360;i+=360/segments){
 			  path.addPoint(width / 2 + sin(radians(i))*100,height / 2 + cos(radians(i))*100);
 		}
 	}
+	
+//	for easier initalizing of particles
 	void initParticles(int numPtkls){
 		
 		  ptclsList =  new ArrayList<Particle>();
@@ -418,7 +434,8 @@ public ArrayList<ObstacleObject> obstclObjList;
 		  }
 	}
 		  
-		void newPtkl(float x, float y,ArrayList<Particle> ptclsList) {
+//	Create new Particles	
+	void newPtkl(float x, float y,ArrayList<Particle> ptclsList) {
 				
 //				  float maxforce = 0.3f;    // Maximum steering force
 //				  float maxspeed =  0.3f;    // Maximum speed
@@ -435,6 +452,30 @@ public ArrayList<ObstacleObject> obstclObjList;
 
 			}
 			
+	
+	public void ptclsReactOnObject(){
+		println(obstclObjList.get(0).ObstclsRepellerList.get(0).radius);
+		float mySize = obstclObjList.get(0).ObstclsRepellerList.get(0).radius;
+		float myNewForce = map(mySize,10,100,0.5f,13f);
+		
+		float myNewSpeed = map(mySize,10,100,0.5f,13f);
+		for(int i= 0;i < ptclsList.size();i++){
+			
+			ptclsList.get(i).setMaxforce(myNewForce);
+			ptclsList.get(i).setMaxspeed(myNewSpeed);
+			
+			}
+		}
+
+	public void pathReactOnObject(){
+		
+		float mySize = obstclObjList.get(0).ObstclsRepellerList.get(0).radius;
+		float myNewPathRadius = map(mySize,10,100,10f,200f);
+		path.setRadius(myNewPathRadius);
+
+		
+	}
+//		this is to apply coustum forces via keystroke
 		public void keyPressed() {
 			  if (key == 'd') {
 //				do something fancy
@@ -457,8 +498,10 @@ public ArrayList<ObstacleObject> obstclObjList;
 			}
 
 			
+		
 			public void keyReleased(){
 				
+//				 not important for the main programm
 				if (key == 's' || key == 'S') {
 					saveFrame("./data/MyImg"+time+".jpg");
 					
