@@ -364,7 +364,6 @@ public ArrayList<ObstacleObject> obstclObjList;
 			
 			if(obstclObject.coursor01ID == nowID){
 				
-				//obstclObject.coursor01Pos = obstclObject.coursor02Pos;
 				obstclObject.coursor01ID = 99;
 			}
 			
