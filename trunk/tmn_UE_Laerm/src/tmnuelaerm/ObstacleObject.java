@@ -78,22 +78,15 @@ public class ObstacleObject {
 		svg = pa.loadShape(obstclName);
 		svg.disableStyle();
 		pa.shapeMode(pa.CORNER);
-		/*
-		obstclWidth = svg.width;
-		obstclHeight = svg.height;
-		*/
+
+		
 		obstclSize = new PVector(svg.width, svg.height);
 		
-		ObstclsRepellerList = new ArrayList<Repeller>();
-		for(int i = 0; i<5;i++){
-			
-			
-			
+		doTheRepellers();
+		
+		for(int i = 0; i < ObstclsRepellerList.size(); i++ ){
+			ObstclsRepellerList.get(i).setG(pa.pow(10,3));		
 		}
-		ObstclsRepellerList.add(new Repeller(pa, obstclTrans));
-//		repeller01 = new Repeller(pa, obstclTrans);
-		ObstclsRepellerList.get(0).setG(pa.pow(10,3));
-//		repeller01.setG(pa.pow(10,3));
 		
 		
 		boundingBox();
@@ -132,6 +125,12 @@ public class ObstacleObject {
 		pa.noStroke();
 		pa.shape(svg, 0,0, obstclSize.x, obstclSize.y);
 		pa.popMatrix();
+		
+		doTheRepellers();
+		
+		for(int i = 0; i < ObstclsRepellerList.size(); i++ ){
+			ObstclsRepellerList.get(i).setG(pa.pow(10,3));
+		}
 		boundingBox();
 		boundingBox.translate(obstclPos);
 		//boundingBox.rotate(obstclRotate);
@@ -140,8 +139,11 @@ public class ObstacleObject {
 
 		pa.stroke(255);
 		pa.noFill();
-		
-		ObstclsRepellerList.get(0).display();
+		for(int j = 0; j < ObstclsRepellerList.size(); j++){
+			
+			ObstclsRepellerList.get(j).display();
+		}
+
 
 		scale = 1;
 		coursor01Pos = newCoursor01Pos;
@@ -192,13 +194,29 @@ public class ObstacleObject {
 	}
 	
 	public void move(PVector nowPos){
-//		PVector obstclMove= PVector.sub(nowPos, obstclPos);
+		//PVector obstclMove= PVector.sub(nowPos, obstclPos);
 		obstclPos = PVector.sub(nowPos, offSet);
 		
-		
-		ObstclsRepellerList.get(0).update(obstclPos);
+//		for(int i = 0; i < ObstclsRepellerList.size(); i++ ){
+//			ObstclsRepellerList.get(i).translate(obstclPos);
+//		}
 	}
 
+	public void doTheRepellers(){
+		
+		ObstclsRepellerList = new ArrayList<Repeller>();
+
+		
+		PVector repellerPos01 = new PVector(obstclPos.x, obstclPos.y + obstclSize.y/2);
+		PVector repellerPos02 = new PVector(obstclPos.x + obstclSize.x/2, obstclPos.y + obstclSize.y/2);
+		PVector repellerPos03 = new PVector(obstclPos.x + obstclSize.x, obstclPos.y + obstclSize.y/2);
+		ObstclsRepellerList.add(new Repeller(pa, repellerPos01));
+		ObstclsRepellerList.add(new Repeller(pa, repellerPos02));
+		ObstclsRepellerList.add(new Repeller(pa, repellerPos03));
+
+		
+	}
+	
 	public void boundingBox(){
 		
 		bounds1 = new Point(0,0);

@@ -8,7 +8,7 @@ public class Point extends PVector {
 	public float tx;
 	public float ty;
 	
-	Point(float x, float y) {
+	public Point(float x, float y) {
 		super(x, y);
 	}
 	
