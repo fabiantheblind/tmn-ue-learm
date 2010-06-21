@@ -64,9 +64,9 @@ public class ParticleSystem {
 	        if(d < r.getRadius()+5){
 	        PVector repel = r.pushParticle(ptcl);        
 	        ptcl.applyRepellForce(repel);
-	        ptcl.setMass(r.getRadius()*-1f);
-	        ptcl.setMaxforce(r.getRadius()*-10f);
-	        ptcl.setGravity(r.getG()*-1*n);
+	        ptcl.setMass(r.getRadius()*-1f*(n));
+	        ptcl.setMaxforce(r.getRadius()*1f);
+	        ptcl.setGravity(r.getG()*(n*1));
 //	        ptcl.setMaxforce(r.getG()*n);
 
 	        }else{	

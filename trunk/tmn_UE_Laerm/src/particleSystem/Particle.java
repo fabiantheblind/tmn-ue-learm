@@ -12,8 +12,8 @@ public class Particle {
 	public PVector acc;
 
 	public float  gravity = 0.0f;
-	public float maxforce = 0.3f;    // Maximum steering force
-	public float maxspeed =  0.3f;    // Maximum speed
+	public float maxforce = 5f;    // Maximum steering force
+	public float maxspeed =  2f;    // Maximum speed
 	public float radius;// = 5f;    // radius
 	public float lifeTime = 100;    // the lifetime of an Particle
     public float mass = 0.5f; // The higher the mass the lesser the particles get pushed by repellers
