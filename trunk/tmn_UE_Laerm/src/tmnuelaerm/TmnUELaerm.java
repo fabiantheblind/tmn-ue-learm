@@ -100,7 +100,6 @@ public ArrayList<ObstacleObject> obstclObjList;
 		//init TUIO
 		tuioClient.addTuioListener(this);
 		tuioClient.connect();
-
 		
 		obstclObjList = new ArrayList<ObstacleObject>();
 		
@@ -113,7 +112,6 @@ public ArrayList<ObstacleObject> obstclObjList;
 			obstclObjList.add(new ObstacleObject(this, obstclNo, obstclPos));
 			
 		}
-//	e
 		//end PDXIII TUIO Stuff
 		
 //		particle stuff
@@ -200,7 +198,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		drawCursors();
 		
 		noStroke();
-		fill(0);
+		fill(255);
 		text(tuioCursorList.size(), 50, 50);
 		noFill();
 		//end PDXIII TUIO Stuff
@@ -300,19 +298,12 @@ public ArrayList<ObstacleObject> obstclObjList;
 			if(obstclObject.coursor01ID == nowID && obstclObject.coursor02ID == 99){
 				
 				obstclObject.move(nowPos);
-				
-			}else if(obstclObject.coursor01ID == nowID && obstclObject.coursor02ID < 99){
-				
 				obstclObject.newCoursor01Pos = nowPos;
-				
-			}else if(obstclObject.coursor02ID == nowID){
-				
-				obstclObject.newCoursor02Pos = nowPos;
 				
 			
 			}else if(obstclObject.boundingBox.contains(nowX, nowY)){
 				
-				if(obstclObject.coursor01ID < 99){
+				if(obstclObject.coursor01ID < 99 && obstclObject.coursor01ID != nowID){
 					
 					obstclObject.coursor02ID = nowID;
 					obstclObject.coursor02Pos = nowPos;
