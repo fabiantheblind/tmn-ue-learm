@@ -154,7 +154,7 @@ public class ObstacleObject {
 	
 	public void setRotation(){
 		
-		if (coursor01ID < 99 && coursor02ID < 99 && newCoursor01Pos != null && newCoursor02Pos != null){
+		if (coursor01Pos != null && coursor02Pos != null && newCoursor01Pos != null && newCoursor02Pos != null){
 
 			PVector v01 = PVector.sub(coursor01Pos, coursor02Pos);
 						
@@ -177,7 +177,7 @@ public class ObstacleObject {
 	
 	public void setScale(){
 		
-		if (coursor01ID < 99 && coursor02ID < 99 && newCoursor01Pos != null && newCoursor02Pos != null){
+		if (coursor01Pos != null && coursor02Pos != null && newCoursor01Pos != null && newCoursor02Pos != null){
 			float s1 = PVector.dist(coursor01Pos, coursor02Pos);
 			float s2 = PVector.dist(newCoursor01Pos, newCoursor02Pos);
 			scale = s2 / s1;
