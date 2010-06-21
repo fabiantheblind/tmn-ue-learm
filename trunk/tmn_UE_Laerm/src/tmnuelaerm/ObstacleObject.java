@@ -196,12 +196,8 @@ public class ObstacleObject {
 	}
 	
 	public void move(PVector nowPos){
-		//PVector obstclMove= PVector.sub(nowPos, obstclPos);
+
 		obstclPos = PVector.sub(nowPos, offSet);
-		
-//		for(int i = 0; i < ObstclsRepellerList.size(); i++ ){
-//			ObstclsRepellerList.get(i).translate(obstclPos);
-//		}
 	}
 
 	public void doTheRepellers(){
