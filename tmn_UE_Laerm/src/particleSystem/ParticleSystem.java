@@ -8,7 +8,7 @@ import processing.core.PVector;
 public class ParticleSystem {
 		PApplet p;
 	  ArrayList <Particle> particles;    // An arraylist for all the particles
-	  PVector origin;        // An origin point for where particles are birthed
+	  public PVector origin;        // An origin point for where particles are birthed
 	  Path path;
 
 	  public ParticleSystem(PApplet p_, int num, PVector v, ArrayList<Particle> particles_,Path path_) {
@@ -60,18 +60,21 @@ public class ParticleSystem {
 	        float d = ptcl.loc.dist(r.loc);
 	        float distToCenterPS = ptcl.loc.dist(origin);
 	        float n = p.norm(distToCenterPS,0,p.width/2f);
-	       
-	        if(d < r.getRadius()+5){
-	        PVector repel = r.pushParticle(ptcl);        
-	        ptcl.applyRepellForce(repel);
-	        ptcl.setMass(r.getRadius()*-1f*(n));
-	        ptcl.setMaxforce(r.getRadius()*1f);
-	        ptcl.setGravity(r.getG()*(n*1));
-//	        ptcl.setMaxforce(r.getG()*n);
+	 
+	        ptcl.setMass(n*2);
 
-	        }else{	
-		       // PVector repel = r.pushParticle(ptcl);        
-		       // ptcl.applyRepellForce(repel);
+	        if(d < r.getRadius()+50&&d>r.getRadius()+5){
+		        PVector repel = r.pushParticle(ptcl);        
+		        ptcl.applyRepellForce(repel);
+	        ptcl.setMass((n));
+	        ptcl.setMaxforce(d/10);
+	        ptcl.setGravity(r.getRadius()*(n*1));
+	        ptcl.setMaxspeed(n*10f);
+//	        ptcl.setMaxforce(r.getG()*n);
+//	        }else if(d < r.getRadius()+5){	
+//		        PVector repel = r.pushParticle(ptcl);        
+//		        ptcl.applyRepellForce(repel);
+	        }else{
 		        ptcl.resetMaxforce();
 		        ptcl.resetMass();
 		        ptcl.resetGravity();

@@ -20,7 +20,7 @@ public class Path {
 	  public Path(PApplet p_) {
 	    // Arbitrary radius of 20
 		  p = p_;
-	    radius = 20;
+	    radius = 10;
 	    points = new ArrayList<PVector>();
 	  }
 	  
