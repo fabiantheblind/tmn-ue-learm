@@ -53,14 +53,19 @@ public class ParticleSystem {
 	    // For every Particle
 	    for (int i = 0; i < particles.size(); i++) {
 	      Particle ptcl = (Particle) particles.get(i);
+	      
+	        float distToCenterPS = ptcl.loc.dist(origin);
+	        float n = p.norm(distToCenterPS,0,p.width/2f);
+	        ptcl.setMass(n);
 	      // For every Repeller
+	     
+
 	      for (int j = 0; j < repellers.size(); j++) {
 	        Repeller r = (Repeller) repellers.get(j);
 	        // Calculate and apply a force from Repeller to Particle
 	        
 	        float d = ptcl.loc.dist(r.loc);
-	        float distToCenterPS = ptcl.loc.dist(origin);
-	        float n = p.norm(distToCenterPS,0,p.width/2f);
+
 
 	        if(d < r.getRadius()){
 	        PVector repel = r.pushParticle(ptcl);        
@@ -68,14 +73,13 @@ public class ParticleSystem {
 	        ptcl.setMaxforce((d/100));
 	        ptcl.setGravity((d/100)*0.0001f);
 	        ptcl.setMaxspeed((d/10));
-	        ptcl.setMass(0.01f);
-//	        ptcl.setMass(d/100);
+	        ptcl.setMass(d/100);
 //	        ptcl.setMaxforce(r.getG()*n);
 //	        }else if(d < r.getRadius()+5){	
 //		        PVector repel = r.pushParticle(ptcl);        
 //		        ptcl.applyRepellForce(repel);
 	        }else{
-//		        ptcl.setMass((n*2));
+		        ptcl.setMass((n));
 		        ptcl.resetMass();
 		        ptcl.resetGravity();
 		        
@@ -87,6 +91,8 @@ public class ParticleSystem {
 	      }
 	    }
 	  }
+	  
+	  
 	  public void run() {
 	    // Cycle through the ArrayList backwards b/c we are deleting
 	    for (int i = particles.size()-1; i >= 0; i--) {

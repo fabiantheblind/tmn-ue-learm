@@ -155,6 +155,8 @@ public ArrayList<ObstacleObject> obstclObjList;
 	public void draw() {
 		watchAParticle();
 		
+		if(runtimeCounter==0)path.radius = 50;
+		
 //		background(125);
 //		just a clearScreen method
 		
@@ -350,7 +352,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 //		of the Repellers in the Obstacle Object
 //		bigger repellers means wider path
 
-//		pathReactOnObject();
+		pathReactOnObject();
 	}
 	
 	@Override
@@ -422,7 +424,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 //	give him more segments
 	void initCirclePath(int segments){
 		
-		path = new Path(this,10f);
+		path = new Path(this,100);
 		for(int i = 0; i <=360;i+=360/segments){
 			  path.addPoint(width / 2 + sin(radians(i))*100,height / 2 + cos(radians(i))*100);
 		}
@@ -476,10 +478,22 @@ public ArrayList<ObstacleObject> obstclObjList;
 		}
 
 	public void pathReactOnObject(){
-		
-		float mySize = obstclObjList.get(0).ObstclsRepellerList.get(0).radius;
-		float myNewPathRadius = map(mySize,10,100,10f,200f);
-		path.setRadius(myNewPathRadius);
+//		
+//		for(int i = 0; i <obstclObjList.size();i++ ){
+//		ObstacleObject obstcl = obstclObjList.get(i);
+//		float radii = 0;
+//		for(int j  = 0; j < obstcl.ObstclsRepellerList.size();j++){
+//			radii = radii + obstcl.ObstclsRepellerList.get(j).radius;
+//			
+//			float mySize = radii / j;
+//
+//			float myNewPathRadius = map(mySize,10,100,10f,300f);
+//			path.setRadius(myNewPathRadius);
+//			
+//		}
+//			
+//		}
+
 
 		
 	}
