@@ -2,6 +2,7 @@
 	
 import processing.core.PApplet;
 import processing.core.PVector;
+import tmnuelaerm.Point;
 	
 	//Particles + Forces
 	//Daniel Shiffman <http://www.shiffman.net>
@@ -81,6 +82,14 @@ import processing.core.PVector;
 		
 		loc = loc_;
 	}
+	
+	public void translate(PVector _v) {
+		PVector v = _v;
+		
+		Point point = new Point(loc.x, loc.y);
+		point.translate(v.x, v.y);
+	}
+	
 	
 	public void setG(float G_in){
 		G = G_in;
