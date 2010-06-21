@@ -186,12 +186,17 @@ public class ObstacleObject {
 	
 	public void setSize(){
 		
-		if(obstclSize.x < 500 && obstclSize.x >50){
+		obstclSize = PVector.mult(obstclSize,scale);
+		
+		if (obstclSize.x > 300){
 			
-			obstclSize.mult(scale);
-//			ObstclsRepellerList.get(0).radius *= scale;
-//			ObstclsRepellerList.get(0).G *= scale;
+			obstclSize.y = 300 / svg.width * svg.height; 
+			obstclSize.x = 300;
+		}
+		if (obstclSize.x <50){
 			
+			obstclSize.y = 50 / svg.width * svg.height; 
+			obstclSize.x = 50;
 		}
 	}
 	
