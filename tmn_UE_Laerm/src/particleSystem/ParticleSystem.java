@@ -66,7 +66,7 @@ public class ParticleSystem {
 	        PVector repel = r.pushParticle(ptcl);        
 		    ptcl.applyRepellForce(repel);
 	        ptcl.setMaxforce((d/100));
-	        ptcl.setGravity((d/100)*0.0f);
+	        ptcl.setGravity((d/100)*0.0001f);
 	        ptcl.setMaxspeed((d/10));
 	        ptcl.setMass(0.01f);
 //	        ptcl.setMass(d/100);
@@ -78,6 +78,10 @@ public class ParticleSystem {
 //		        ptcl.setMass((n*2));
 		        ptcl.resetMass();
 		        ptcl.resetGravity();
+		        
+		        
+		        if(ptcl.maxforce>0.2f)ptcl.maxforce = ptcl.maxforce*0.5f;
+		        if(ptcl.maxspeed>1.5f)ptcl.maxspeed = ptcl.maxspeed*0.5f;
 	        	
 	        }
 	      }
