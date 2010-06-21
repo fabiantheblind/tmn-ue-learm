@@ -85,7 +85,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 	public void setup() {
 		colorMode(HSB,360,100,100);
 		background(0);
-		size(1024,768);
+		size(500,400);
 		frameRate(25);
 
 		//PDXIII background Stuff
@@ -105,7 +105,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		obstclObjList = new ArrayList<ObstacleObject>();
 		
 		// making ObstacleObjects
-		for (obstclCounter = 0; obstclCounter < 4; obstclCounter++){
+		for (obstclCounter = 0; obstclCounter < 1; obstclCounter++){
 			int obstclNo = obstclCounter + 1;
 			float firstX = obstclNo*150;
 			float firstY = height/2;
@@ -238,7 +238,6 @@ public ArrayList<ObstacleObject> obstclObjList;
 		
 		for (int i=0; i<tuioCursorList.size(); i++) {
 			TuioCursor tcur = (TuioCursor)tuioCursorList.get(i);
-			
 			stroke(100,255,255);
 			noFill();
 			ellipse( tcur.getScreenX(width), tcur.getScreenY(height),10,10);
@@ -333,13 +332,13 @@ public ArrayList<ObstacleObject> obstclObjList;
 //		this method sets the Force and Speed if the Particles depending on the Radius
 //		of the Repellers in the Obstacle Object
 //		bigger repeller means more force and speed
-		ptclsReactOnObject();
+//		ptclsReactOnObject();
 		
 //		this method sets the radius of the path depending on the radius 
 //		of the Repellers in the Obstacle Object
 //		bigger repellers means wider path
 
-		pathReactOnObject();
+//		pathReactOnObject();
 	}
 	
 	@Override
@@ -352,11 +351,9 @@ public ArrayList<ObstacleObject> obstclObjList;
 			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(j);
 			
 			if(obstclObject.coursor01ID == nowID){
-
-				obstclObject.coursor01ID = obstclObject.coursor02ID; 
 				
 				//obstclObject.coursor01Pos = obstclObject.coursor02Pos;
-				obstclObject.coursor02ID = 99;
+				obstclObject.coursor01ID = 99;
 			}
 			
 			if(obstclObject.coursor02ID == nowID){
@@ -454,7 +451,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 			
 	
 	public void ptclsReactOnObject(){
-		println(obstclObjList.get(0).ObstclsRepellerList.get(0).radius);
+		//println(obstclObjList.get(0).ObstclsRepellerList.get(0).radius);
 		float mySize = obstclObjList.get(0).ObstclsRepellerList.get(0).radius;
 		float myNewForce = map(mySize,10,100,0.5f,13f);
 		
