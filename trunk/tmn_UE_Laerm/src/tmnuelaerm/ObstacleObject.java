@@ -216,7 +216,7 @@ public class ObstacleObject {
 		PVector repellerPos02 = new PVector(obstclPos.x + obstclSize.x/2, obstclPos.y + obstclSize.y/2);
 		PVector repellerPos03 = new PVector(obstclPos.x - radius + obstclSize.x, obstclPos.y + obstclSize.y/2);
 		ObstclsRepellerList.add(new Repeller(pa, repellerPos01.x, repellerPos01.y, grav, radius));
-		ObstclsRepellerList.add(new Repeller(pa, repellerPos02.x, repellerPos02.y, grav, radius*2));
+		ObstclsRepellerList.add(new Repeller(pa, repellerPos02.x, repellerPos02.y, pa.pow(10,4), radius*2));
 		ObstclsRepellerList.add(new Repeller(pa, repellerPos03.x, repellerPos03.y, grav, radius));
 
 		
