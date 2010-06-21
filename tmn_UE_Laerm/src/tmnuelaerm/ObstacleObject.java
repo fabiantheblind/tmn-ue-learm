@@ -16,12 +16,12 @@ public class ObstacleObject {
 	
 	
 	public int coursor01ID = 99;
-	public PVector coursor01Pos;
-	public PVector newCoursor01Pos;
+	public PVector coursor01Pos = new PVector();
+	public PVector newCoursor01Pos = new PVector();
 
 	public int coursor02ID = 99;
-	public PVector coursor02Pos;
-	public PVector newCoursor02Pos;
+	public PVector coursor02Pos = new PVector();
+	public PVector newCoursor02Pos = new PVector();
 	
 	public PVector obstclSize;
 	
@@ -131,15 +131,15 @@ public class ObstacleObject {
 		pa.translate(obstclPos.x, obstclPos.y);
 
 		
-		setRotation();
 		setSize();
+		//setRotation();
 
 		pa.noStroke();
 		pa.shape(svg, 0,0, obstclSize.x, obstclSize.y);
 		pa.popMatrix();
 		boundingBox();
 		boundingBox.translate(obstclPos);
-		boundingBox.rotate(obstclRotate);
+		//boundingBox.rotate(obstclRotate);
 
 		boundingBox.display();
 
@@ -165,11 +165,10 @@ public class ObstacleObject {
 			
 			float theta02 = PVector.angleBetween(v02,obstclPos);
 			
-			obstclRotate += (theta02-theta01);
+			obstclRotate += (theta01-theta02);
 			
-			
-			pa.rotate(obstclRotate);
 		}
+		pa.rotate(obstclRotate);
 	}
 	
 	public void setOffset(PVector nowPos){
@@ -183,7 +182,6 @@ public class ObstacleObject {
 			float s1 = PVector.dist(coursor01Pos, coursor02Pos);
 			float s2 = PVector.dist(newCoursor01Pos, newCoursor02Pos);
 			scale = s2 / s1;
-		
 		}
 	}
 	
