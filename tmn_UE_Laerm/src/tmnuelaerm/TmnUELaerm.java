@@ -122,7 +122,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		  // We are now making random Particles and storing them in an ArrayList ptclsList
 		initParticles(numPtcls);
 //		we need the particle system to interact with the repellers
-		ps = new ParticleSystem(this,1,new PVector(width/2,height/2),ptclsList);
+		ps = new ParticleSystem(this,1,new PVector(width/2,height/2),ptclsList,path);
 		//make some repellers
 //		for(int i = 0; i <=360;i+=360/numRepellers){
 //			
