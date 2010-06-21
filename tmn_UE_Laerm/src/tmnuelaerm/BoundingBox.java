@@ -5,30 +5,27 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class BoundingBox extends PApplet{
+public class BoundingBox {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1047107748121172490L;
 	
-	ArrayList points;
+	public ArrayList points;
+	PApplet pa;
 
-	BoundingBox() {
+	BoundingBox(PApplet _pa) {
+		pa = _pa;
 		points = new ArrayList();
 	}
 
 	public void display() {
-		stroke(0);
-		strokeWeight(1);
-		beginShape();
+		pa.fill(100,255,255);
 		for (int i = 0; i < points.size(); i++) {
 			Point point = (Point) points.get(i);
-			vertex(point.getX(), point.getY());
-		}
-		endShape();
-		
-		noStroke();
+			pa.ellipse(point.getX(), point.getY(),3,3);
+		}		
 	}
 
 	void addPoint(Point point) {
@@ -39,12 +36,12 @@ public class BoundingBox extends PApplet{
 		return (Point) points.get(index);
 	}
 	
-	public void translate(float x, float y) {
-		PVector v = new PVector(x, y);
+	public void translate(PVector _v) {
+		PVector v = _v;
 		
 		for (int i = 0; i < points.size(); i++) {
 			Point point = (Point) points.get(i);
-			point.translate(x, y);
+			point.translate(v.x, v.y);
 		}
 	}
 	

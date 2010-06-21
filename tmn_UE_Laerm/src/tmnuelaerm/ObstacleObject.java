@@ -25,6 +25,7 @@ public class ObstacleObject {
 	
 	public PVector obstclSize;
 	
+	public PVector obstclPos;
 	public float obstclXpos = 0;
 	public float obstclYpos = 0;
 	
@@ -62,13 +63,14 @@ public class ObstacleObject {
 	public ObstacleObject(PApplet _pa, int _id, PVector _trans) {
 		
 		obstclTrans = _trans;
+		obstclPos = _trans;
 		
 		pa = _pa;
 		id = PApplet.nf(_id,2);
 		obstclName = "Object" + id + ".svg";
 		
 		ObstclsRepellerList = new ArrayList<Repeller>();
-		ObstclsRepellerList.add(new Repeller(pa, obstclTrans));
+		ObstclsRepellerList.add(new Repeller(pa, obstclPos));
 //		repeller01 = new Repeller(pa, obstclTrans);
 		ObstclsRepellerList.get(0).setG(pa.pow(10,3));
 //		repeller01.setG(pa.pow(10,3));
@@ -77,7 +79,7 @@ public class ObstacleObject {
 		svg = pa.loadShape(obstclName);
 		svg.disableStyle();
 
-		pa.shapeMode(pa.CENTER);
+		pa.shapeMode(pa.CORNER);
 		/*
 		obstclWidth = svg.width;
 		obstclHeight = svg.height;
@@ -85,13 +87,14 @@ public class ObstacleObject {
 		obstclSize = new PVector(svg.width, svg.height);
 				
 		boundingBox();
+		boundingBox.translate(obstclPos);
+		boundingBox.rotate(obstclRotate);
 	}
 	
 	public void draw(){
 		
 		pa.pushMatrix();
 		
-		setTranslation();
 		
 		if(coursor01ID < 99){
 			
@@ -102,20 +105,23 @@ public class ObstacleObject {
 				setScale();
 			}
 		}else{
-			pa.fill(255,200);
+			pa.fill(255);
 		}
 		
-		pa.noStroke();
-		//setRotation();
-
-		pa.shape(svg, obstclXpos, obstclYpos, obstclSize.x, obstclSize.y);
-		boundingBox.rotate(obstclRotate);
-		//boundingBox.display();
-
-		pa.popMatrix();
+		pa.translate(obstclPos.x, obstclPos.y);
 		
+		setRotation();
 		setSize();
+
+		pa.noStroke();
+		pa.shape(svg, 0,0, obstclSize.x, obstclSize.y);
+		pa.popMatrix();
 		boundingBox();
+		boundingBox.translate(obstclPos);
+		boundingBox.rotate(obstclRotate);
+
+		boundingBox.display();
+
 		pa.stroke(255);
 		pa.noFill();
 		
@@ -126,25 +132,20 @@ public class ObstacleObject {
 		coursor02Pos = newCoursor02Pos;
 	}
 	
-	public void setTranslation(){
-		
-		pa.translate( obstclTrans.x, obstclTrans.y);
-		
-	}
-	
 	public void setRotation(){
 		
-		if (coursor01Pos != null && coursor02Pos != null && newCoursor01Pos != null && newCoursor02Pos != null){
+		if (coursor01ID < 99 && coursor02ID < 99 && newCoursor01Pos != null && newCoursor02Pos != null){
 
 			PVector v01 = PVector.sub(coursor01Pos, coursor02Pos);
 						
-			float theta01 = PVector.angleBetween(v01,obstclTrans);
+			float theta01 = PVector.angleBetween(v01,obstclPos);
 			
 			PVector v02 = PVector.sub(newCoursor01Pos, newCoursor02Pos);
 			
-			float theta02 = PVector.angleBetween(v02,obstclTrans);
+			float theta02 = PVector.angleBetween(v02,obstclPos);
 			
 			obstclRotate += (theta02-theta01);
+			
 			
 			pa.rotate(obstclRotate);
 		}
@@ -152,15 +153,15 @@ public class ObstacleObject {
 	
 	public void setOffset(PVector nowPos){
 		
-		offSet = PVector.sub(nowPos,obstclTrans);
+		offSet = PVector.sub(nowPos,obstclPos);
 	}
 	
 	public void setScale(){
 		
-		if (coursor01Pos != null && coursor02Pos != null && newCoursor01Pos != null && newCoursor02Pos != null){
-		float s1 = PVector.dist(coursor01Pos, coursor02Pos);
-		float s2 = PVector.dist(newCoursor01Pos, newCoursor02Pos);
-		scale = s2 / s1;
+		if (coursor01ID < 99 && coursor02ID < 99 && newCoursor01Pos != null && newCoursor02Pos != null){
+			float s1 = PVector.dist(coursor01Pos, coursor02Pos);
+			float s2 = PVector.dist(newCoursor01Pos, newCoursor02Pos);
+			scale = s2 / s1;
 		
 		}
 	}
@@ -177,32 +178,26 @@ public class ObstacleObject {
 	}
 	
 	public void move(PVector nowPos){
+//		PVector obstclMove= PVector.sub(nowPos, obstclPos);
+		obstclPos = PVector.sub(nowPos, offSet);
 		
-		obstclTrans = PVector.sub(nowPos, offSet);
-		ObstclsRepellerList.get(0).update(obstclTrans);
+		
+		ObstclsRepellerList.get(0).update(obstclPos);
 	}
 
 	public void boundingBox(){
 		
-		boundsX1 = obstclTrans.x - obstclSize.x/2;
-		boundsX2 = obstclTrans.x + obstclSize.x/2;
-		boundsY1 = obstclTrans.y - obstclSize.y/2;
-		boundsY2 = obstclTrans.y + obstclSize.y/2;
+		bounds1 = new Point(0,0);
+		bounds2 = new Point(0, obstclSize.y);
+		bounds3 = new Point(obstclSize.x, 0);
+		bounds4 = new Point(obstclSize.x, obstclSize.y);
 		
-		bounds1 = new Point(boundsX1, boundsY1);
-		bounds2 = new Point(boundsX1, boundsY2);
-		bounds3 = new Point(boundsX2, boundsY2);
-		bounds4 = new Point(boundsX2, boundsY1);
-		
-		boundingBox = new BoundingBox();
-
+		boundingBox = new BoundingBox(pa);
 		
 		boundingBox.addPoint(bounds1);
 		boundingBox.addPoint(bounds2);
 		boundingBox.addPoint(bounds3);
 		boundingBox.addPoint(bounds4);
-
-		//pa.println(boundingBox.points);
 		
 	}
 }
