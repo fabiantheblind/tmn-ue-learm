@@ -46,6 +46,17 @@ import tmnuelaerm.Point;
 		color1 = p.color(0,0, 100, 100);
 		color2 = p.color(0,0, 100, 70);
 		}
+	public Repeller(PApplet p_, PVector loc_,float radius_)  {
+		p = p_;
+		loc = loc_;
+		drag = new PVector(0,0);
+		G = 100;
+		 radius = radius_;
+		color1 = p.color(0,0, 100, 100);
+		color2 = p.color(0,0, 100, 70);
+		}
+	
+	
 	
 	public Repeller(PApplet p_,float x, float y, float G_,float radius_)  {
 		p = p_;
