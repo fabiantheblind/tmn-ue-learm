@@ -9,10 +9,12 @@ public class ParticleSystem {
 		PApplet p;
 	  ArrayList <Particle> particles;    // An arraylist for all the particles
 	  PVector origin;        // An origin point for where particles are birthed
+	  Path path;
 
-	  public ParticleSystem(PApplet p_, int num, PVector v, ArrayList<Particle> particles_) {
+	  public ParticleSystem(PApplet p_, int num, PVector v, ArrayList<Particle> particles_,Path path_) {
 	    particles = particles_;              // Initialize the arraylist
 	    p = p_;
+	    path = path_;
 	    origin = v.get();                        // Store the origin point
 	    for (int i = 0; i < num; i++) {
 	      particles.add(new Particle(p,origin));    // Add "num" amount of particles to the arraylist
@@ -38,12 +40,46 @@ public class ParticleSystem {
 	      for (int j = 0; j < repellers.size(); j++) {
 	        Repeller r = (Repeller) repellers.get(j);
 	        // Calculate and apply a force from Repeller to Particle
+	        
 	        PVector repel = r.pushParticle(ptcl);        
 	        ptcl.applyRepellForce(repel);
 	      }
 	    }
 	  }
 
+	  // A function for particles to interact with all Repellers that are near to the repeller
+	  public void myApplyRepellers(ArrayList<Repeller> repellers) {
+	    // For every Particle
+	    for (int i = 0; i < particles.size(); i++) {
+	      Particle ptcl = (Particle) particles.get(i);
+	      // For every Repeller
+	      for (int j = 0; j < repellers.size(); j++) {
+	        Repeller r = (Repeller) repellers.get(j);
+	        // Calculate and apply a force from Repeller to Particle
+	        
+	        float d = ptcl.loc.dist(r.loc);
+	        float distToCenterPS = ptcl.loc.dist(origin);
+	        float n = p.norm(distToCenterPS,0,p.width/2f);
+	       
+	        if(d < r.getRadius()+5){
+	        PVector repel = r.pushParticle(ptcl);        
+	        ptcl.applyRepellForce(repel);
+	        ptcl.setMass(r.getRadius()*-1f);
+	        ptcl.setMaxforce(r.getRadius()*-10f);
+	        ptcl.setGravity(r.getG()*-1*n);
+//	        ptcl.setMaxforce(r.getG()*n);
+
+	        }else{	
+		       // PVector repel = r.pushParticle(ptcl);        
+		       // ptcl.applyRepellForce(repel);
+		        ptcl.resetMaxforce();
+		        ptcl.resetMass();
+		        ptcl.resetGravity();
+	        	
+	        }
+	      }
+	    }
+	  }
 	  public void run() {
 	    // Cycle through the ArrayList backwards b/c we are deleting
 	    for (int i = particles.size()-1; i >= 0; i--) {
