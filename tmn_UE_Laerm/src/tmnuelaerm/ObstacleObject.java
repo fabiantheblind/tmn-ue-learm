@@ -48,6 +48,8 @@ public class ObstacleObject {
 //	public Repeller repeller01;
 	public ArrayList <Repeller> ObstclsRepellerList;
 	
+	public float grav = PApplet.pow(10,3);
+	public float radius = 30; 
 	
 	public float scale = 1;
 	public PShape svg;
@@ -130,9 +132,7 @@ public class ObstacleObject {
 		
 		doTheRepellers();
 		
-		for(int i = 0; i < ObstclsRepellerList.size(); i++ ){
-			ObstclsRepellerList.get(i).setG(pa.pow(10,3));
-		}
+	
 		boundingBox();
 		boundingBox.translate(obstclPos);
 		//boundingBox.rotate(obstclRotate);
@@ -181,7 +181,15 @@ public class ObstacleObject {
 			float s1 = PVector.dist(coursor01Pos, coursor02Pos);
 			float s2 = PVector.dist(newCoursor01Pos, newCoursor02Pos);
 			scale = s2 / s1;
+			
 		}
+		
+		if (scale > 1.5f){
+			scale = 1.5f;
+		}
+		
+		if (scale < 0.5f)
+			scale = 0.5f;
 	}
 	
 	public void setSize(){
@@ -193,11 +201,14 @@ public class ObstacleObject {
 			obstclSize.y = 300 / svg.width * svg.height; 
 			obstclSize.x = 300;
 		}
-		if (obstclSize.x <50){
+		if (obstclSize.x < 50){
 			
 			obstclSize.y = 50 / svg.width * svg.height; 
 			obstclSize.x = 50;
 		}
+		
+		grav *= obstclSize.x/100;
+		radius = obstclSize.x/5;
 	}
 	
 	public void move(PVector nowPos){
@@ -208,15 +219,12 @@ public class ObstacleObject {
 	public void doTheRepellers(){
 		
 		ObstclsRepellerList = new ArrayList<Repeller>();
-		float grav = pa.pow(10,3) * scale;
-		float radius = 20 * scale;
-		
 		
 		PVector repellerPos01 = new PVector(obstclPos.x + radius, obstclPos.y + obstclSize.y/2);
 		PVector repellerPos02 = new PVector(obstclPos.x + obstclSize.x/2, obstclPos.y + obstclSize.y/2);
 		PVector repellerPos03 = new PVector(obstclPos.x - radius + obstclSize.x, obstclPos.y + obstclSize.y/2);
 		ObstclsRepellerList.add(new Repeller(pa, repellerPos01.x, repellerPos01.y, grav, radius));
-		ObstclsRepellerList.add(new Repeller(pa, repellerPos02.x, repellerPos02.y, pa.pow(10,4), radius*2));
+		ObstclsRepellerList.add(new Repeller(pa, repellerPos02.x, repellerPos02.y, grav, radius*2f));
 		ObstclsRepellerList.add(new Repeller(pa, repellerPos03.x, repellerPos03.y, grav, radius));
 
 		
