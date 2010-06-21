@@ -75,17 +75,27 @@ public class ObstacleObject {
 		ObstclsRepellerList.get(0).setG(pa.pow(10,3));
 //		repeller01.setG(pa.pow(10,3));
 
-		
 		svg = pa.loadShape(obstclName);
 		svg.disableStyle();
-
 		pa.shapeMode(pa.CORNER);
 		/*
 		obstclWidth = svg.width;
 		obstclHeight = svg.height;
 		*/
 		obstclSize = new PVector(svg.width, svg.height);
-				
+		
+		ObstclsRepellerList = new ArrayList<Repeller>();
+		for(int i = 0; i<5;i++){
+			
+			
+			
+		}
+		ObstclsRepellerList.add(new Repeller(pa, obstclTrans));
+//		repeller01 = new Repeller(pa, obstclTrans);
+		ObstclsRepellerList.get(0).setG(pa.pow(10,3));
+//		repeller01.setG(pa.pow(10,3));
+		
+		
 		boundingBox();
 		boundingBox.translate(obstclPos);
 		boundingBox.rotate(obstclRotate);
@@ -108,7 +118,18 @@ public class ObstacleObject {
 			pa.fill(255);
 		}
 		
+
+		pa.noStroke();
+		//setRotation();
+		pa.smooth();
+		pa.shape(svg, obstclXpos, obstclYpos, obstclSize.x, obstclSize.y);
+		boundingBox.rotate(obstclRotate);
+		//boundingBox.display();
+
+		pa.popMatrix();
+
 		pa.translate(obstclPos.x, obstclPos.y);
+
 		
 		setRotation();
 		setSize();
