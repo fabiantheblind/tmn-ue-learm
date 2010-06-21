@@ -62,21 +62,22 @@ public class ParticleSystem {
 	        float distToCenterPS = ptcl.loc.dist(origin);
 	        float n = p.norm(distToCenterPS,0,p.width/2f);
 
-	        if(d < r.getRadius()+50){
-		        PVector repel = r.pushParticle(ptcl);        
-		        ptcl.applyRepellForce(repel);
-	        ptcl.setMaxforce(d/10);
-	        ptcl.setGravity(r.getRadius()*(n*1));
-	        ptcl.setMaxspeed(n*10f);
+	        if(d < r.getRadius()){
+	        PVector repel = r.pushParticle(ptcl);        
+		    ptcl.applyRepellForce(repel);
+	        ptcl.setMaxforce((d/100));
+	        ptcl.setGravity((d/100)*0.0f);
+	        ptcl.setMaxspeed((d/10));
+	        ptcl.setMass(0.01f);
+//	        ptcl.setMass(d/100);
 //	        ptcl.setMaxforce(r.getG()*n);
 //	        }else if(d < r.getRadius()+5){	
 //		        PVector repel = r.pushParticle(ptcl);        
 //		        ptcl.applyRepellForce(repel);
 	        }else{
 //		        ptcl.setMass((n*2));
-
-//		        ptcl.resetMass();
-//		        ptcl.resetGravity();
+		        ptcl.resetMass();
+		        ptcl.resetGravity();
 	        	
 	        }
 	      }

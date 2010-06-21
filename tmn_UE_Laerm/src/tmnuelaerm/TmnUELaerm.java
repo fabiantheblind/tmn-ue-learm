@@ -67,9 +67,9 @@ public ArrayList<ObstacleObject> obstclObjList;
 	int numRepellers = 5;
 	
 //	to count the time
-	public int counter;
+	public static int runtimeCounter;
 //	just for unique filenames when saving a frame as .jpg in the folder data
-	public float time;
+	public static float time;
 //	this is for exporting image sequences
 	public boolean writeImg = false;
 	public int imgNum = 0;
@@ -130,7 +130,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 //		}
 		
 	time = millis();
-	counter = 0;	
+	runtimeCounter = 0;	
 		
 	}
 	public void watchAParticle(){
@@ -143,12 +143,12 @@ public ArrayList<ObstacleObject> obstclObjList;
 		myPtcl.setColorCol2(200, 50, 50, 20);
 		myPtcl.setRadius(10);
 		
-//		println("MyPtkls Data -- Gravity: " +nf(myPtcl.gravity,7,7)
-//				+" Mass: "+nf(myPtcl.mass,7,7)
-//				+" Speed: "+nf(myPtcl.maxspeed,7,7)
-//				+" Force: "+nf(myPtcl.maxforce,7,7)
-//				+" vel.x: "+nf(myPtcl.vel.x,7,7)+" vel.y: "+nf(myPtcl.vel.y,7,7)
-//				);
+		println("MyPtkls Data -- Gravity: " +nf(myPtcl.gravity,7,7)
+				+" Mass: "+nf(myPtcl.mass,7,7)
+				+" Speed: "+nf(myPtcl.maxspeed,7,7)
+				+" Force: "+nf(myPtcl.maxforce,7,7)
+				+" vel.x: "+nf(myPtcl.vel.x,7,7)+" vel.y: "+nf(myPtcl.vel.y,7,7)
+				);
 		
 		
 	}
@@ -205,7 +205,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 //			r.drag();
 //		}
 
-		counter++;
+		runtimeCounter++;
 		
 		
 		//PDXIII TUIO Stuff
