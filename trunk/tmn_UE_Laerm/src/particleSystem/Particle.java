@@ -38,7 +38,7 @@ public class Particle {
 		vel = new PVector(0,0);
 		lifeTime = 100000.0f;
 		col1 = p.color(255,200);
-		col2 = p.color(255,5);
+		col2 = p.color(255,23);
 
 	}
 	
@@ -54,7 +54,7 @@ public class Particle {
 		lifeTime = 100000.0f;
 
 		col1 = p.color(255,200);
-		col2 = p.color(255,5);
+		col2 = p.color(255,23);
 	}
 	
 //	this is the particle for the ParticleSystem Emitter
@@ -69,7 +69,7 @@ public class Particle {
 //		maxspeed = 2;
 		
 		col1 = p.color(255,200);
-		col2 = p.color(255,5);
+		col2 = p.color(255,23);
 		}
 	
 	// Is the particle still useful?
@@ -126,13 +126,21 @@ public class Particle {
 	public void setGravity(float inGravity){
 		gravity = inGravity;
 	}
-	
+	public void resetGravity(){
+		gravity = 0.0f;
+	}
 	public void setMaxforce(float inMaxforce){
 		maxforce = inMaxforce;
 		}
-		
+	public void resetMaxforce(){
+		maxforce = 0.3f;
+		}
+	
 		public void setMaxspeed(float inMaxspeed){
 			maxspeed = inMaxspeed;
+		}
+		public void resetMaxspeed(){
+			maxspeed = 0.3f;
 		}
 		
 		public void setRadius(float inRadius) {
@@ -143,6 +151,11 @@ public class Particle {
 			mass = massIn;
 			
 		}
+		public void resetMass(){
+			mass = 0.5f;
+			
+		}
+		
 
 //	this is for playing around with forces
 	public void myForce(ArrayList<Particle> obstacles){
@@ -193,18 +206,26 @@ public class Particle {
 	}
 	
 	public void display(){
+//		p.fill(255);
+		p.stroke(col2);
+		p.strokeWeight(2);
+
+		p.point(p.random(loc.x-0.5f,loc.x+0.5f), p.random(loc.y-0.5f,loc.y+0.5f));
+		p.point(p.random(loc.x-0.5f,loc.x+0.5f), p.random(loc.y-0.5f,loc.y+0.5f));
+		p.point(p.random(loc.x-0.5f,loc.x+0.5f), p.random(loc.y-0.5f,loc.y+0.5f));
+
+//		p.fill(col1);
+//		p.ellipse(loc.x, loc.y, radius, radius);
 		p.noStroke();
-		p.fill(col1);
-		p.ellipse(loc.x, loc.y, radius, radius);
 		p.fill(col2);
-		p.ellipse(loc.x,loc.y,radius*1.5f,radius*1.5f);
+		p.ellipse(loc.x,loc.y,radius*1.05f,radius*1.05f);
 		
 		for(int i=0;i<2;i++){
-			p.strokeWeight(3);
+			p.strokeWeight(1);
 			p.stroke(col2);
 			p.beginShape(p.LINES);
-			p.vertex(loc.x+p.random(-radius*1.5f,radius*1.5f), loc.y+p.random(-radius*1.5f,radius*1.5f));
-			p.vertex(loc.x+p.random(-radius*1.5f,radius*1.5f), loc.y+p.random(-radius*1.5f,radius*1.5f));
+			p.vertex(loc.x+p.random(-radius*1.05f,radius*1.05f), loc.y+p.random(-radius*1.05f,radius*1.05f));
+			p.vertex(loc.x+p.random(-radius*1.05f,radius*1.05f), loc.y+p.random(-radius*1.05f,radius*1.05f));
 			p.endShape();
 		}
 		p.noStroke();
@@ -225,7 +246,8 @@ public class Particle {
 	}
 
 	public void applyRepellForce(PVector force){
-//		float mass = 0.001f; // We aren't bothering with mass here
+		
+		//float mass = 0.1f; // We aren't bothering with mass here
 		force.div(mass);
 		acc.add(force);
 		
