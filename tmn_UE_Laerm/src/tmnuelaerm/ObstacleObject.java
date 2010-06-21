@@ -167,10 +167,13 @@ public class ObstacleObject {
 	
 	public void setSize(){
 		
-		obstclSize.mult(scale);
-		ObstclsRepellerList.get(0).radius *= scale;
-		ObstclsRepellerList.get(0).G *= scale;
-		
+		if(obstclSize.x < 500 && obstclSize.x >50){
+			
+			obstclSize.mult(scale);
+			ObstclsRepellerList.get(0).radius *= scale;
+			ObstclsRepellerList.get(0).G *= scale;
+			
+		}
 	}
 	
 	public void move(PVector nowPos){
