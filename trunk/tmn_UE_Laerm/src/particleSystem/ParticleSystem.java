@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PVector;
+import tmnuelaerm.TmnUELaerm;
 
 public class ParticleSystem {
 		PApplet p;
@@ -60,13 +61,10 @@ public class ParticleSystem {
 	        float d = ptcl.loc.dist(r.loc);
 	        float distToCenterPS = ptcl.loc.dist(origin);
 	        float n = p.norm(distToCenterPS,0,p.width/2f);
-	 
-	        ptcl.setMass(n*2);
 
-	        if(d < r.getRadius()+50&&d>r.getRadius()+5){
+	        if(d < r.getRadius()+50){
 		        PVector repel = r.pushParticle(ptcl);        
 		        ptcl.applyRepellForce(repel);
-	        ptcl.setMass((n));
 	        ptcl.setMaxforce(d/10);
 	        ptcl.setGravity(r.getRadius()*(n*1));
 	        ptcl.setMaxspeed(n*10f);
@@ -75,9 +73,10 @@ public class ParticleSystem {
 //		        PVector repel = r.pushParticle(ptcl);        
 //		        ptcl.applyRepellForce(repel);
 	        }else{
-		        ptcl.resetMaxforce();
-		        ptcl.resetMass();
-		        ptcl.resetGravity();
+//		        ptcl.setMass((n*2));
+
+//		        ptcl.resetMass();
+//		        ptcl.resetGravity();
 	        	
 	        }
 	      }

@@ -31,7 +31,7 @@ import tmnuelaerm.Point;
 		p = p_;
 	 loc = new PVector(x,y);
 	 drag = new PVector(0,0);
-	 G = 100;
+	 G = p.pow(10,3);
 	 
 	 color1 = p.color(0,0, 100, 100);
 	 color2 = p.color(0,0, 100, 70);
@@ -41,7 +41,7 @@ import tmnuelaerm.Point;
 		p = p_;
 		loc = loc_;
 		drag = new PVector(0,0);
-		G = 100;
+		G = p.pow(10,3);
 		
 		color1 = p.color(0,0, 100, 100);
 		color2 = p.color(0,0, 100, 70);
@@ -50,7 +50,7 @@ import tmnuelaerm.Point;
 		p = p_;
 		loc = loc_;
 		drag = new PVector(0,0);
-		G = 100;
+		G = p.pow(10,3);
 		 radius = radius_;
 		color1 = p.color(0,0, 100, 100);
 		color2 = p.color(0,0, 100, 70);
