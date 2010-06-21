@@ -121,12 +121,7 @@ public class ObstacleObject {
 
 		pa.noStroke();
 		//setRotation();
-		pa.smooth();
-		pa.shape(svg, obstclXpos, obstclYpos, obstclSize.x, obstclSize.y);
-		boundingBox.rotate(obstclRotate);
-		//boundingBox.display();
 
-		pa.popMatrix();
 
 		pa.translate(obstclPos.x, obstclPos.y);
 
