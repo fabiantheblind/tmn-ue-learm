@@ -187,8 +187,10 @@ public ArrayList<ObstacleObject> obstclObjList;
 		for(int i = 0; i < obstclObjList.size(); i++){
 			
 			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(i);
+			
 			for(int j = 0; j< obstclObject.ObstclsRepellerList.size();j++){
-			repellers.add(obstclObject.ObstclsRepellerList.get(j));
+				
+				repellers.add(obstclObject.ObstclsRepellerList.get(j));
 			}
 		}
 		// Apply repeller objects to all Particles
