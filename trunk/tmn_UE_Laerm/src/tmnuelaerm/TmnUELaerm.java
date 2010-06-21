@@ -104,7 +104,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		obstclObjList = new ArrayList<ObstacleObject>();
 		
 		// making ObstacleObjects
-		for (obstclCounter = 0; obstclCounter < 1; obstclCounter++){
+		for (obstclCounter = 0; obstclCounter < 2; obstclCounter++){
 			int obstclNo = obstclCounter + 1;
 			float firstX = obstclNo*150;
 			float firstY = height/2;
@@ -143,12 +143,12 @@ public ArrayList<ObstacleObject> obstclObjList;
 		myPtcl.setColorCol2(200, 50, 50, 20);
 		myPtcl.setRadius(10);
 		
-		println("MyPtkls Data -- Gravity: " +nf(myPtcl.gravity,7,7)
-				+" Mass: "+nf(myPtcl.mass,7,7)
-				+" Speed: "+nf(myPtcl.maxspeed,7,7)
-				+" Force: "+nf(myPtcl.maxforce,7,7)
-				+" vel.x: "+nf(myPtcl.vel.x,7,7)+" vel.y: "+nf(myPtcl.vel.y,7,7)
-				);
+//		println("MyPtkls Data -- Gravity: " +nf(myPtcl.gravity,7,7)
+//				+" Mass: "+nf(myPtcl.mass,7,7)
+//				+" Speed: "+nf(myPtcl.maxspeed,7,7)
+//				+" Force: "+nf(myPtcl.maxforce,7,7)
+//				+" vel.x: "+nf(myPtcl.vel.x,7,7)+" vel.y: "+nf(myPtcl.vel.y,7,7)
+//				);
 		
 		
 	}
@@ -187,9 +187,9 @@ public ArrayList<ObstacleObject> obstclObjList;
 		for(int i = 0; i < obstclObjList.size(); i++){
 			
 			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(i);
-			
-			repellers.add(obstclObject.ObstclsRepellerList.get(i));
-		
+			for(int j = 0; j< obstclObject.ObstclsRepellerList.size();j++){
+			repellers.add(obstclObject.ObstclsRepellerList.get(j));
+			}
 		}
 		// Apply repeller objects to all Particles
 		ps.myApplyRepellers(repellers);
