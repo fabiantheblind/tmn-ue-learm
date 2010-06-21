@@ -81,12 +81,14 @@ public class ObstacleObject {
 
 		
 		obstclSize = new PVector(svg.width, svg.height);
+
 		
 		doTheRepellers();
 		
 		for(int i = 0; i < ObstclsRepellerList.size(); i++ ){
 			ObstclsRepellerList.get(i).setG(pa.pow(10,3));		
 		}
+
 		
 		
 		boundingBox();

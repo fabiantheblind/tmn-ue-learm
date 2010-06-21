@@ -60,8 +60,8 @@ public ArrayList<ObstacleObject> obstclObjList;
 //	every particle can have his own force / radius / speed
 //	they can be chaged later
 	float ptclRadius = 5; // standard radius for the particles
-	public float myForce = 0.5f; // std force for the particles 
-	public float mySpeed = 0.5f; // std speed for the particles
+//	public float myForce = 0.5f; // std force for the particles 
+//	public float mySpeed = 0.5f; // std speed for the particles
 
 //	some repellers
 	int numRepellers = 5;
@@ -133,8 +133,27 @@ public ArrayList<ObstacleObject> obstclObjList;
 	counter = 0;	
 		
 	}
+	public void watchAParticle(){
+        
 
+		Particle myPtcl = ptclsList.get(0);
+		float distToCenterPS = myPtcl.loc.dist(ps.origin);
+
+		myPtcl.setColorCol1(200, 50, 50, 100);
+		myPtcl.setColorCol2(200, 50, 50, 20);
+		myPtcl.setRadius(10);
+		
+		println("MyPtkls Data -- Gravity: " +nf(myPtcl.gravity,7,7)
+				+" Mass: "+nf(myPtcl.mass,7,7)
+				+" Speed: "+nf(myPtcl.maxspeed,7,7)
+				+" Force: "+nf(myPtcl.maxforce,7,7)
+				+" vel.x: "+nf(myPtcl.vel.x,7,7)+" vel.y: "+nf(myPtcl.vel.y,7,7)
+				);
+		
+		
+	}
 	public void draw() {
+		watchAParticle();
 		
 //		background(125);
 //		just a clearScreen method
@@ -169,15 +188,11 @@ public ArrayList<ObstacleObject> obstclObjList;
 			
 			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(i);
 			
-			for(int j = 0; j < obstclObject.ObstclsRepellerList.size(); j++){
-				
-				repellers.add(obstclObject.ObstclsRepellerList.get(j));
-		
-			} 
+			repellers.add(obstclObject.ObstclsRepellerList.get(i));
 		
 		}
 		// Apply repeller objects to all Particles
-		ps.applyRepellers(repellers);
+		ps.myApplyRepellers(repellers);
 		
 		// Run the Particle System
 		ps.run();
@@ -434,9 +449,9 @@ public ArrayList<ObstacleObject> obstclObjList;
 //				  float myMaxspeed = Particle.maxspeed;
 //				  float myMaxforce = Particle.maxforce;//+random(-1f,1f);
 				Particle ptcl = new Particle(this,new PVector(x,y),new PVector(x,y), ptclRadius);
-				ptcl.setMaxforce(10f);
-				ptcl.setMaxforce(5f);
-				ptcl.setMaxspeed(2f);
+//				ptcl.setMaxforce(10f);
+//				ptcl.setMaxforce(5f);
+//				ptcl.setMaxspeed(2f);
 
 				  ptclsList.add(ptcl);
 //				or use:
@@ -473,20 +488,20 @@ public ArrayList<ObstacleObject> obstclObjList;
 //				do something fancy
 			  }
 			  
-			    if( key==CODED ){
-			        if( keyCode == UP ){ 
-			        	myForce += 0.1f;
-			        }
-			        if( keyCode == DOWN ){ 
-			        	myForce -= 0.1f;
-			        }
-			        if( keyCode == LEFT ){ 
-			        	mySpeed += 0.1f;
-			        }
-			        if( keyCode == RIGHT ){ 
-			        	mySpeed -= 0.1f;
-			        }
-			    }
+//			    if( key==CODED ){
+//			        if( keyCode == UP ){ 
+//			        	myForce += 0.1f;
+//			        }
+//			        if( keyCode == DOWN ){ 
+//			        	myForce -= 0.1f;
+//			        }
+//			        if( keyCode == LEFT ){ 
+//			        	mySpeed += 0.1f;
+//			        }
+//			        if( keyCode == RIGHT ){ 
+//			        	mySpeed -= 0.1f;
+//			        }
+//			    }
 			}
 
 			
