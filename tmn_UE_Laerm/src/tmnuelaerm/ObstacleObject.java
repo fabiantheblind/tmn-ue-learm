@@ -146,7 +146,6 @@ public class ObstacleObject {
 			ObstclsRepellerList.get(j).display();
 		}
 
-
 		scale = 1;
 		coursor01Pos = newCoursor01Pos;
 		coursor02Pos = newCoursor02Pos;
@@ -196,15 +195,15 @@ public class ObstacleObject {
 		
 		obstclSize = PVector.mult(obstclSize,scale);
 		
-		if (obstclSize.x > 300){
+		if (obstclSize.x > 700){
 			
-			obstclSize.y = 300 / svg.width * svg.height; 
-			obstclSize.x = 300;
+			obstclSize.y = 700 / svg.width * svg.height; 
+			obstclSize.x = 700;
 		}
-		if (obstclSize.x < 50){
+		if (obstclSize.x < 100){
 			
-			obstclSize.y = 50 / svg.width * svg.height; 
-			obstclSize.x = 50;
+			obstclSize.y = 100 / svg.width * svg.height; 
+			obstclSize.x = 100;
 		}
 		
 		//grav *= obstclSize.x/100;

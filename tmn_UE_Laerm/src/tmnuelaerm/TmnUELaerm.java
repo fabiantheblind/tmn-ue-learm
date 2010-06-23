@@ -80,7 +80,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 	public void setup() {
 		colorMode(HSB,360,100,100);
 		background(0);
-		size(500,400);
+		size(1024, 768);
 		frameRate(25);
 
 		//PDXIII background Stuff
@@ -553,6 +553,6 @@ public ArrayList<ObstacleObject> obstclObjList;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		PApplet.main(new String[] { tmnuelaerm.TmnUELaerm.class.getName() });
+		PApplet.main(new String[] { "--present",tmnuelaerm.TmnUELaerm.class.getName() });
 	}
 }
