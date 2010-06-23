@@ -2,12 +2,10 @@ package tmnuelaerm;
 
 import TUIO.TuioListener;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import TUIO.TuioClient;
 import TUIO.TuioCursor;
 import TUIO.TuioObject;
-import TUIO.TuioPoint;
 import TUIO.TuioTime;
 
 import processing.core.PApplet;
@@ -15,16 +13,13 @@ import processing.core.PFont;
 import processing.core.PImage;
 import processing.core.PVector;
 import tmnuelaerm.ObstacleObject;
-import processing.core.PApplet;
 
 
 import particleSystem.Particle;
 import particleSystem.ParticleSystem;
 import particleSystem.Path;
 import particleSystem.Repeller;
-import processing.core.PApplet;
-import processing.core.PVector;
-import processing.core.PFont;
+
 
 
 public class TmnUELaerm extends PApplet implements TuioListener{
