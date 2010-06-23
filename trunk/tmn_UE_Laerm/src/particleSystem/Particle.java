@@ -230,6 +230,33 @@ public class Particle {
 		}
 		p.noStroke();
 	}
+
+	public void displayBLKPtcl(){
+//		p.fill(255);
+		p.stroke(0,200);
+		p.strokeWeight(2);
+
+//		p.point(p.random(loc.x-0.5f,loc.x+0.5f), p.random(loc.y-0.5f,loc.y+0.5f));
+//		p.point(p.random(loc.x-0.5f,loc.x+0.5f), p.random(loc.y-0.5f,loc.y+0.5f));
+		p.point(p.random(loc.x-0.5f,loc.x+0.5f), p.random(loc.y-0.5f,loc.y+0.5f));
+
+//		p.fill(col1);
+//		p.ellipse(loc.x, loc.y, radius, radius);
+//		p.noStroke();
+//		p.fill(col2);
+//		p.ellipse(loc.x,loc.y,radius*1.05f,radius*1.05f);
+		
+//		for(int i=0;i<2;i++){
+//			p.strokeWeight(1);
+//			p.stroke(col2);
+//			p.beginShape(p.LINES);
+//			p.vertex(loc.x+p.random(-radius*1.05f,radius*1.05f), loc.y+p.random(-radius*1.05f,radius*1.05f));
+//			p.vertex(loc.x+p.random(-radius*1.05f,radius*1.05f), loc.y+p.random(-radius*1.05f,radius*1.05f));
+//			p.endShape();
+//		}
+//		p.noStroke();
+	}
+
 	
 	// A function to deal with path following and separation
 	public void applyForces(ArrayList<Particle> ptkls, Path path) {
@@ -256,7 +283,8 @@ public class Particle {
 	// Main "run" function
 	public void run() {
 		update();
-		display();
+		displayBLKPtcl();
+//		display();
 		limit();
 
 	}
