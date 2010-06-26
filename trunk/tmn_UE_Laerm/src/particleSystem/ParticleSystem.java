@@ -18,7 +18,7 @@ public class ParticleSystem {
 	    path = path_;
 	    origin = v.get();                        // Store the origin point
 	    for (int i = 0; i < num; i++) {
-	      particles.add(new Particle(p,origin));    // Add "num" amount of particles to the arraylist
+	      particles.add(new Particle(p,origin,true,false));    // Add "num" amount of particles to the arraylist
 	    }
 	  }
 
@@ -67,8 +67,11 @@ public class ParticleSystem {
 	        float d = ptcl.loc.dist(r.loc);
 
 
-	        if(d < r.getRadius()){
-	        PVector repel = r.pushParticle(ptcl);        
+	        if(d < r.getRadius() /*&& ptcl.affection == true*/){
+	        	
+	       
+	        PVector repel = r.pushParticle(ptcl);
+	        	
 		    ptcl.applyRepellForce(repel);
 	        ptcl.setMaxforce((d/100));
 	        ptcl.setGravity((d/100)*0.0001f);
@@ -109,13 +112,13 @@ public class ParticleSystem {
 		  Particle ptcl;
 		  
 	  if(pointOrigin){
-		   ptcl = new Particle(p,origin);
+		   ptcl = new Particle(p,origin,true,false);
 
 		  }else {
 		
 			  PVector myOrigin = new PVector(p.random(p.width),p.random(p.height));
 
-		  ptcl = new Particle(p,myOrigin);
+		  ptcl = new Particle(p,myOrigin,true,false);
 		  ptcl.setMaxspeed(0.03f);
 		  ptcl.setRadius(p.random(2));
 		  
