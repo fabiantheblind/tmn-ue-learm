@@ -15,8 +15,12 @@ public class Particle {
 	public float maxforce = 0.5f;    // Maximum steering force
 	public float maxspeed =  2.0f;    // Maximum speed
 	public float radius;// = 5f;    // radius
-	public float lifeTime = 100;    // the lifetime of an Particle
+	public float lifeTime = 100000.0f;    // the lifetime of an Particle
     public float mass = 0.5f; // The higher the mass the lesser the particles get pushed by repellers
+    public boolean affection;
+    public boolean hidden;
+
+    public final PVector origin;
 
 	
 	
@@ -25,7 +29,7 @@ public class Particle {
 	public int col1;
 	public int col2;
 		
-	public Particle(PApplet p_, PVector loc_, PVector vel_, float r_,float ms, float mf) {
+	public Particle(PApplet p_, PVector loc_, PVector vel_, float r_,float ms, float mf,boolean a_,boolean h_) {
 		// TODO Auto-generated constructor stub
 		p = p_;
 		loc = loc_.get();
@@ -39,10 +43,14 @@ public class Particle {
 		lifeTime = 100000.0f;
 		col1 = p.color(255,200);
 		col2 = p.color(255,23);
-
+		affection = a_;
+		hidden  = h_;
+		origin = new PVector(loc.x,loc.y);
 	}
 	
-	public Particle(PApplet p_, PVector loc_, PVector vel_, float r_) {
+
+	
+	public Particle(PApplet p_, PVector loc_, PVector vel_, float r_,boolean a_,boolean h_) {
 		// TODO Auto-generated constructor stub
 		p = p_;
 		loc = loc_.get();
@@ -55,10 +63,15 @@ public class Particle {
 
 		col1 = p.color(255,200);
 		col2 = p.color(255,23);
+		affection = a_;
+		origin = new PVector(loc.x,loc.y);
+		hidden  = h_;
+
+
 	}
 	
 //	this is the particle for the ParticleSystem Emitter
-	public Particle(PApplet p_, PVector loc_) {
+	public Particle(PApplet p_, PVector loc_,boolean a_,boolean h_) {
 		p = p_;
 		
 		acc = new PVector(0,0);
@@ -70,6 +83,11 @@ public class Particle {
 		
 		col1 = p.color(255,200);
 		col2 = p.color(255,23);
+		affection = a_;
+		origin = new PVector(loc.x,loc.y);
+		hidden  = h_;
+
+
 		}
 	
 	// Is the particle still useful?
@@ -206,6 +224,8 @@ public class Particle {
 	}
 	
 	public void display(){
+		
+		if(hidden!=true){
 //		p.fill(255);
 		p.stroke(col2);
 		p.strokeWeight(2);
@@ -229,37 +249,13 @@ public class Particle {
 			p.endShape();
 		}
 		p.noStroke();
-	}
-
-	public void displayBLKPtcl(){
-//		p.fill(255);
-		p.stroke(0,200);
-		p.strokeWeight(2);
-
-//		p.point(p.random(loc.x-0.5f,loc.x+0.5f), p.random(loc.y-0.5f,loc.y+0.5f));
-//		p.point(p.random(loc.x-0.5f,loc.x+0.5f), p.random(loc.y-0.5f,loc.y+0.5f));
-		p.point(p.random(loc.x-0.5f,loc.x+0.5f), p.random(loc.y-0.5f,loc.y+0.5f));
-
-//		p.fill(col1);
-//		p.ellipse(loc.x, loc.y, radius, radius);
-//		p.noStroke();
-//		p.fill(col2);
-//		p.ellipse(loc.x,loc.y,radius*1.05f,radius*1.05f);
+		}
 		
-//		for(int i=0;i<2;i++){
-//			p.strokeWeight(1);
-//			p.stroke(col2);
-//			p.beginShape(p.LINES);
-//			p.vertex(loc.x+p.random(-radius*1.05f,radius*1.05f), loc.y+p.random(-radius*1.05f,radius*1.05f));
-//			p.vertex(loc.x+p.random(-radius*1.05f,radius*1.05f), loc.y+p.random(-radius*1.05f,radius*1.05f));
-//			p.endShape();
-//		}
-//		p.noStroke();
 	}
-
 	
 	// A function to deal with path following and separation
 	public void applyForces(ArrayList<Particle> ptkls, Path path) {
+	
 	// Follow path force
 		PVector f = follow(path);
 		// Separate from other boids force
@@ -283,8 +279,7 @@ public class Particle {
 	// Main "run" function
 	public void run() {
 		update();
-		displayBLKPtcl();
-//		display();
+		display();
 		limit();
 
 	}
@@ -314,11 +309,11 @@ public class Particle {
 		float record = 1000000;  // Start with a very high record distance that can easily be beaten
 		
 // 	Loop through all points of the path
-		for (int i = 0; i < pt.points.size(); i++) {
+		for (int i = 0; i < pt.ptclPoints.size(); i++) {
 
 // 	Look at a line segment
-			PVector a = (PVector) pt.points.get(i);
-			PVector b = (PVector) pt.points.get((i+1)%pt.points.size());  // Path wraps around
+			PVector a = (PVector) pt.ptclPoints.get(i).loc;
+			PVector b = (PVector) pt.ptclPoints.get((i+1)%pt.ptclPoints.size()).loc;  // Path wraps around
 
 // Get the normal point to that line
 			PVector normal = getNormalPoint(predictLoc,a,b);
@@ -331,8 +326,8 @@ public class Particle {
 			if (da + db > line.mag()+1) {
 				normal = b.get();
 // If we're at the end we really want the next line segment for looking ahead
-				a = (PVector) pt.points.get((i+1)%pt.points.size());
-				b = (PVector) pt.points.get((i+2)%pt.points.size());  // Path wraps around
+				a = (PVector) pt.ptclPoints.get((i+1)%pt.ptclPoints.size()).loc;
+				b = (PVector) pt.ptclPoints.get((i+2)%pt.ptclPoints.size()).loc;  // Path wraps around
 				line = PVector.sub(b,a);
 			}
 
