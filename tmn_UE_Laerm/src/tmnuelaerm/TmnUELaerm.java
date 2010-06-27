@@ -74,16 +74,22 @@ public ArrayList<ObstacleObject> obstclObjList;
 
 	
 
-	//PDXIII background Stuff
-	public PImage fadingBG;
-	public float tinter;
+
 
 //	DEbugging stuff
 	private Debug debug;
 
-	//end PDXIII background Stuff
 
-	
+
+	//PDXIII background Stuff
+	public PImage fadingBG;
+	public float tinter;
+	public boolean tintBack = false;
+    public float tintMax = 60;
+    public float tintMin = 20;
+    //end PDXIII background Stuff
+    
+    
 	public void setup() {
 
 		colorMode(HSB,360,100,100);
@@ -229,7 +235,22 @@ public ArrayList<ObstacleObject> obstclObjList;
 		
 	}
 	
-
+    public void theBackground(){
+        
+        tint(300-tinter, 40+tinter, 40+tinter);
+        image(fadingBG,0,0);
+        if (tinter >= tintMax){tintBack = true;}
+        
+        if (tinter <= tintMin){tintBack = false;}
+        
+        if(!tintBack){
+                tinter += 0.2f;
+        }else{
+                tinter -= 0.2f;
+        }
+    }
+        
+        
 	
 	//PDXIII TUIO Stuff
 	public void drawObstacleObjects(){
