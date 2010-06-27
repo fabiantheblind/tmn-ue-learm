@@ -13,8 +13,10 @@ import processing.core.PFont;
 import processing.core.PImage;
 import processing.core.PVector;
 import tmnuelaerm.ObstacleObject;
+import util.Debug;
 
 
+import particleSystem.PSUtil;
 import particleSystem.Particle;
 import particleSystem.ParticleSystem;
 import particleSystem.Path;
@@ -42,15 +44,18 @@ public ArrayList<ObstacleObject> obstclObjList;
 	public PFont font;
 	
 //	Setup the Particles
-	// A path object (series of connected points)
+	// A path object (series of connected points/particles)
 	Path path;
 //	our particle System
 	ParticleSystem ps;
 //	Some Arraylists to store the objects
 	ArrayList <Particle> ptclsList =  new ArrayList<Particle>();
 	ArrayList<Repeller> repellers;
+	
+//	This is for debugging and make some lose repellers
+	ArrayList<Repeller> someRepellers = new ArrayList<Repeller>();
 //	for the particles
-	int numPtcls = 500; // number of particles
+	int numPtcls = 1000; // number of particles
 	
 //	every particle can have his own force / radius / speed
 //	they can be chaged later
@@ -60,33 +65,36 @@ public ArrayList<ObstacleObject> obstclObjList;
 
 //	some repellers
 	int numRepellers = 5;
+
 	
 //	to count the time
 	public static int runtimeCounter;
 //	just for unique filenames when saving a frame as .jpg in the folder data
 	public static float time;
-//	this is for exporting image sequences
-	public boolean writeImg = false;
-	public int imgNum = 0;
+
 	
 
 	//PDXIII background Stuff
 	public PImage fadingBG;
 	public float tinter;
-	public boolean tintBack = false;
-	public float tintMax = 60;
-	public float tintMin = 20;
+
+//	DEbugging stuff
+	private Debug debug;
+
 	//end PDXIII background Stuff
 
 	
 	public void setup() {
+
 		colorMode(HSB,360,100,100);
 		background(0);
-		size(1024, 768);
+		size(500,400,OPENGL);
 		frameRate(25);
+		debug = new Debug(this);
+		
 
 		//PDXIII background Stuff
-		fadingBG = loadImage("fadingBG.png");
+		//fadingBG = loadImage("fadingBG.png");
 
 		//PDXIII TUIO Stuff
 		// enable on system installed fonts
@@ -112,55 +120,41 @@ public ArrayList<ObstacleObject> obstclObjList;
 		//end PDXIII TUIO Stuff
 		
 //		particle stuff
-		  // Call a function to generate new Path object with 12 segments
-		initCirclePath(23);
+		  // Call a function to generate new Path object with 23 segments
+		path = PSUtil.initCirclePath(this, path, 23);
+		
 		  // We are now making random Particles and storing them in an ArrayList ptclsList
-		initParticles(numPtcls);
+		ptclsList = PSUtil.initParticles(this, numPtcls, ptclRadius, ptclsList);
+		
+//		add the  Path ptclPoints ArrayList of Particles to the ptclsList
+		for(int i = 0; i < path.ptclPoints.size();i++){
+			ptclsList.add(path.ptclPoints.get(i));
+		}
 //		we need the particle system to interact with the repellers
 		ps = new ParticleSystem(this,1,new PVector(width/2,height/2),ptclsList,path);
-		//make some repellers
-//		for(int i = 0; i <=360;i+=360/numRepellers){
-//			
-//			Repeller rep = new Repeller(this,width / 2 + sin(radians(i))*100,height / 2 + cos(radians(i))*100);
-//			rep.setG(pow(10,3));
-//		repellers.add(rep);
-//		}
+		
+//		PSUtil.makeSomeRepellers(this, someRepellers);
 		
 	time = millis();
 	runtimeCounter = 0;	
 		
 	}
-	public void watchAParticle(){
-        
 
-		Particle myPtcl = ptclsList.get(0);
-		float distToCenterPS = myPtcl.loc.dist(ps.origin);
-
-		myPtcl.setColorCol1(200, 50, 50, 100);
-		myPtcl.setColorCol2(200, 50, 50, 20);
-		myPtcl.setRadius(10);
-		
-//		println("MyPtkls Data -- Gravity: " +nf(myPtcl.gravity,7,7)
-//				+" Mass: "+nf(myPtcl.mass,7,7)
-//				+" Speed: "+nf(myPtcl.maxspeed,7,7)
-//				+" Force: "+nf(myPtcl.maxforce,7,7)
-//				+" vel.x: "+nf(myPtcl.vel.x,7,7)+" vel.y: "+nf(myPtcl.vel.y,7,7)
-//				);
-		
-		
-	}
 	public void draw() {
-		watchAParticle();
+		debug.watchAParticle(ptclsList, ps);
+//		path.ptclPathDisplay();
+		path.resetPointPtcls();
 		
+//		this is for setting all the time the radius
 		if(runtimeCounter==0)path.radius = 50;
 		
 //		background(125);
-//		just a clearScreen method
-
-		theBackground();
-
 		
-		cls();
+//		PDXBGStuff
+//		drawBG();
+		
+//		just a clearScreen method
+		clearScreen();
 		smooth();
 		
 		
@@ -172,17 +166,20 @@ public ArrayList<ObstacleObject> obstclObjList;
 				ptkl.run();
 			}
 		
-		// Get all Repellers into repellers
+//		must be rebuild at runtime so it doesent store all the time new repellers in the list
+//		else it has to be deleted at runtime
+//		does that matter?
 		
 		repellers = new ArrayList<Repeller>();
 
-		for(int i = 0; i < obstclObjList.size(); i++){
+		
+		for(int j = 0; j < obstclObjList.size(); j++){
 			
-			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(i);
+			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(j);
 			
-			for(int j = 0; j< obstclObject.ObstclsRepellerList.size();j++){
+			for(int k = 0; k< obstclObject.ObstclsRepellerList.size();k++){
 				
-				repellers.add(obstclObject.ObstclsRepellerList.get(j));
+				repellers.add(obstclObject.ObstclsRepellerList.get(k));
 			}
 		}
 		// Apply repeller objects to all Particles
@@ -190,50 +187,49 @@ public ArrayList<ObstacleObject> obstclObjList;
 		
 		// Run the Particle System
 		ps.run();
-		// Display all repellers
-//		for (int i = 0; i < repellers.size(); i++) {
-//			Repeller r = (Repeller) repellers.get(i); 
-//			r.display();
-//			r.drag();
-//		}
+		
+//		U need to call first the 
+//		public static void PSUtil.makeSomeRepellers(PApplet p,ArrayList <Repeller>someRepellers)
+//		in the setup
+//		PSUtil.displaySomeRepellers(someRepellers);
 
 		runtimeCounter++;
 		
-		
 		//PDXIII TUIO Stuff
-		//just for adjustment
-		drawGrid();
+
 		
 		tuioCursorList = new ArrayList<TuioCursor> (tuioClient.getTuioCursors());
 		
 		drawObstacleObjects();
 		
-		drawCursors();
-		
-		noStroke();
-		fill(255);
-		text(tuioCursorList.size(), 50, 50);
-		noFill();
+		//just for adjustment
+		debug.drawGrid();
+		debug.drawCursors(tuioCursorList);
+		debug.drawCursorCount(tuioCursorList);
 		//end PDXIII TUIO Stuff
-		  writeIMGs();
+		debug.writeIMGs();
 
 	}
 	
 //	write an rect at everyframe
-	void cls(){
+	void clearScreen(){
 		noStroke();
 		fill(360,0,0,23);
 		rect(0,0,width,height);
 	}
 	
-	// just  writing TIff Sequenzes for videos
-	public void writeIMGs(){
-		if(writeImg){
-			String sa = nf(imgNum,6);
-			  saveFrame("./data/ParticleSystem-"+sa+".tif");
-			  imgNum++;
-		}
+	void drawBG(){
+		
+		//PDXIII background Stuff
+//		tint(tinter, 255, 255,100);
+//		image(fadingBG,0,0);	
+		tinter += 0.5f;	
+		if(tinter > 360){ tinter = 0;}
+		//end PDXIII background Stuff
+		
 	}
+	
+
 	
 	//PDXIII TUIO Stuff
 	public void drawObstacleObjects(){
@@ -245,15 +241,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		}
 	}
 	
-	public void drawCursors(){
-		
-		for (int i=0; i<tuioCursorList.size(); i++) {
-			TuioCursor tcur = (TuioCursor)tuioCursorList.get(i);
-			stroke(100,255,255);
-			noFill();
-			ellipse( tcur.getScreenX(width), tcur.getScreenY(height),10,10);
-		}
-	}
+
 	
 	//end PDXIII TUIO Stuff
 
@@ -342,7 +330,6 @@ public ArrayList<ObstacleObject> obstclObjList;
 //		of the Repellers in the Obstacle Object
 //		bigger repellers means wider path
 
-		pathReactOnObject();
 	}
 	
 	@Override
@@ -391,119 +378,8 @@ public ArrayList<ObstacleObject> obstclObjList;
 	}
 	// TUIO methods end
 	
-	public void theBackground(){
-		
-		tint(300-tinter, 40+tinter, 40+tinter);
-		image(fadingBG,0,0);
-		if (tinter >= tintMax){tintBack = true;}
-		
-		if (tinter <= tintMin){tintBack = false;}
-		
-		if(!tintBack){
-			tinter += 0.2f;
-		}else{
-			tinter -= 0.2f;
-		}
-		
-	}
+
 	
-	//a grid just for adjustment
-	public void drawGrid(){
-		
-		float gridSize = 100;
-		
-		for(int i = 0; i < 100; i++){
-			strokeWeight(1);
-			stroke(0);
-			
-			line(i*gridSize, 0, i*gridSize, height);
-			line(0, i*gridSize, width, i*gridSize);
-			
-			noStroke();
-		}
-	}
-	//grid end
-	
-//		Particle stuff
-	
-//	This a number of points circling  around the center. for a smother path 
-//	give him more segments
-	void initCirclePath(int segments){
-		
-		path = new Path(this,100);
-		for(int i = 0; i <=360;i+=360/segments){
-			  path.addPoint(width / 2 + sin(radians(i))*100,height / 2 + cos(radians(i))*100);
-		}
-	}
-	
-//	for easier initalizing of particles
-	void initParticles(int numPtkls){
-		
-		  ptclsList =  new ArrayList<Particle>();
-		  for (int i = 0; i < numPtkls; i++) {
-		    newPtkl(random(width),random(height),ptclsList);
-		    
-//		    Set some random force and speed
-//		    ptclsList.get(i).setMaxforce(random(-5,5));
-//		    ptclsList.get(i).setMaxspeed(random(-2,2));
-
-		  }
-	}
-		  
-//	Create new Particles	
-	void newPtkl(float x, float y,ArrayList<Particle> ptclsList) {
-				
-//				  float maxforce = 0.3f;    // Maximum steering force
-//				  float maxspeed =  0.3f;    // Maximum speed
-//				  float myMaxspeed = Particle.maxspeed;
-//				  float myMaxforce = Particle.maxforce;//+random(-1f,1f);
-				Particle ptcl = new Particle(this,new PVector(x,y),new PVector(x,y), ptclRadius);
-//				ptcl.setMaxforce(10f);
-//				ptcl.setMaxforce(5f);
-//				ptcl.setMaxspeed(2f);
-
-				  ptclsList.add(ptcl);
-//				or use:
-//				  ptclsList.add(new Particle(this,new PVector(x,y),new PVector(x,y), Particle.radius));
-
-			}
-			
-	
-	public void ptclsReactOnObject(){
-		//println(obstclObjList.get(0).ObstclsRepellerList.get(0).radius);
-		float mySize = obstclObjList.get(0).ObstclsRepellerList.get(0).radius;
-		float myNewForce = map(mySize,10,100,0.5f,13f);
-		
-		float myNewSpeed = map(mySize,10,100,0.5f,13f);
-		for(int i= 0;i < ptclsList.size();i++){
-			
-			ptclsList.get(i).setMaxforce(myNewForce);
-			ptclsList.get(i).setMaxspeed(myNewSpeed);
-			
-			}
-		}
-
-	public void pathReactOnObject(){
-//		
-//		for(int i = 0; i <obstclObjList.size();i++ ){
-//		ObstacleObject obstcl = obstclObjList.get(i);
-//		float radii = 0;
-//		for(int j  = 0; j < obstcl.ObstclsRepellerList.size();j++){
-//			radii = radii + obstcl.ObstclsRepellerList.get(j).radius;
-//			
-//			float mySize = radii / j;
-//
-//			float myNewPathRadius = map(mySize,10,100,10f,300f);
-//			path.setRadius(myNewPathRadius);
-//			
-//		}
-//			
-//		}
-
-
-		
-	}
-//		this is to apply coustum forces via keystroke
 		public void keyPressed() {
 			  if (key == 'd') {
 //				do something fancy
@@ -511,16 +387,12 @@ public ArrayList<ObstacleObject> obstclObjList;
 			  
 //			    if( key==CODED ){
 //			        if( keyCode == UP ){ 
-//			        	myForce += 0.1f;
 //			        }
 //			        if( keyCode == DOWN ){ 
-//			        	myForce -= 0.1f;
 //			        }
 //			        if( keyCode == LEFT ){ 
-//			        	mySpeed += 0.1f;
 //			        }
 //			        if( keyCode == RIGHT ){ 
-//			        	mySpeed -= 0.1f;
 //			        }
 //			    }
 			}
@@ -538,32 +410,33 @@ public ArrayList<ObstacleObject> obstclObjList;
 				exit();			
 				}
 				if (key == 'i' || key == 'I') {
-					writeImg = true;
+					debug.writeImg = true;
 				}
 				if (key == 'o' || key == 'O') {
-					writeImg = false;
+					debug.writeImg = false;
 				}
 				
 				
 			}
 			public void mousePressed() {
-//			  newPtkl(mouseX,mouseY,ptclsList);
+//			  PSUtil.newPtkl(this, mouseX, mouseY, ptclsList, ptclRadius);
 				
-				for (int i = 0; i < repellers.size(); i++) {
-				    Repeller r = (Repeller) repellers.get(i); 
+				for (int i = 0; i < someRepellers.size(); i++) {
+				    Repeller r = someRepellers.get(i); 
 				    r.clicked(mouseX,mouseY);
 				  }
 			}
 			
 			public void mouseReleased() {
-				  for (int i = 0; i < repellers.size(); i++) {
-				    Repeller r = (Repeller) repellers.get(i); 
+				
+				  for (int i = 0; i < someRepellers.size(); i++) {
+				    Repeller r = someRepellers.get(i); 
 				    r.stopDragging();
 				  }
 				}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		PApplet.main(new String[] { "--present",tmnuelaerm.TmnUELaerm.class.getName() });
+		PApplet.main(new String[] { tmnuelaerm.TmnUELaerm.class.getName() });
 	}
 }
