@@ -26,7 +26,7 @@ public class PSUtil {
 		path = new Path(p,100);
 		for(int i = 0; i <=360;i+=360/segments){
 //				path.addPoint(width / 2 + sin(radians(i))*100,height / 2 + cos(radians(i))*100);
-			  path.addPointPtcl(p.width / 2 + p.sin(p.radians(i))*100,p.height / 2 + p.cos(p.radians(i))*100);
+			  path.addPointPtcl(p.width / 2 + p.sin(p.radians(i))*150,p.height / 2 + p.cos(p.radians(i))*150);
 		}
 		return path;
 	}

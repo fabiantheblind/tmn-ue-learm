@@ -152,7 +152,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		path.resetPointPtcls();
 		
 //		this is for setting all the time the radius
-		if(runtimeCounter==0)path.radius = 50;
+		if(runtimeCounter==0)path.radius = 30;
 		
 //		background(125);
 		
@@ -166,10 +166,13 @@ public ArrayList<ObstacleObject> obstclObjList;
 		
 		for (int i = 0; i < ptclsList.size(); i++) {
 				Particle ptkl =  ptclsList.get(i);
+				if(ptkl.hidden!=true){
 				// Path following and separation are worked on in this function
 				ptkl.applyForces(ptclsList,path);
 				// Call the generic run method (update, borders, display, etc.)
+				}
 				ptkl.run();
+				
 			}
 		
 //		must be rebuild at runtime so it doesent store all the time new repellers in the list
@@ -189,8 +192,8 @@ public ArrayList<ObstacleObject> obstclObjList;
 			}
 		}
 		// Apply repeller objects to all Particles
-		ps.myApplyRepellers(repellers);
-		
+//		ps.myApplyRepellers(repellers);
+		ps.myApplyObstcles(obstclObjList);
 		// Run the Particle System
 		ps.run();
 		
