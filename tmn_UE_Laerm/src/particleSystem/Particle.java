@@ -223,6 +223,7 @@ public class Particle {
 		
 	}
 	
+	@SuppressWarnings("static-access")
 	public void display(){
 		
 		if(hidden!=true){
@@ -240,15 +241,15 @@ public class Particle {
 		p.fill(col2);
 		p.ellipse(loc.x,loc.y,radius*1.05f,radius*1.05f);
 		
-		for(int i=0;i<2;i++){
-			p.strokeWeight(1);
-			p.stroke(col2);
-			p.beginShape(p.LINES);
-			p.vertex(loc.x+p.random(-radius*1.05f,radius*1.05f), loc.y+p.random(-radius*1.05f,radius*1.05f));
-			p.vertex(loc.x+p.random(-radius*1.05f,radius*1.05f), loc.y+p.random(-radius*1.05f,radius*1.05f));
-			p.endShape();
-		}
-		p.noStroke();
+//		for(int i=0;i<2;i++){
+//			p.strokeWeight(1);
+//			p.stroke(col2);
+//			p.beginShape(p.LINES);
+//			p.vertex(loc.x+p.random(-radius*1.05f,radius*1.05f), loc.y+p.random(-radius*1.05f,radius*1.05f));
+//			p.vertex(loc.x+p.random(-radius*1.05f,radius*1.05f), loc.y+p.random(-radius*1.05f,radius*1.05f));
+//			p.endShape();
+//		}
+//		p.noStroke();
 		}
 		
 	}
@@ -259,6 +260,8 @@ public class Particle {
 	// Follow path force
 		PVector f = follow(path);
 		// Separate from other boids force
+		
+		
 		PVector s = separate(ptkls);
 		// Arbitrary weighting
 		f.mult(3);
@@ -390,11 +393,14 @@ public class Particle {
 	  // Separation
 	  // Method checks for nearby boids and steers away
 	public PVector separate (ArrayList<Particle> ptkls) {
+
 		float desiredseparation = radius*2;
 		PVector steer = new PVector(0,0);
 		int count = 0;
+
 	// For every boid in the system, check if it's too close
 		for (int i = 0 ; i < ptkls.size(); i++) {
+			if(ptkls.get(i).hidden!=true){
 			Particle other = (Particle) ptkls.get(i);
 			float d = PVector.dist(loc,other.loc);
 	// If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
@@ -404,7 +410,8 @@ public class Particle {
 				diff.normalize();
 				diff.div(d);        // Weight by distance
 				steer.add(diff);
-				count++;            // Keep track of how many
+				count++;   
+				}// Keep track of how many
 			}
 		}
 	// Average -- divide by how many
@@ -420,6 +427,8 @@ public class Particle {
 			steer.sub(vel);
 			steer.limit(maxforce);
 		}
+		
+		
 		return steer;
 	}
 

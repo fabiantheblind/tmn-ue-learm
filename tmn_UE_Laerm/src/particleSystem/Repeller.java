@@ -25,6 +25,7 @@ import tmnuelaerm.Point;
 	PVector drag;  // holds the offset for when object is clicked on
 	public int color1;
 	public int color2;
+	public int id;
 
 	
 	public Repeller(PApplet p_,float x, float y)  {
@@ -46,6 +47,18 @@ import tmnuelaerm.Point;
 		color1 = p.color(0,0, 100, 100);
 		color2 = p.color(0,0, 100, 70);
 		}
+	public Repeller(PApplet p_, PVector loc_,int ObjectID_)  {
+		p = p_;
+		loc = loc_;
+		drag = new PVector(0,0);
+		G = p.pow(10,3);
+		
+		color1 = p.color(0,0, 100, 100);
+		color2 = p.color(0,0, 100, 70);
+		id = ObjectID_;
+		}
+	
+	
 	public Repeller(PApplet p_, PVector loc_,float radius_)  {
 		p = p_;
 		loc = loc_;
