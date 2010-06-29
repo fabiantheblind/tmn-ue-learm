@@ -115,39 +115,43 @@ public class ParticleSystem {
 	    	 
 		      // For every Repeller
 
-	      for (int k = 0; k < repellersList.size(); k++) {
-	        Repeller r = (Repeller) repellersList.get(k);
-	        // Calculate and apply a force from Repeller to Particle
-	        
-	        float d = ptcl.loc.dist(r.loc);
+	    	 if(ObstclsList.get(j).ObstclsRepellerList!=null){
+	    		 
+	    		 for (int k = 0; k < repellersList.size(); k++) {
+	    		        Repeller r = (Repeller) repellersList.get(k);
+	    		        // Calculate and apply a force from Repeller to Particle
+	    		        
+	    		        float d = ptcl.loc.dist(r.loc);
 
 
-	        
-	        if(d < r.getRadius() /*&& ptcl.affection == true*/){
-	        	
-	       
-	        PVector repel = r.pushParticle(ptcl);
-	        	
-		    ptcl.applyRepellForce(repel);
-	        ptcl.setMaxforce((d/100));
-	        ptcl.setGravity((d/100)*0.0001f);
-	        ptcl.setMaxspeed((d/10));
-	        ptcl.setMass(d/100);
-//	        ptcl.setMaxforce(r.getG()*n);
-//	        }else if(d < r.getRadius()+5){	
-//		        PVector repel = r.pushParticle(ptcl);        
-//		        ptcl.applyRepellForce(repel);
-	        }else{
-		        ptcl.setMass((n));
-		        ptcl.resetMass();
-		        ptcl.resetGravity();
-		        
-		        
-		        if(ptcl.maxforce>0.2f)ptcl.maxforce = ptcl.maxforce*0.5f;
-		        if(ptcl.maxspeed>1.5f)ptcl.maxspeed = ptcl.maxspeed*0.5f;
-	        	
-	        }
-	      }
+	    		        
+	    		        if(d < r.getRadius() /*&& ptcl.affection == true*/){
+	    		        	
+	    		       
+	    		        PVector repel = r.pushParticle(ptcl);
+	    		        	
+	    			    ptcl.applyRepellForce(repel);
+	    		        ptcl.setMaxforce((d/100));
+	    		        ptcl.setGravity((d/100)*0.0001f);
+	    		        ptcl.setMaxspeed((d/10));
+	    		        ptcl.setMass(d/100);
+//	    		        ptcl.setMaxforce(r.getG()*n);
+//	    		        }else if(d < r.getRadius()+5){	
+//	    			        PVector repel = r.pushParticle(ptcl);        
+//	    			        ptcl.applyRepellForce(repel);
+	    		        }else{
+	    			        ptcl.setMass((n));
+	    			        ptcl.resetMass();
+	    			        ptcl.resetGravity();
+	    			        
+	    			        
+	    			        if(ptcl.maxforce>0.2f)ptcl.maxforce = ptcl.maxforce*0.5f;
+	    			        if(ptcl.maxspeed>1.5f)ptcl.maxspeed = ptcl.maxspeed*0.5f;
+	    		        	
+	    		        }
+	    		      }
+	    	 }
+
 	     }
 	    }
 	  }
