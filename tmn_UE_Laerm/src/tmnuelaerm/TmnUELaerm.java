@@ -185,11 +185,14 @@ public ArrayList<ObstacleObject> obstclObjList;
 		for(int j = 0; j < obstclObjList.size(); j++){
 			
 			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(j);
-			
-			for(int k = 0; k< obstclObject.ObstclsRepellerList.size();k++){
+			if(obstclObject.ObstclsRepellerList != null){
+				for(int k = 0; k< obstclObject.ObstclsRepellerList.size();k++){
+					
+					repellers.add(obstclObject.ObstclsRepellerList.get(k));
+				}
 				
-				repellers.add(obstclObject.ObstclsRepellerList.get(k));
 			}
+			
 		}
 		// Apply repeller objects to all Particles
 //		ps.myApplyRepellers(repellers);
@@ -299,6 +302,8 @@ public ArrayList<ObstacleObject> obstclObjList;
 					obstclObject.newCoursor01Pos = nowPos;
 
 					obstclObject.setOffset(nowPos);
+					
+					obstclObject.setTime_01();
 				}
 			}
 		}
@@ -368,6 +373,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 			if(obstclObject.coursor01ID == nowID){
 				
 				obstclObject.coursor01ID = 99;
+				obstclObject.setTime_02();
 			}
 			
 			if(obstclObject.coursor02ID == nowID){
