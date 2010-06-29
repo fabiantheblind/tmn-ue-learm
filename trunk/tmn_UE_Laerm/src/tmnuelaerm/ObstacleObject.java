@@ -1,13 +1,6 @@
 package tmnuelaerm;
 
 import java.util.ArrayList;
-
-import TUIO.TuioCursor;
-/*
-import TUIO.TuioClient;
-import TUIO.TuioCursor;
-//import TUIO.TuioProcessing;
-*/
 import particleSystem.Repeller;
 import processing.core.*;
 

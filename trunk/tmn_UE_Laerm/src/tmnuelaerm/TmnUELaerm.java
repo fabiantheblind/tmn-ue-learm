@@ -190,10 +190,11 @@ public ArrayList<ObstacleObject> obstclObjList;
 					
 					repellers.add(obstclObject.ObstclsRepellerList.get(k));
 				}
-				
 			}
-			
 		}
+		
+		drawObstacleObjects();
+
 		// Apply repeller objects to all Particles
 //		ps.myApplyRepellers(repellers);
 		ps.myApplyObstcles(obstclObjList);
@@ -212,11 +213,10 @@ public ArrayList<ObstacleObject> obstclObjList;
 		
 		tuioCursorList = new ArrayList<TuioCursor> (tuioClient.getTuioCursors());
 		
-		drawObstacleObjects();
 		
 //		//just for adjustment
 //		debug.drawGrid();
-//		debug.drawCursors(tuioCursorList);
+		debug.drawCursors(tuioCursorList);
 //		debug.drawCursorCount(tuioCursorList);
 //		//end PDXIII TUIO Stuff
 		debug.writeIMGs();
