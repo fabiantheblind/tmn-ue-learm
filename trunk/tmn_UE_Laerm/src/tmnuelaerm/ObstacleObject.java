@@ -160,7 +160,7 @@ public class ObstacleObject {
 			
 			float repXpos = obstclPos.x - obstclSize.x/2 + i*howMuchSpace;
 			float repYpos = obstclPos.y; 
-			ObstclsRepellerList.add(new Repeller(pa, repXpos , repYpos, grav, radius));
+			ObstclsRepellerList.add(new Repeller(pa, repXpos , repYpos, grav, radius, id));
 			
 		}
 		

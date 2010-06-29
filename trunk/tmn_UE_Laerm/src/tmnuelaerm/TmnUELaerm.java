@@ -100,7 +100,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		
 
 		//PDXIII background Stuff
-		//fadingBG = loadImage("fadingBG.png");
+		fadingBG = loadImage("fadingBG.png");
 
 		//PDXIII TUIO Stuff
 		// enable on system installed fonts
@@ -158,6 +158,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		
 //		PDXBGStuff
 //		drawBG();
+//		theBackground();
 		
 //		just a clearScreen method
 		clearScreen();
@@ -233,8 +234,8 @@ public ArrayList<ObstacleObject> obstclObjList;
 	void drawBG(){
 		
 		//PDXIII background Stuff
-//		tint(tinter, 255, 255,100);
-//		image(fadingBG,0,0);	
+		tint(tinter, 255, 255,100);
+		image(fadingBG,0,0);	
 		tinter += 0.5f;	
 		if(tinter > 360){ tinter = 0;}
 		//end PDXIII background Stuff
@@ -243,7 +244,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 	
     public void theBackground(){
         
-        tint(300-tinter, 40+tinter, 40+tinter);
+        tint(220, 40+tinter, 40+tinter);
         image(fadingBG,0,0);
         if (tinter >= tintMax){tintBack = true;}
         
