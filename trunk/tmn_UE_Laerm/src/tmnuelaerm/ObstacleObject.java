@@ -99,11 +99,13 @@ public class ObstacleObject {
 		if(obstclActive){
 			
 			pa.fill(255);
+
 			doTheRepellers();
 
 			
 		}else{
-			pa.fill(125);
+
+			pa.fill(125,100);
 			ObstclsRepellerList = null;
 		}
 		
