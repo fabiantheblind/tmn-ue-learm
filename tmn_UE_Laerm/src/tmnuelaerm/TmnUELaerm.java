@@ -44,10 +44,12 @@ public ArrayList<ObstacleObject> obstclObjList;
 	public PFont font;
 	
 //	Setup the Particles
-	// A path object (series of connected points/particles)
+//	A path object (series of connected points/particles)
 //	Path path;
+	
 //	our particle System
 	ParticleSystem ps;
+	
 //	Some Arraylists to store the objects
 	ArrayList <Particle> ptclsList =  new ArrayList<Particle>();
 	ArrayList<Repeller> repellers;
@@ -55,6 +57,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 	
 //	This is for debugging and make some lose repellers
 	ArrayList<Repeller> someRepellers = new ArrayList<Repeller>();
+	
 //	for the particles
 	int numPtcls = 1005; // number of particles
 	
@@ -81,8 +84,6 @@ public ArrayList<ObstacleObject> obstclObjList;
 
 //	DEbugging stuff
 	private Debug debug;
-
-
 
 	//PDXIII background Stuff
 	public PImage fadingBG;
@@ -190,7 +191,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		
 //		PDXBGStuff
 //		drawBG();
-//		theBackground();
+		theBackground();
 		
 //		just a clearScreen method
 		clearScreen();
@@ -383,6 +384,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 			
 			}else if(obstclObject.boundingBox.contains(nowX, nowY)){
 				
+				
 				if(obstclObject.coursor01ID < 99 && obstclObject.coursor01ID != nowID){
 					
 					obstclObject.coursor02ID = nowID;
@@ -423,12 +425,15 @@ public ArrayList<ObstacleObject> obstclObjList;
 			if(obstclObject.coursor01ID == nowID){
 				
 				obstclObject.coursor01ID = 99;
+				obstclObject.coursor01Pos = null;
 				obstclObject.setTime_02();
 			}
 			
 			if(obstclObject.coursor02ID == nowID){
 				
 				obstclObject.coursor02ID = 99;
+				obstclObject.coursor02Pos = null;
+
 			}
 		}
 	}
