@@ -145,7 +145,6 @@ public class ObstacleObject {
 		if(obstclActive){
 			
 			obstclPos = PVector.sub(nowPos, offSet);
-			setTime_01();	
 		}
 	}
 

@@ -106,7 +106,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 
 		colorMode(HSB,360,100,100);
 		background(0);
-		size(500,400,OPENGL);
+		size(1024, 768,OPENGL);
 		frameRate(25);
 		debug = new Debug(this);
 		
@@ -132,7 +132,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 		obstclObjList = new ArrayList<ObstacleObject>();
 		
 		// making ObstacleObjects
-		for (obstclCounter = 0; obstclCounter < 2; obstclCounter++){
+		for (obstclCounter = 0; obstclCounter < 4; obstclCounter++){
 			int obstclNo = obstclCounter + 1;
 			float firstX = obstclNo*150;
 			float firstY = height/2;
@@ -379,6 +379,8 @@ public ArrayList<ObstacleObject> obstclObjList;
 			if(obstclObject.coursor01ID == nowID && obstclObject.coursor02ID == 99){
 				
 				obstclObject.move(nowPos);
+				obstclObject.setTime_01();
+
 				obstclObject.newCoursor01Pos = nowPos;
 				
 			
@@ -394,6 +396,7 @@ public ArrayList<ObstacleObject> obstclObjList;
 					
 					obstclObject.coursor01ID = nowID;
 					obstclObject.coursor01Pos = nowPos;
+					obstclObject.setTime_01();
 
 					obstclObject.setOffset(nowPos);
 					
