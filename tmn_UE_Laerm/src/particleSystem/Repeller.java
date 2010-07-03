@@ -4,11 +4,13 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import tmnuelaerm.Point;
 import util.Style;
-	
-	//Particles + Forces
-	//Daniel Shiffman <http://www.shiffman.net>
-	
-	//A very basic Repeller class
+
+	/**
+	 * A very basic Repeller class
+	 * based on: <a href="http://www.shiffman.net/teaching/nature/" target="blanc">Daniel Shiffman's Nature of Code</a>
+	 * @author fabianthelbind
+	 *
+	 */
 	public class Repeller {
 	
 	// Gravitational Constant
@@ -38,7 +40,7 @@ import util.Style;
 		this.drag = new PVector(0,0);
 		this.G = PApplet.pow(10,3);
 	 
-		this.color1 = p.color(Style.textColor);
+		this.color1 = p.color(Style.textColorWhite);
 		this.color2 = p.color(Style.col3);
 	}
 	
@@ -48,7 +50,7 @@ import util.Style;
 		this.drag = new PVector(0,0);
 		this.G = PApplet.pow(10,3);
 		
-		this.color1 = p.color(Style.textColor);
+		this.color1 = p.color(Style.textColorWhite);
 		this.color2 = p.color(Style.col3);
 		}
 	public Repeller(PApplet p, PVector loc_,int ObjectID_)  {
@@ -57,7 +59,7 @@ import util.Style;
 		this.drag = new PVector(0,0);
 		this.G = PApplet.pow(10,3);
 		
-		this.color1 = p.color(Style.textColor);
+		this.color1 = p.color(Style.textColorWhite);
 		this.color2 = p.color(Style.col3);
 		this.id = ObjectID_;
 		}
@@ -69,7 +71,7 @@ import util.Style;
 		this.drag = new PVector(0,0);
 		this.G = PApplet.pow(10,3);
 		this.radius = radius;
-		this.color1 = p.color(Style.textColor);
+		this.color1 = p.color(Style.textColorWhite);
 		this.color2 = p.color(Style.col3);
 		}
 	
@@ -83,7 +85,7 @@ import util.Style;
 		this.radius = radius;
 		this.obstclID = _id;
 
-	 color1 = p.color(Style.textColor);
+	 color1 = p.color(Style.textColorWhite);
 	 color2 = p.color(Style.col3);
 	}
 	public Repeller(PApplet p,float x, float y, float G,float radius)  {
@@ -93,13 +95,13 @@ import util.Style;
 	 G = G;
 	 radius = radius;
 	 
-	 color1 = p.color(Style.textColor);
+	 color1 = p.color(Style.textColorWhite);
 	 color2 = p.color(Style.col3);
 	}
 	
 	public void display() {
-	 p.stroke(color1);
-	 if (dragging) p.fill (color1);
+	 p.stroke(Style.textColorBlk);
+	 if (dragging) p.fill (Style.textColorBlk);
 	 else if (rollover) p.fill(color2);
 	 else p.noFill();
 	 p.ellipse(loc.x,loc.y,radius*2,radius*2);

@@ -6,6 +6,12 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import util.Style;
 
+/**
+ * The Particles
+ * based on: <a href="http://www.shiffman.net/teaching/nature/" target="blanc">Daniel Shiffman's Nature of Code</a>
+ * @author fabianthelbind
+ *
+ */
 public class Particle {
 	PApplet p;
 	public PVector loc;
@@ -36,8 +42,7 @@ public class Particle {
 	public Particle(PApplet p, PVector loc, PVector vel, float r,float ms, float mf,int pathNum, boolean affection,boolean hidden) {
 		// TODO Auto-generated constructor stub
 		this.p = p;
-		this.loc = loc.get();
-		
+		this.loc = loc.get();	
 		this.vel = vel;
 		this.radius = r;
 		this.maxspeed = ms;
@@ -48,7 +53,6 @@ public class Particle {
 		this.col1 = p.color(Style.col1);
 		this.col2 = p.color(Style.col2);
 		this.col3 = p.color(Style.col3);
-
 		this.affection = affection;
 		this.hidden  = hidden;
 		this.origin = new PVector(loc.x,loc.y);
@@ -59,8 +63,7 @@ public class Particle {
 	public Particle(PApplet p, PVector loc, PVector vel, float r,float ms, float mf,boolean affection,boolean hidden) {
 		// TODO Auto-generated constructor stub
 		this.p = p;
-		this.loc = loc.get();
-		
+		this.loc = loc.get();		
 		this.vel = vel;
 		this.radius = r;
 		this.maxspeed = ms;
@@ -71,7 +74,6 @@ public class Particle {
 		this.col1 = p.color(Style.col1);
 		this.col2 = p.color(Style.col2);
 		this.col3 = p.color(Style.col3);
-
 		this.affection = affection;
 		this.hidden  = hidden;
 		this.origin = new PVector(loc.x,loc.y);
@@ -85,7 +87,6 @@ public class Particle {
 		// TODO Auto-generated constructor stub
 		this.p = p;
 		this.loc = loc.get();
-		
 		this.vel = vel;
 		this.radius = r;
 		this.acc = new PVector(0,0);
@@ -94,7 +95,6 @@ public class Particle {
 		this.col1 = p.color(Style.col1);
 		this.col2 = p.color(Style.col2);
 		this.col3 = p.color(Style.col3);
-
 		this.affection = affection;
 		this.origin = new PVector(loc.x,loc.y);
 		this.hidden  = hidden;
@@ -104,7 +104,6 @@ public class Particle {
 //	this is the particle for the ParticleSystem Emitter
 	public Particle(PApplet p, PVector loc,boolean affection,boolean hidden) {
 		this.p = p;
-		
 		this.acc = new PVector(0,0);
 		this.vel = new PVector(0,0);
 		this.loc = loc.get();
