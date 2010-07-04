@@ -34,10 +34,11 @@ import particleSystem.Repeller;
  * represented by fabiantheblind and PDXIII 
  * students at the University of Applied Sciences Potsdam (FHP) 
  * during the class of Till Nagel "Urbane Ebenen" (urban layers).
- * the code is available here: <a href="http://code.google.com/p/tmn-ue-learm/" target="blanc">Google Code</a>
+ * the {@code code} is available here: <a href="http://code.google.com/p/tmn-ue-learm/" target="blanc">Google Code</a>
  * or here: <a href="http://github.com/fabiantheblind/TMN_UE_Laerm.git" target="blanc"> GitHub</a>
  * @author PDXIII 
  * @author fabianthelbind
+ * @version 0.74
  *
  *
  */
@@ -48,52 +49,132 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	 */
 	private static final long serialVersionUID = -1217858472488377688L;
 
+	/**
+	 * the Font Object
+	 */
 	public PFont font;
 
+	/**
+	 * An ArrayList of ObstacleObject
+	 * @see Class ObstacleObject Class
+	 */
 	public ArrayList<ObstacleObject> obstclObjList;
+	/**
+	 * the number of Obstacles
+	 * @see Class ObstacleObject Class
+	 */
 	public int obstclCounter;
+	
+	/**
+	 * if something is pressed... Ask PDXIII
+	 */
 	public boolean isPressed = false;
+	
+	/**
+	 * The Tuio Client
+	 */
 	public TuioClient tuioClient = new TuioClient();
+	
+	/**
+	 * a ArrayList of tuio cursors
+	 */
 	public ArrayList<TuioCursor> tuioCursorList;
 	
-//	our particle System
+
+	/**
+	 * our particle System
+	 * @see Class ParticleSystem Class
+	 */
 	public ParticleSystem ps;
 	
 //	Some Arraylists to store the objects
+	
+	/**
+	 * An ArrayList of Particles
+	 * @see Class Particle Class
+	 */
 	public ArrayList <Particle> ptclsList =  new ArrayList<Particle>();
+	
+	/**
+	 * An ArrayList of Repelers
+	 * @see Class Repeller Class
+	 */
 	public ArrayList<Repeller> repellers;
+	
+	/**
+	 * An ArrayList of Paths
+	 * @see Class Path Class
+	 */
 	public ArrayList <Path> pathsList = new ArrayList <Path>();
 	
-//	This is for debugging and make some lose repellers
+//	
+	/**
+	 * This is for debugging and make some lose repellers
+	 * @see Class Repeller CLass
+	 * @see PSUtil#makeSomeRepellers(ArrayList)
+	 * @see PSUtil#displaySomeRepellers(ArrayList)
+	 */
 	public ArrayList<Repeller> someRepellers = new ArrayList<Repeller>();
 	
-//	for the particles
-	int numPtcls = 1005; // number of particles
+	/**
+	 *  number of particles
+	 */
+	int numPtcls = 1005;
 	
 //	every particle can have his own force / radius / speed
-//	they can be chaged later
+//	they can be changed later
 //	this is for the collision of particles
-	float ptclRadius = 2; // standard radius for the particles
+	/**
+	 * standard radius for the particles
+	 */
+	float ptclRadius = 2; // 
 
-
-//	ThePath Number
-	private int pathNum = 0;
-//	a boolean for switching the path
+	/**
+	 * a boolean for switching the path
+	 */
 	private boolean switchPath = false;
-//	to count the time
+
+	/**
+	 * to count the time
+	 */
 	public static int runtimeCounter;
-//	just for unique filenames when saving a frame as .jpg in the folder data
+//	
+	/**
+	 * just for unique filenames when saving a frame as .jpg in the folder data
+	 * @see Debug#saveFrame(float)
+	 */
 	public static float time;
+	
+	/**
+	 * display the debug Stuff
+	 */
+	private boolean showDebug = false;
 
 	
-	//PDXIII background Stuff
+//	start PDXIII background stuff
+	/**
+	 * PDXIII background Stuff
+	 */
 	public PImage fadingBG;
+	/**
+	 * PDXIII background Stuff
+	 */
 	public float tinter;
+	/**
+	 * PDXIII background Stuff
+	 */
 	public boolean tintBack = false;
+	/**
+	 * PDXIII background Stuff
+	 */
     public float tintMax = 60;
+	/**
+	 * PDXIII background Stuff
+	 */
     public float tintMin = 20;
 
-    //end PDXIII background Stuff
+
+//    end PDXIII background stuff
     
 
 //    this is for selecting paths not randomly
@@ -215,12 +296,6 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 //		pathsList.get(pl2).ptclPathDisplay();
 		pathsList.get(pl2).resetPointPtcls(); 
 		}
-
-//		DEBUGGING START
-		Debug.watchAParticle(ptclsList, ps);
-
-		PSUtil.displaySomeRepellers(someRepellers);
-//		DEBUGGING END
 		
 //		this is for switching every 300 frames the path to follow
 		if(runtimeCounter%300 == 0){
@@ -308,14 +383,20 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		tuioCursorList = new ArrayList<TuioCursor> (tuioClient.getTuioCursors());
 //		//end PDXIII TUIO Stuff
 
+//		DEBUGGING START press "d"
+		if(showDebug){Debug.watchAParticle(ptclsList, ps);
+		PSUtil.displaySomeRepellers(someRepellers);
+		Debug.drawFrameRate();
+		Debug.drawFrameCount();
+		}
+//		DEBUGGING END
 		
 //		DEBUGGING START	
 //		//just for adjustment
 //		debug.drawGrid();
 		Debug.drawCursors(tuioCursorList);
 //		Debug.drawCursorCount(tuioCursorList);
-		Debug.drawFrameRate();
-		Debug.drawFrameCount();
+
 //		Debug.writeIMGs();
 //		DEBUGGING END
 
@@ -324,16 +405,18 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 //	write an rect at everyframe
 	/**
 	 * A Clear Screen Method
-	 * writes a rectangle every Frame
+	 * writes a {@code processing.core.PApplet.rect(float, float, float, float)} every Frame
 	 * 
 	 */
 	void clearScreen(){
 		noStroke();
 		fill(Style.clsColor);
 		rect(0,0,width,height);
+
 	}
 	
 	/**
+	 * PDXIII background Stuff
 	 */
 	void drawBG(){
 		
@@ -346,8 +429,9 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		
 	}
 	
-    /**
-     */
+	/**
+	 * PDXIII background Stuff
+	 */
     public void theBackground(){
         
         tint(220, 40+tinter, 40+tinter);
@@ -367,6 +451,7 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	
 	//PDXIII TUIO Stuff
 	/**
+	 * PDXIII TUIO Stuff
 	 */
 	public void drawObstacleObjects(){
 		
@@ -553,6 +638,13 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		public void keyPressed() {
 			  if (key == 'd') {
 //				do something fancy
+				  if(showDebug == true){
+					  showDebug = false;
+					  
+				  }else{
+					  showDebug = true;
+					  
+				  }
 			  }
 			  
 //			    if( key==CODED ){
