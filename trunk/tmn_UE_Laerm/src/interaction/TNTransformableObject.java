@@ -1,4 +1,4 @@
-package tmnuelaerm;
+package interaction;
 
 import processing.core.PApplet;
 import processing.core.PMatrix3D;
@@ -105,6 +105,7 @@ public class TNTransformableObject {
 		m.mult(new float[] { x, y, 0 }, preXY);
 		return preXY;
 	}
+	
 
 	public void rotate(float angle) {
 		this.angle += angle;
