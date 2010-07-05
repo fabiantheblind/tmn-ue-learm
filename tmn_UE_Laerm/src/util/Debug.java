@@ -6,6 +6,7 @@ import TUIO.TuioCursor;
 
 import particleSystem.Particle;
 import particleSystem.ParticleSystem;
+import particleSystem.Path;
 import particleSystem.Repeller;
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -54,12 +55,9 @@ public class Debug {
 			p  = p_;
 
 		}
-	
-		
-		
-		// just  writing TIff Sequenzes for videos
+
 		/**
-		 * write some images
+		 * write some images (TIff Sequenzes for videos)
 		 * @see #imgNum
 		 * @see #writeImg
 		 * @see <a href="../tmnuelaerm/TmnUelaerm.html#keyReleased()"><code>keyReleased</code></a>
@@ -135,28 +133,49 @@ public class Debug {
 		}
 		
 		
+		/**
+		 * this is for drawing all the {@link Repeller#property} to the screen
+		 * @param someRepellers ArrayList of {@link Repeller}
+		 * @see #drawRepellerData(Repeller)
+		 */
 		public static void watchARepellers(ArrayList<Repeller> someRepellers){
 			
-			Repeller myRepeller = someRepellers.get(1);
-			myRepeller.setColor1(150, 100, 100, 100);
-			myRepeller.setColor2(150, 100, 100, 50);
-			drawRepellerData(myRepeller);
+			
+			for (int j = 0; j < someRepellers.size(); j++) {
+				Repeller myRepeller = someRepellers.get(j);
+				myRepeller.setColor1(150, 100, 100, 100);
+				myRepeller.setColor2(150, 100, 100, 50);
+				drawRepellerData(myRepeller);
+				
+			}
 			
 			
 			
 		}
 		
 		
+		/**
+		 * this is for drawing all data near the {@code Repeller}
+		 * @param myRep A {@link Repeller}
+		 */
 		private static void drawRepellerData(Repeller myRep) {
 			// TODO Auto-generated method stub
 			int lineheight = 23;
 			p.noStroke();
 			p.fill(Style.textColorBlk);
-			p.text("Data of this Repeller", (lineheight*0) + myRep.loc.x +13, 0 + myRep.loc.y+13);
-			p.text("Name: " + myRep.property.index, (lineheight*1) + myRep.loc.x +13, 0 + myRep.loc.y+13);
-			p.text("Name: " + myRep.property.name, (lineheight*2) + myRep.loc.x +13, 0 + myRep.loc.y+13);
-			p.text("Day Time / Privat Space Property : " + myRep.property.valueByIndex(0,0), (lineheight*2) + myRep.loc.x +13, 0 + myRep.loc.y+13);
-
+			p.text("Data of this Repeller",   myRep.loc.x +13, 0 + myRep.loc.y+13 +(lineheight*0));
+			p.text("index: " + myRep.property.index,  myRep.loc.x +13, 0 + myRep.loc.y+13+(lineheight*1) );
+			p.text("Name: " + myRep.property.name,   myRep.loc.x +13, 0 + myRep.loc.y+13+(lineheight*2));
+			p.text(" Propertys : " +"Day "
+					+" prvt:( "+myRep.property.valueByIndex(0,0)+") "
+					+" pblc:( "+myRep.property.valueByIndex(0,1)+") "
+					+" work:( "+myRep.property.valueByIndex(0,2)+") "
+					, myRep.loc.x +13, 0 + myRep.loc.y+13+(lineheight*3));
+			p.text(" Propertys : " +"Nite "
+					+" prvt:( "+myRep.property.valueByIndex(1,0)+") "
+					+" pblc:( "+myRep.property.valueByIndex(1,1)+") "
+					+" work:( "+myRep.property.valueByIndex(1,2)+") "
+					, myRep.loc.x +13, 0 + myRep.loc.y+13+(lineheight*4));
 
 			
 			p.noFill();
@@ -165,8 +184,20 @@ public class Debug {
 		}
 
 
+		/**
+		 * @param pathsList An {@code ArrayList} of {@link Path}
+		 */
+		public static void displayAllPaths(ArrayList<Path>pathsList){
+			
+			for(int i =0; i<pathsList.size();i++){
+				
+				pathsList.get(i).ptclPathDisplay();
+				
+			}
+			
+		}
+		
 
-		//a grid just for adjustment
 		/**
 		 * Draw a Grid for adjustment
 		 */
@@ -184,7 +215,6 @@ public class Debug {
 				p.noStroke();
 			}
 		}
-		//grid end
 		
 		/**
 		 * draw the tuio Cursors

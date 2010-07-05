@@ -177,15 +177,15 @@ public class PSUtil {
 	
 	public static void makeSomeRepellersWithPropertys(ArrayList <Repeller>someRepellers,ArrayList <Property>propertysList){
 		
-		int numRepellers  = propertysList.size()-1;
-//		int index = 0;
+		int numRepellers  = 7;
+		int index = 0;
 		//make some repellers
 		for(int i = 0; i <=360;i+=360/numRepellers){
 			PVector loc = new PVector(p.width / 2 + PApplet.sin(PApplet.radians(i))*180,p.height / 2 + PApplet.cos(PApplet.radians(i))*180);
-			Repeller rep = new Repeller(p, loc, ((10*10)*10), 10, propertysList.get(numRepellers));//Repeller(p,p.width / 2 + PApplet.sin(PApplet.radians(i))*180,p.height / 2 + PApplet.cos(PApplet.radians(i))*180);
+			Repeller rep = new Repeller(p, loc, ((10*10)*10), 10, propertysList.get(index));//Repeller(p,p.width / 2 + PApplet.sin(PApplet.radians(i))*180,p.height / 2 + PApplet.cos(PApplet.radians(i))*180);
 			rep.setG(PApplet.pow(10,3));
 			someRepellers.add(rep);
-//			index++;
+			index++;
 		}
 				
 	}
