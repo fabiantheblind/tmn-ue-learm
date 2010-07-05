@@ -1,6 +1,9 @@
 package tmnuelaerm;
 
 import TUIO.TuioListener;
+import interaction.TNObstacleObject;
+import interaction.TNTransformableObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,10 +60,15 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	public PFont font;
 
 	/**
-	 * An ArrayList of ObstacleObject
-	 * @see Class ObstacleObject Class
+	 * An List of TNObstacleObject
+	 * @see Class TNObstacleObject Class
 	 */
 	List<TNObstacleObject> transObjects = new ArrayList<TNObstacleObject>();
+	
+	/**
+	 * controls the amount of TNObstleOjects
+	 */
+	public int howManyObstacles = 4;
 
 	public ArrayList<ObstacleObject> obstclObjList;
 	/**
@@ -212,8 +220,10 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 //		println(propertysList.get(1).name +" "+propertysList.get(1).getDayValues()[1]);
 //		exit();
 		
+		
 		background(0);
-		size(1024, 768,OPENGL);
+		size(500, 400,OPENGL);
+//		size(1024, 768,OPENGL);
 		frameRate(25);
 		
 
@@ -235,8 +245,19 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		
 		// making ObstacleObjects
 		
-		transObjects.add(new TNObstacleObject(this, 0, 0, 200, 200));
-		transObjects.add(new TNObstacleObject(this, 400, 400, 200, 200));
+		for(int i = 0; i < howManyObstacles; i++){
+			Property property = propertysList.get(i);
+			transObjects.add(new TNObstacleObject(this, 50*i, 50*i,0, 0, property));
+			
+		}
+		
+//		for(int i = 0; i < propertysList.size(); i++){
+//			Property property = propertysList.get(i);
+//			transObjects.add(new TNObstacleObject(this, 50*i, 50*i, 100, 100, property));
+//			
+//		}
+//		transObjects.add(new TNObstacleObject(this, 0, 0, 200, 200));
+//		transObjects.add(new TNObstacleObject(this, 400, 400, 200, 200));
 
 //		
 //		for (obstclCounter = 0; obstclCounter < 4; obstclCounter++){
@@ -365,15 +386,22 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 //		get all repellers in all objects into one list
 //		to use them in the ParticleSystem Class
 		
-		for(int j = 0; j < obstclObjList.size(); j++){
+		for(int j = 0; j < transObjects.size(); j++){
 			
-			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(j);
+			TNObstacleObject obstclObject = (TNObstacleObject) transObjects.get(j);
 			if(obstclObject.ObstclsRepellerList != null){
 				for(int k = 0; k< obstclObject.ObstclsRepellerList.size();k++){
 					
 					repellers.add(obstclObject.ObstclsRepellerList.get(k));
 				}
 			}
+		}
+		
+		for(int i = 0; i< repellers.size(); i++){
+			
+			Repeller rep = (Repeller) repellers.get(i);
+			rep.display();
+			
 		}
 //		display all objects
 //		drawObstacleObjects();

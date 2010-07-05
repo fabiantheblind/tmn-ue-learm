@@ -1,6 +1,7 @@
 package util;
 
 import processing.core.PApplet;
+import processing.core.PFont;
 
 /**
  * Here we make all the color and text stuff centralized. Its like a CSS
@@ -27,6 +28,8 @@ public class Style {
 	 */
 	public static int col3;
 	
+	public static int tmn_green;
+	
 	
 	/**
 	 * If you wan't the Text white
@@ -52,6 +55,12 @@ public class Style {
 		p = _p;
 	 }
 	
+	public static PFont MisoBold18;
+	public static PFont MisoBold36;
+	public static PFont MisoBold72;
+	public static PFont MisoBold144;
+
+	
 /**
  * Create all colors and stuff
  */
@@ -61,11 +70,19 @@ public static void create(){
 	col1 = p.color(0,100,0,100);
 	col2 = p.color(0,100,0,23); 
 	col3 = p.color(360,0,100,100);
+	
+	tmn_green = p.color(107,100,100);
 
 	textColorWhite = p.color(255,0,100,100);
 	textColorBlk = p.color(255,0,0,100);
 	
 	clsColor = p.color(255,0,100,100);
+	
+	MisoBold18 = p.createFont("Miso-Bold", 18);
+	MisoBold36 = p.createFont("Miso-Bold", 36);
+	MisoBold72 = p.createFont("Miso-Bold", 72);
+//	MisoBold144 = p.createFont("Miso-Bold", 144);
+	
 	}
 
 }

@@ -1,4 +1,4 @@
-package tmnuelaerm;
+package interaction;
 
 import processing.core.PApplet;
 

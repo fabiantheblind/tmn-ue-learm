@@ -1,6 +1,13 @@
-package tmnuelaerm;
+package interaction;
 
+import java.util.ArrayList;
+
+import particleSystem.Property;
+import particleSystem.Repeller;
 import processing.core.PApplet;
+import processing.core.PMatrix3D;
+import processing.core.PVector;
+import util.Style;
 import TUIO.TuioCursor;
 
 /**
@@ -13,7 +20,14 @@ public class TNObstacleObject extends TNTransformableObject{
 
 	TuioCursor tuioCursor1 = null;
 	TuioCursor tuioCursor2 = null;
+	
+	public Property property;
+	
+	public ArrayList <Repeller> ObstclsRepellerList;
+	public float grav = PApplet.pow(10,3);
+	public float radius; 
 
+	
 	float oldAngle;
 	float oldDist;
 
@@ -25,11 +39,62 @@ public class TNObstacleObject extends TNTransformableObject{
 		super(p, offsetX, offsetY, width, height);
 	}
 	
+	public TNObstacleObject(PApplet p, float offsetX, float offsetY, float width, float height, Property property) {
+		super(p, offsetX, offsetY, width, height);
+		this.property = property;
+
+	}
+	
 	public void internalDraw(){
 		
+		p.textSize(60);
+		p.fill(Style.textColorWhite);
+		p.textFont(Style.MisoBold72);
+		p.text(property.name, 0,p.textAscent());
+		float ascent = p.textAscent();
+		p.noFill();
+		p.stroke(Style.tmn_green);
+		p.rect(0, 0, width, height);
+		super.width = p.textWidth(property.name);
+		super.height = ascent;
 		p.rect(0, 0, width, height);
 		
+		doTheRepellers();
+
 	}
+	
+	public void doTheRepellers(){
+		
+		radius = height/2;
+		
+		int howManyRep = PApplet.ceil((width/ radius) +1);
+		float howMuchSpace = width / howManyRep;
+		
+		ObstclsRepellerList = new ArrayList<Repeller>();
+		
+		for(int i = 1; i < howManyRep; i++){
+			
+			float repXpos = offsetX + i*howMuchSpace*scale;
+			float repYpos = offsetY+ height/2;
+			
+//			getTransformedPositionWithoutOffset(repXpos, repYpos, true);
+			float [] preXY = getTransformedPositionOfRepellers(repXpos, repYpos);; 
+			PVector loc = new PVector(preXY[0]*scale, preXY[1]);
+//			loc.div(scale);
+			ObstclsRepellerList.add(new Repeller(p, loc, grav, radius*scale, property));
+			
+		}
+	}
+	
+	public float[] getTransformedPositionOfRepellers(float x , float y) {
+		float[] preXY = new float[3];
+		PMatrix3D m = new PMatrix3D();
+		m.apply(matrix);
+		
+		m.mult(new float[] { x, y, 0 }, preXY);
+		return preXY;
+	}
+
 
 	protected float getDistance(TuioCursor tuioCursor1, TuioCursor tuioCursor2) {
 		return PApplet.dist(tuioCursor1.getScreenX(p.width), tuioCursor1.getScreenY(p.height),

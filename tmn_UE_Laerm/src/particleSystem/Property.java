@@ -12,9 +12,8 @@ public class Property {
 	
 	public Property(int index, String name,float [][] affectionProps){
 		this.index = index;
-		this.name = name;
+		this.name = name.toUpperCase();
 		this.affectionProps = affectionProps;
-		
 	}
 
 	
