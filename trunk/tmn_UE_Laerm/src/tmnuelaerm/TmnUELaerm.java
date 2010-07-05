@@ -7,17 +7,17 @@ import interaction.TNTransformableObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import old.ObstacleObject;
+
 import TUIO.TuioClient;
 import TUIO.TuioCursor;
 import TUIO.TuioObject;
 import TUIO.TuioTime;
 
 import processing.core.PApplet;
-import processing.core.PFont;
 import processing.core.PImage;
 import processing.core.PVector;
 
-import tmnuelaerm.ObstacleObject;
 
 import util.Debug;
 import util.PSUtil;
@@ -43,7 +43,7 @@ import particleSystem.Repeller;
  * or here: <a href="http://github.com/fabiantheblind/TMN_UE_Laerm.git" target="blanc"> GitHub</a>
  * @author PDXIII 
  * @author fabianthelbind
- * @version 0.74
+ * @version 0.79
  *
  *
  */
@@ -57,7 +57,6 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	/**
 	 * the Font Object
 	 */
-	public PFont font;
 
 	/**
 	 * An List of TNObstacleObject
@@ -70,7 +69,8 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	 */
 	public int howManyObstacles = 4;
 
-	public ArrayList<ObstacleObject> obstclObjList;
+//	public ArrayList<ObstacleObject> obstclObjList;
+	
 	/**
 	 * the number of Obstacles
 	 * @see Class ObstacleObject Class
@@ -150,7 +150,7 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	 */
 	private boolean switchPath = false;
 	
-	public static boolean DAY = true;
+	public boolean DAY = true;
 
 	/**
 	 * to count the time
@@ -167,6 +167,8 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	 * display the debug Stuff
 	 */
 	private boolean showDebug = false;
+	private boolean showDebugPath = false;
+
 
 	
 //	start PDXIII background stuff
@@ -234,15 +236,13 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		//PDXIII TUIO Stuff
 		// enable on system installed fonts
 		hint(ENABLE_NATIVE_FONTS);
-		font = createFont("Gentium", 18);
-		textFont(font,18);
+
 
 		//init TUIO
 		tuioClient.addTuioListener(this);
 		tuioClient.connect();
 		
-
-		obstclObjList = new ArrayList<ObstacleObject>();
+//		obstclObjList = new ArrayList<ObstacleObject>();
 		
 		// making ObstacleObjects
 		
@@ -332,13 +332,15 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 //		to get them back into ther original position we have to reset them
 //		in the function Path.resetPointPtcls() you can set
 //		how fast and strong the want to get back 
+
+		if(runtimeCounter%42==1){
 		for(int pl2 = 0; pl2<pathsList.size();pl2++ ){
 //		pathsList.get(pl2).ptclPathDisplay();
 		pathsList.get(pl2).resetPointPtcls(); 
 		}
-		
+		}
 //		this is for switching every 300 frames the path to follow
-		if(runtimeCounter%300 == 0){
+		if(runtimeCounter%432 == 0){
 //			println("Range: "+myRange +"   Pathnum: "+myPathNum +"   Dir: "+myDirection);
 			switchPath = true;
 //			myPathNum += 1*myDirection;
@@ -346,8 +348,15 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 //				myDirection = -myDirection;
 //			}
 			
+			if(DAY){
+				DAY=false;
+			}else{
+				DAY=true;
+			}
 			
 			}
+		
+		
 		for (int i = 0; i < ptclsList.size(); i++) {
 				Particle ptcl =  ptclsList.get(i);
 //				if the particle is not part of a path
@@ -417,7 +426,7 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 //		DEBUGGING END
 		
 //		pass all Objects over to the ParticleSystem
-		ps.myApplyObstcles(obstclObjList);
+		ps.myApplyObstcles(transObjects, DAY);
 		// Run the Particle System
 		ps.run();
 		
@@ -438,7 +447,8 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		Debug.watchAParticle(ptclsList, ps);
 		Debug.watchARepellers(someRepellers);
 		PSUtil.displaySomeRepellers(someRepellers);
-//		Debug.displayAllPaths(pathsList);
+		
+		if (showDebugPath){Debug.displayAllPaths(pathsList);}
 		Debug.drawFrameRate();
 		Debug.drawFrameCount();
 		}
@@ -506,14 +516,14 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	/**
 	 * PDXIII TUIO Stuff
 	 */
-	public void drawObstacleObjects(){
-		
-		for(int i = 0; i < obstclObjList.size(); i++){
-			
-			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(i);
-			obstclObject.draw();
-		}
-	}
+//	public void drawObstacleObjects(){
+//		
+//		for(int i = 0; i < obstclObjList.size(); i++){
+//			
+//			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(i);
+//			obstclObject.draw();
+//		}
+//	}
 	
 
 	
@@ -728,6 +738,16 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 					  
 				  }
 			  }
+			  if (key == 'p') {
+//					do something fancy
+					  if(showDebugPath == true){
+						  showDebugPath = false;
+						  
+					  }else{
+						  showDebugPath = true;
+						  
+					  }
+				  }
 			  
 //			    if( key==CODED ){
 //			        if( keyCode == UP ){ 

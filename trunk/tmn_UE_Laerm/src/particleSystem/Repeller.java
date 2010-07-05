@@ -215,7 +215,7 @@ import util.Style;
 	 * @param b brightness 0 -100 
 	 * @param a alpha 0-100
 	 */
-	public void setColor1(float h, float s, float b, float a){
+	public void setColor1(int h, int s, int b, int a){
 		
 		this.color1 = p.color(h,s,b,a);
 	}
@@ -227,7 +227,7 @@ import util.Style;
 	 * @param b brightness 0 -100 
 	 * @param a alpha 0-100
 	 */
-	public void setColor2(float h, float s, float b, float a){
+	public void setColor2(int h, int s, int b, int a){
 		
 		this.color2 = p.color(h,s,b,a);
 	}

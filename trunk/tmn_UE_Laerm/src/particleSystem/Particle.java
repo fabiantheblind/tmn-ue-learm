@@ -288,7 +288,7 @@ public class Particle {
 	 * @see #col1
 	 * @see Style#col1
 	 */
-	public void setColorCol1(int h, float s, float b, int a){
+	public void setColorCol1(int h, int s, int b, int a){
 		this.col1 = p.color(h,s,b,a);
 	}
 	
@@ -313,7 +313,7 @@ public class Particle {
 	 * @see #col2
 	 * @see Style#col2
 	 */
-	public void setColorCol2(int h, float s, float b, int a){
+	public void setColorCol2(int h, int s, int b, int a){
 		this.col2 = p.color(h,s,b,a);
 	}
 	
