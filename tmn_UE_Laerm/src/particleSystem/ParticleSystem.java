@@ -7,7 +7,7 @@ import processing.core.PVector;
 import tmnuelaerm.ObstacleObject;
 
 /**
- * the whole ParticleSystem
+ * the whole <code>ParticleSystem</code>
  * here the collision and stuff get worked out
  * based on: <a href="http://www.shiffman.net/teaching/nature/" target="blanc">Daniel Shiffman's Nature of Code</a>
  * @author fabianthelbind
@@ -24,7 +24,7 @@ public class ParticleSystem {
 		PApplet p;
 
 		/**
-		 * An arraylist for all the particles
+		 * An <code>ArrayList</code> for all the <code>Particle</code>'s
 		 */
 		ArrayList <Particle> particles;
 		
@@ -88,11 +88,11 @@ public class ParticleSystem {
 	  
 	  // 
 	/**
-	 * A function for particles to interact with all Repellers that are near to the repeller
+	 * A function for particles to interact with all <code>Repeller</code>'s that are near to the repeller
 	 * @param repellers ArrayList
 	 * @see Particle Class Particle
 	 */
-	public void myApplyRepellers(ArrayList<Repeller> repellers) {
+	public void myApplyRepellers(ArrayList<Repeller> repellers,boolean day) {
 	    // For every Particle
 	    for (int i = 0; i < particles.size(); i++) {
 	      Particle ptcl = (Particle) particles.get(i);
@@ -104,59 +104,180 @@ public class ParticleSystem {
 	     
 
 	      for (int j = 0; j < repellers.size(); j++) {
-	        Repeller r = (Repeller) repellers.get(j);
-	        // Calculate and apply a force from Repeller to Particle
-	        
+	        Repeller r = repellers.get(j);
+	        // Calculate the distance from a Repeller to the particle
 	        float d = ptcl.loc.dist(r.loc);
-
-
-	        if(d < r.getRadius()+20 /*&& ptcl.affection == true*/){
 	        	
 	        	PVector repel = new PVector(0,0);
-	        	 if(d < r.getRadius() /*&& ptcl.affection == true*/){ 
+	        	
+	        	 if(d <= r.getRadius()){
 	        		 
-	        		  repel = r.pushParticle(ptcl);
+	        		 
+//	        		 this is in private space
+	        		 if((ptcl.pathNum == 0)|| (ptcl.pathNum == 1) ||(ptcl.pathNum == 2)){
+	        			 
+	        			 
+	        			 if(day){
+//			        		at daytime
+	        				 	if((r.property.valueByIndex(0,0) > 1) || (r.property.valueByIndex(0,0) < -1)){
+	        				 		
+	        				 	repel = r.pushParticle(ptcl);
+				      		    ptcl.applyRepellForce(repel);
+				    	        ptcl.setColorCol2(40, 100, 100, 100); 			 				    	      
+//				    	        ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+//				    	        ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+				    	        
+	        				 	}else if(((r.property.valueByIndex(0,0) < 2)&&(r.property.valueByIndex(0,0) > -2))&&((r.property.valueByIndex(0,0)!=0))){
+	        				 		
+	        				 	repel = r.pushParticle(ptcl);
+				      		    ptcl.applyRepellForce(repel);
+				    	        ptcl.setColorCol2(80, 100, 100, 100); 			 				    	      
+//				    	        ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+//				    	        ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+
+	        				 	}else if((r.property.valueByIndex(0,0) == 0)){
+//	        				 		do nothing
+					    	        ptcl.setColorCol2(120, 100, 100, 100); 			 				    	      
+
+	        				 	}
+	        				 	
+	        				 	
+	        			 }else{
+//	        				 at nite
+	        				 	if((r.property.valueByIndex(1,0) > 1) || (r.property.valueByIndex(1,0) < -1)){
+	        				 		
+		        				 	repel = r.pushParticle(ptcl);
+					      		    ptcl.applyRepellForce(repel);
+					    	        ptcl.setColorCol2(160, 100, 100, 100); 			 				    	      
+//					    	        ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+//					    	        ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+					    	        
+		        				 	}else if(((r.property.valueByIndex(1,0) < 2)&&(r.property.valueByIndex(1,0) > -2))&&((r.property.valueByIndex(1,0)!=0))){
+		        				 		
+		        				 	repel = r.pushParticle(ptcl);
+					      		    ptcl.applyRepellForce(repel);
+					    	        ptcl.setColorCol2(200, 100, 100, 100); 			 				    	      
+//					    	        ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+//					    	        ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+
+		        				 	}else if((r.property.valueByIndex(1,0) == 0)){
+//		        				 		do nothing
+						    	        ptcl.setColorCol2(240, 100, 100, 100); 			 				    	      
+
+		        				 	} 
+	        				 
+	        				 
+	        				 
+	        			 }
+//	        			 this is in public space
+	        		 }else if ((ptcl.pathNum == 3)|| (ptcl.pathNum == 4) ||(ptcl.pathNum == 5)){
+	        			 
+//	        			 at Daytime
+	        			 if(day){
+	        				 	if((r.property.valueByIndex(0,1) > 1) || (r.property.valueByIndex(0,1) < -1)){
+	        				 		
+		        				 	repel = r.pushParticle(ptcl);
+					      		    ptcl.applyRepellForce(repel);
+					    	        ptcl.setColorCol2(280, 100, 100, 100); 			 				    	      
+//					    	        ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+//					    	        ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+					    	        
+		        				 	}else if(((r.property.valueByIndex(0,1) < 2)&&(r.property.valueByIndex(0,1) > -2))&&((r.property.valueByIndex(0,1)!=0))){
+		        				 		
+		        				 	repel = r.pushParticle(ptcl);
+					      		    ptcl.applyRepellForce(repel);
+					    	        ptcl.setColorCol2(320, 100, 100, 100); 			 				    	      
+//					    	        ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+//					    	        ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+
+		        				 	}else if((r.property.valueByIndex(0,1) == 0)){
+//		        				 		do nothing
+						    	        ptcl.setColorCol2(360, 100, 100, 100); 			 				    	      
+
+		        				 	}
+	        			 }else{
+//	        				 at nite
+	        				 	if((r.property.valueByIndex(1,1) > 1) || (r.property.valueByIndex(1,1) < -1)){
+	        				 		
+		        				 	repel = r.pushParticle(ptcl);
+					      		    ptcl.applyRepellForce(repel);
+					    	        ptcl.setColorCol2(40, 100, 100, 100); 			 				    	      
+//					    	        ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+//					    	        ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+					    	        
+		        				 	}else if(((r.property.valueByIndex(1,1) < 2)&&(r.property.valueByIndex(1,1) > -2))&&((r.property.valueByIndex(1,1)!=0))){
+		        				 		
+		        				 	repel = r.pushParticle(ptcl);
+					      		    ptcl.applyRepellForce(repel);
+					    	        ptcl.setColorCol2(80, 100, 100, 100); 			 				    	      
+//					    	        ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+//					    	        ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+
+		        				 	}else if((r.property.valueByIndex(1,1) == 0)){
+//		        				 		do nothing
+						    	        ptcl.setColorCol2(120, 100, 100, 100); 			 				    	      
+
+		        				 	}
+	        				 
+	        			 }
+//	        			 this is in work space
+	        		 }else if((ptcl.pathNum == 6)|| (ptcl.pathNum == 7) ||(ptcl.pathNum == 8)){
+//	        			 at Daytime
+	        			 if(day){
+	        				 	if((r.property.valueByIndex(0,2) > 1) || (r.property.valueByIndex(0,2) < -1)){
+	        				 		
+		        				 	repel = r.pushParticle(ptcl);
+					      		    ptcl.applyRepellForce(repel);
+					    	        ptcl.setColorCol2(40, 100, 100, 100); 			 				    	      
+//					    	        ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+//					    	        ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+					    	        
+		        				 	}else if(((r.property.valueByIndex(0,2) < 2)&&(r.property.valueByIndex(0,2) > -2))&&((r.property.valueByIndex(0,2)!=0))){
+		        				 		
+		        				 	repel = r.pushParticle(ptcl);
+					      		    ptcl.applyRepellForce(repel);
+					    	        ptcl.setColorCol2(80, 100, 100, 100); 			 				    	      
+//					    	        ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+//					    	        ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+
+		        				 	}else if((r.property.valueByIndex(0,2) == 0)){
+//		        				 		do nothing
+						    	        ptcl.setColorCol2(120, 100, 100, 100); 			 				    	      
+
+		        				 	}
+	        				 
+	        			 }else{
+//	        				 at nite
+			 	if((r.property.valueByIndex(1,2) > 1) || (r.property.valueByIndex(1,2) < -1)){
+	        				 		
+		        				 	repel = r.pushParticle(ptcl);
+					      		    ptcl.applyRepellForce(repel);
+					    	        ptcl.setColorCol2(40, 100, 100, 100); 			 				    	      
+//					    	        ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+//					    	        ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+					    	        
+		        				 	}else if(((r.property.valueByIndex(1,2) < 2)&&(r.property.valueByIndex(1,2) > -2))&&((r.property.valueByIndex(1,2)!=0))){
+		        				 		
+		        				 	repel = r.pushParticle(ptcl);
+					      		    ptcl.applyRepellForce(repel);
+					    	        ptcl.setColorCol2(80, 100, 100, 100); 			 				    	      
+//					    	        ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+//					    	        ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+
+		        				 	}else if((r.property.valueByIndex(1,2) == 0)){
+//		        				 		do nothing
+						    	        ptcl.setColorCol2(120, 100, 100, 100); 			 				    	      
+
+		        			}
+	        			 }
 	        		 }
-	        	
-		    ptcl.applyRepellForce(repel);
-	        ptcl.setMaxforce((2));
-	        ptcl.setGravity(-0.0001f);
-	        ptcl.setMaxspeed((0.7f));
-	        ptcl.setMass(0.00001f);
-	        if(j == 5){
-	        	
-	        	if(ptcl.pathNum==0 ||ptcl.pathNum==1 ||ptcl.pathNum==8){
-	        ptcl.setColorCol2(200, 100, 100, 100);
-	        ptcl.setMaxforce((20));
-	        ptcl.setMaxspeed((5));
-	        ptcl.setMass(1);
-	        	}else{
-	        		
-	    	        ptcl.setColorCol2(100, 100, 100, 100);
-	    	        ptcl.setMaxforce((0.5f));
-	    	        ptcl.setMaxspeed((0.5f));
-	    	        ptcl.setMass(0.1f);	
-	        	}
-
-	        
-	        }else{
-		        ptcl.setColorCol2(100, 100, 100, 100);
-
-	        	
-	        }
-//	        ptcl.setMaxforce(r.getG()*n);
-//	        }else if(d < r.getRadius()+5){	
-//		        PVector repel = r.pushParticle(ptcl);        
-//		        ptcl.applyRepellForce(repel);
-	        }else{
-//		        ptcl.setMass((n));
-//		        ptcl.resetMass();
-//		        ptcl.resetGravity();
-//		        
-//		        
-//		        if(ptcl.maxforce>0.2f)ptcl.maxforce = ptcl.maxforce*0.5f;
-//		        if(ptcl.maxspeed>1.5f)ptcl.maxspeed = ptcl.maxspeed*0.5f;
-	        	
+	        		 
+	        	 
+	        	 
+	        	 }else{
+//	        		 if the distance his higher than the Repeller's radius
+//	        		do nothing 
+	        		 
 	        }
 	      }
 	    }

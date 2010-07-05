@@ -534,8 +534,8 @@ public class Particle {
 		f.mult(3);
 		s.mult(1);
 		// Accumulate in acceleration
-		acc.add(f);
-		acc.add(s);
+		this.acc.add(f);
+		this.acc.add(s);
 	}
 
 	
@@ -549,8 +549,8 @@ public class Particle {
 	public void applyRepellForce(PVector force){
 		
 		//float mass = 0.1f; // We aren't bothering with mass here
-		force.div(mass);
-		acc.add(force);
+		force.div(this.mass);
+		this.acc.add(force);
 		
 	}
 
