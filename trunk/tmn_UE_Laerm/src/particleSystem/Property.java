@@ -14,6 +14,8 @@ public class Property {
 		this.index = index;
 		this.name = name.toUpperCase();
 		this.affectionProps = affectionProps;
+	
+		
 	}
 
 	
