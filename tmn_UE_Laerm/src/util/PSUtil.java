@@ -2,6 +2,8 @@ package util;
 
 import java.util.ArrayList;
 
+import old.ObstacleObject;
+
 import particleSystem.Particle;
 import particleSystem.Path;
 import particleSystem.Property;
@@ -9,7 +11,6 @@ import particleSystem.Repeller;
 import processing.core.PApplet;
 import processing.core.PVector;
 import processing.xml.XMLElement;
-import tmnuelaerm.ObstacleObject;
 
 /**
  * This Class is for helping with the ParticleSystem
@@ -21,6 +22,7 @@ import tmnuelaerm.ObstacleObject;
  * @author fabianthelbind
  *
  */
+@SuppressWarnings("deprecation")
 public class PSUtil {
 	
 	/**
@@ -137,7 +139,7 @@ public class PSUtil {
 	 * not used right now
 	 * @param obstclObjList
 	 * @param ptclsList
-	 * 
+	 * @deprecated also old stuff
 	 */
 	public static void ptclsReactOnObject( ArrayList <ObstacleObject> obstclObjList, ArrayList <Particle>ptclsList){
 		//println(obstclObjList.get(0).ObstclsRepellerList.get(0).radius);
@@ -211,7 +213,7 @@ public class PSUtil {
 		XMLElement [] myObstaclObjcts = XMLImporter.getObsctlObjects();
 		for(int i = 0; i<myObstaclObjcts.length;i++){			
 		String theName = myObstaclObjcts[i].getStringAttribute("name");
-		float[][] theValues = XMLImporter.ObjectPropertys(i, myObstaclObjcts[i].getParent());
+		int[][] theValues = XMLImporter.ObjectPropertys(i, myObstaclObjcts[i].getParent());
 		propertysList.add(new Property(i, theName, theValues));
 		}
 		return propertysList;

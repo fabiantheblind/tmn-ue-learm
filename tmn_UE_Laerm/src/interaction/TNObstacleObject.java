@@ -47,7 +47,6 @@ public class TNObstacleObject extends TNTransformableObject{
 	
 	public void internalDraw(){
 		
-		p.textSize(60);
 		p.fill(Style.textColorWhite);
 		p.textFont(Style.MisoBold72);
 		p.text(property.name, 0,p.textAscent());
