@@ -149,6 +149,8 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	 * a boolean for switching the path
 	 */
 	private boolean switchPath = false;
+	
+	public static boolean DAY = true;
 
 	/**
 	 * to count the time
@@ -222,8 +224,7 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		
 		
 		background(0);
-		size(500, 400,OPENGL);
-//		size(1024, 768,OPENGL);
+		size(1024, 768,OPENGL);
 		frameRate(25);
 		
 
@@ -245,6 +246,8 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		
 		// making ObstacleObjects
 		
+//		transObjects.add(new TNObstacleObject(this, 0, 0, 200, 200));
+//		transObjects.add(new TNObstacleObject(this, 400, 400, 200, 200));
 		for(int i = 0; i < howManyObstacles; i++){
 			Property property = propertysList.get(i);
 			transObjects.add(new TNObstacleObject(this, 50*i, 50*i,0, 0, property));
@@ -410,7 +413,7 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		}
 //		DEBUGGING START
 		// Apply repeller objects to all Particles
-		ps.myApplyRepellers(someRepellers);
+		ps.myApplyRepellers(someRepellers,DAY);
 //		DEBUGGING END
 		
 //		pass all Objects over to the ParticleSystem
@@ -435,6 +438,7 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		Debug.watchAParticle(ptclsList, ps);
 		Debug.watchARepellers(someRepellers);
 		PSUtil.displaySomeRepellers(someRepellers);
+//		Debug.displayAllPaths(pathsList);
 		Debug.drawFrameRate();
 		Debug.drawFrameCount();
 		}
