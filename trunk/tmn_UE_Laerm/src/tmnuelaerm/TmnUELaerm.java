@@ -2,7 +2,6 @@ package tmnuelaerm;
 
 import TUIO.TuioListener;
 import interaction.TNObstacleObject;
-import interaction.TNTransformableObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +33,13 @@ import particleSystem.Repeller;
 
 
 /**
- * This is the main Class of the 
- * Multitouch project by the-moron.net 
- * represented by fabiantheblind and PDXIII 
- * students at the University of Applied Sciences Potsdam (FHP) 
- * during the class of Till Nagel "Urbane Ebenen" (urban layers).
- * the {@code code} is available here: <a href="http://code.google.com/p/tmn-ue-learm/" target="blanc">Google Code</a>
- * or here: <a href="http://github.com/fabiantheblind/TMN_UE_Laerm.git" target="blanc"> GitHub</a>
+ * This is the main Class of the
+ * Multitouch project by the-moron.net<br>
+ * represented by fabiantheblind and PDXIII <br>
+ * students at the University of Applied Sciences Potsdam (FHP) <br>
+ * during the class of Till Nagel "Urbane Ebenen" (urban layers).<br>
+ * the {@code code} is available here: <a href="http://code.google.com/p/tmn-ue-learm/" target="blanc">Google Code</a><br>
+ * or here: <a href="http://github.com/fabiantheblind/TMN_UE_Laerm.git" target="blanc"> GitHub</a><br>
  * @author PDXIII 
  * @author fabianthelbind
  * @version 0.79
@@ -67,7 +66,7 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	/**
 	 * controls the amount of TNObstleOjects
 	 */
-	public int howManyObstacles = 4;
+	public int howManyObstacles = 1;
 
 //	public ArrayList<ObstacleObject> obstclObjList;
 	
@@ -251,7 +250,6 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		for(int i = 0; i < howManyObstacles; i++){
 			Property property = propertysList.get(i);
 			transObjects.add(new TNObstacleObject(this, 50*i, 50*i,0, 0, property));
-			
 		}
 		
 //		for(int i = 0; i < propertysList.size(); i++){
@@ -409,6 +407,11 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 			}
 		}
 		
+		
+
+		
+		
+		
 		for(int i = 0; i< repellers.size(); i++){
 			
 			Repeller rep = (Repeller) repellers.get(i);
@@ -417,8 +420,9 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		}
 //		display all objects
 //		drawObstacleObjects();
-		for (TNTransformableObject transformableObject : transObjects) {
+		for (TNObstacleObject transformableObject : transObjects) {
 			transformableObject.draw();
+			
 		}
 //		DEBUGGING START
 		// Apply repeller objects to all Particles
