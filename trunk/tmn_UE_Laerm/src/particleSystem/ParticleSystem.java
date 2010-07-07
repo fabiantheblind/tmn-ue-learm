@@ -4,12 +4,13 @@ import interaction.TNObstacleObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import processing.core.PApplet;
 import processing.core.PVector;
 
 /**
- * the whole <code>ParticleSystem</code>
- * here the collision and stuff get worked out
+ * the whole <code>ParticleSystem</code><br>
+ * here the collision and stuff get worked out<br>
  * based on: <a href="http://www.shiffman.net/teaching/nature/" target="blanc">Daniel Shiffman's Nature of Code</a>
  * @author fabianthelbind
  * @see Particle Class Particle
@@ -122,8 +123,7 @@ public class ParticleSystem {
 	/**
 	 * A function for particles to interact with all Repellers that are near to the repeller
 	 * @param ObstclsList ArrayList
-	 * @param dAY 
-	 * @see #myApplyRepellers(ArrayList)
+	 * @param day 
 	 * @see #calcPtclReaction(Repeller, float, Particle, boolean, PVector)
 	 * @see #myApplyRepellers(ArrayList, boolean)
 	 * @see old.ObstacleObject#ObstclsRepellerList
@@ -162,6 +162,7 @@ public class ParticleSystem {
 	 * @param ptcl the {@link Particle}
 	 * @param day the day or nite time if <code>true</code> it is day
 	 * @param repel a <code>PVector</code> for repelling
+	 * @see #reactOnPropValues(Repeller, int, int, PVector, Particle)
 	 */
 	private void calcPtclReaction(Repeller r, float d, Particle ptcl, boolean day, PVector repel){
 		
@@ -207,32 +208,26 @@ public class ParticleSystem {
 	 
     		 }else{
     			 
+//    			 	if the Particle has no path to follow just a basic action takes place
+//    			 	this is for pushing the particles that build the path around
+    			 
 				 	repel = r.pushParticle(ptcl);
 	      		    ptcl.applyRepellForce(repel);
 	      		    ptcl.setMaxspeed(0.3f);
 	      		    ptcl.setMaxforce(2.3f);
 	      		    ptcl.setMass(0.01f);
-	      		    
 
     		 }
-    		 
-    	 
-    	 
-    	 }else{
+  	 
+    	 }
+		  else{
 //    		 if the distance his higher than the Repeller's radius
 //    		do nothing 
-    		 
-//			 if(ptcl.hidden){	 
-//				 	repel = r.pushParticle(ptcl);
-//	      		    ptcl.applyRepellForce(repel);
-//	      		    ptcl.maxspeed = 10;
-// 			 }
-    		 
-    }
-		
+    	 }
 	}
 	
 	/**
+	 * here the reaction on the property gets applied
 	 * @param r the Repeller
 	 * @param time day or nite represented by 0 and 1
 	 * @param space private / public or /workspace represented by 0, 1 and 2
@@ -360,5 +355,7 @@ public PVector setEmitterOrigin(PVector newOrigin){
 	      return false;
 	    }
 	  }
+
+
 
 }
