@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PFont;
 
 /**
- * Here we make all the color and text stuff centralized. Its like a CSS
+ * Here we make all the color and text stuff centralized. Its like a CSS<br>
  * @author fabiantheblind
  * 
  */
