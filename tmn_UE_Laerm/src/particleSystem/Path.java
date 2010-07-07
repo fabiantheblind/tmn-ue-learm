@@ -11,7 +11,8 @@ import util.Style;
 //Daniel Shiffman <http://www.shiffman.net>
 //The Nature of Code, Spring 2009
 /**
- * The Path to follow a Path is a series of connected particles. They interact eith the Repellers and so...
+ * The Path the Particles can follow.<br>
+ *  a Path is a series of connected particles. They interact with the Repellers and so...
  * based on: <a href="http://www.shiffman.net/teaching/nature/" target="blanc">Daniel Shiffman's Nature of Code</a>
  * @author fabianthelbind
  *

@@ -7,7 +7,10 @@ import processing.core.PVector;
 import util.Style;
 
 /**
- * The Particles
+ * The Particles<br>
+ * There are different kind of particles. Simple ones and complexer ones.<br>
+ * check the different constructors.
+ * all the fields can be set later during runtimme<br>
  * based on: <a href="http://www.shiffman.net/teaching/nature/" target="blanc">Daniel Shiffman's Nature of Code</a>
  * @author fabiantheblind 
  * @version 0.74
@@ -36,7 +39,10 @@ public class Particle {
 	public PVector acc;
 
 	/**
-	 * the gravity of the particle. it mostly affects the emitter particles
+	 * the gravity of the particle.<br>
+	 * it mostly affects the emitter particles<br>
+	 *  ore when the particles have no path to follow
+	 * 
 	 * @see ParticleSystem#addParticleEmitter(boolean)
 	 */
 	public float  gravity = 0.0f;
@@ -51,16 +57,16 @@ public class Particle {
 	public float maxspeed =  2.0f;
 	
 	/**
-	 * the radius of the particle.
+	 * the radius of the particle.<br>
 	 * the particle has no ellipse right now but this is still needed for collision
 	 * @see #display()
 	 */
 	public float radius;// = 5f;    // radius
 	
 	/**
-	 * the time a particle lifes.
+	 * the time a particle lifes.<br>
 	 * We set it realy high so they dont disapper.
-	 * It it usefull if you wan't to use the emitter in the particlesystem
+	 * It is usefull if you wan't to use the emitter in the particlesystem
 	 * @see Class ParticleSystem Class
 	 * @see ParticleSystem#addParticleEmitter(boolean)
 	 * @see ParticleSystem#setEmitterOrigin(PVector)
@@ -71,7 +77,7 @@ public class Particle {
 	public float lifeTime = 100000.0f;    // the lifetime of an Particle
 	
     /**
-     *  The higher the mass of an particle the lesser the particles get pushed by repellers
+     *  The higher the mass of an particle the lesser the particles get pushed by <code>Repeller</code><br>
      *  may never be real 0 i think (or at startup) set it to 0.00000001f
      *  @see <a href="Repeller.html#pushParticle(particleSystem.Particle)"><code>Repeller.pushParticle(Particle)</code></a>
      */
@@ -83,7 +89,7 @@ public class Particle {
     public boolean affection;
     
     /**
-     * if this is true the particle will not be drawn to the screen
+     * if this is true the particle will not be drawn to the screen<br>
      * and the other particles dont steer around them
      * @see <a href="../tmnuelaerm/TmnUELaerm.html#draw()">it happens in <code>TMNUelaerm.draw()</code></a>
      */
@@ -95,8 +101,8 @@ public class Particle {
 
 
     /**
-     * the particle knows where he originated.
-     * this is for the paths points They are also particles
+     * the particle knows where he originated.<br>
+     * this is for the paths points They are also particles<br>
      * @see <a href="Path.html#resetPointPtcls()"><code>Path.resetPointPtcls()</code></a>
      */
     public final PVector origin;
@@ -153,7 +159,7 @@ public class Particle {
 	
 	/**
 	 * same as the Master constructor but without path to follow
-	 * (can be set later, or there is just one path)
+	 * (can be set later, or there is just one pathto follow)
 	 * @param p 
 	 * @param loc
 	 * @param vel
@@ -542,9 +548,9 @@ public class Particle {
 	/**
 	 * applys a force to the particle
 	 * @param force PVector
+	 * @see ParticleSystem#myApplyRepellers(ArrayList, boolean)
 	 * @see ParticleSystem#applyRepellers(ArrayList)
-	 * @see ParticleSystem#myApplyRepellers(ArrayList)
-	 * @see ParticleSystem#myApplyObstcles(ArrayList)
+	 * @see ParticleSystem#myApplyObstcles(java.util.List, boolean)
 	 */
 	public void applyRepellForce(PVector force){
 		
@@ -691,7 +697,7 @@ public class Particle {
 
 
 	/**
-	 * Separation Method. checks for nearby boids and steers away
+	 * Separation Method. checks for nearby boids and steers away<br>
 	 * @param ptkls ArrayList of Particles
 	 * @return steer
 	 */
@@ -737,7 +743,7 @@ public class Particle {
 
 
 	/**
-	 * Method to update location.
+	 * Method to update location.<br>
 	 * if u like u can add a <code>this.lifeTime -= 0.5;</code><br>
 	 * and set the lifetime lower.. Its useful for the particleEmitter<br>
 	 * @see ParticleSystem#addParticleEmitter(boolean)
@@ -757,7 +763,7 @@ public class Particle {
 	
 	/**
 	 * use this if you want the particles to die sometime
-	 * is usefull fill the ParticleEmitter
+	 * is usefull using the ParticleEmitter
 	 * @see #update()
 	 * @see #run()
 	 * @see ParticleSystem#addParticleEmitter(boolean)

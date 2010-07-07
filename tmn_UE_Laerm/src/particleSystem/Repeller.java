@@ -6,7 +6,7 @@ import util.Style;
 
 
 	/**
-	 * A very basic Repeller class
+	 * A basic Repeller class only circles that repell the Paeticles <br>
 	 * based on: <a href="http://www.shiffman.net/teaching/nature/" target="blanc">Daniel Shiffman's Nature of Code</a>
 	 * @author fabianthelbind
 	 * @see Class ParticleSystem Class

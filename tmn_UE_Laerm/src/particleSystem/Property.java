@@ -1,15 +1,41 @@
 package particleSystem;
 
-
-
-
+/**
+ * these are some propertys for repelling to get some sort of rules<br>
+ * the data is loaded from an .xml file but can also be set manually for every Property<br>
+ * its only for storing an {@code int, string,float[][]} with 6 values in an <code>Object</code>
+ * 
+ * @author fabiantheblind
+ * @see Class XMLImporter Class
+ * @see <a href="../util/PSUtil.html#initPropertysList()"><code>PSUtil.initPropertysList()</code></a>
+ */
 public class Property {
 	
 	
+	/**
+	 * the index from the xml
+	 * 
+	 */
 	public final int index;
+	/**
+	 * the word or name to write to the screen
+	 */
 	public final String name;
+	/**
+	 * a 2 dimensinal float array to store the values
+	 * {@code float [time( 2 values )][space( 3 values )]} the  time 0 day or 1 night
+	 * the space as private 0 / public 1 / work 2
+	 */
 	public int [][] affectionProps;
 	
+	/**
+	 * @param index
+	 * @param name
+	 * @param affectionProps
+	 * @see #index
+	 * @see #name
+	 * @see #affectionProps
+	 */
 	public Property(int index, String name,int [][] affectionProps){
 		this.index = index;
 		this.name = name.toUpperCase();
@@ -43,7 +69,7 @@ public class Property {
 	}
 
 	/**
-	 * @return all daytime values from the Class Property as a {@code float[]}
+	 * @return all daytime values from the Class Property as a {@code float[]} 
 	 */
 	public int[] getDayValues(){
 		int [] dayValues = new int[]{
@@ -70,7 +96,7 @@ public class Property {
 	 * @param time day or nite represented by 0(as day) 1(as nite)
 	 * @param space private public or work represented by 0(private) 1(public) 2(work)
 	 * @return a {@code float} value
-	 * @see {@link ../util/XMLImporter.html#ObjectPropertys(int id, XMLElement root)}
+	 * @see  <a href="./util/XMLImporter.html#ObjectPropertys(int id XMLElement root)"> XMLIMPORTER</a>
 	 */
 	public int valueByIndex(int time, int space){
 		return affectionProps[time][space];
