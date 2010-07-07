@@ -13,8 +13,8 @@ import processing.core.PVector;
 import processing.xml.XMLElement;
 
 /**
- * This Class is for helping with the ParticleSystem
- * they don't affect the Core Application but are very usefull
+ * This Class is for helping with the <code>ParticleSystem</code><br>
+ * they don't affect the Core Application but are very usefull<br>
  * @author fabianthelbind
  * @see Particle Class Particle
  * @see Path Class Path
