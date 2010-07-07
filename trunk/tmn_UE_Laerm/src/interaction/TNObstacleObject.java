@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import particleSystem.Property;
 import particleSystem.Repeller;
 import processing.core.PApplet;
-import processing.core.PMatrix3D;
 import processing.core.PVector;
 import util.Style;
 import TUIO.TuioCursor;
@@ -27,6 +26,9 @@ public class TNObstacleObject extends TNTransformableObject{
 	public float grav = PApplet.pow(10,3);
 	public float radius; 
 
+	public float difX;
+	public float difY;
+	public PVector theMiddle;
 	
 	float oldAngle;
 	float oldDist;
@@ -58,11 +60,15 @@ public class TNObstacleObject extends TNTransformableObject{
 		super.height = ascent;
 		p.rect(0, 0, width, height);
 		
-		doTheRepellers();
+		theMiddle = new PVector((width/2), (height/2));
 
+		p.ellipse(theMiddle.x, theMiddle.y, 10, 10);
+		
+		initRepellers();
+	
 	}
 	
-	public void doTheRepellers(){
+	private void initRepellers(){
 		
 		radius = height/2;
 		
@@ -73,28 +79,18 @@ public class TNObstacleObject extends TNTransformableObject{
 		
 		for(int i = 1; i < howManyRep; i++){
 			
-			float repXpos = offsetX + i*howMuchSpace*scale;
-			float repYpos = offsetY+ height/2;
 			
-//			getTransformedPositionWithoutOffset(repXpos, repYpos, true);
-			float [] preXY = getTransformedPositionOfRepellers(repXpos, repYpos);; 
-			PVector loc = new PVector(preXY[0]*scale, preXY[1]);
-//			loc.div(scale);
+			float repXpos = i*howMuchSpace;
+			float repYpos = height/2;
+			
+			float[] repPos =  getScreenFromObjectPosition(repXpos, repYpos);
+
+			PVector loc = new PVector(repPos[0], repPos[1]);
 			ObstclsRepellerList.add(new Repeller(p, loc, grav, radius*scale, property));
 			
 		}
 	}
 	
-	public float[] getTransformedPositionOfRepellers(float x , float y) {
-		float[] preXY = new float[3];
-		PMatrix3D m = new PMatrix3D();
-		m.apply(matrix);
-		
-		m.mult(new float[] { x, y, 0 }, preXY);
-		return preXY;
-	}
-
-
 	protected float getDistance(TuioCursor tuioCursor1, TuioCursor tuioCursor2) {
 		return PApplet.dist(tuioCursor1.getScreenX(p.width), tuioCursor1.getScreenY(p.height),
 				tuioCursor2.getScreenX(p.width), tuioCursor2.getScreenY(p.height));
