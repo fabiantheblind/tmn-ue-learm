@@ -63,6 +63,8 @@ public class TNTransformableObject {
 		internalDraw();
 
 		p.popMatrix();
+		
+
 	}
 
 	public void internalDraw() {
@@ -91,9 +93,41 @@ public class TNTransformableObject {
 		return (check[0] > 0 && check[0] < 0 + width && check[1] > 0 && check[1] < 0 + height);
 	}
 
+	public float[] getObjectFromScreenPosition(float x, float y) {
+		return getTransformedPosition(x, y, true);
+	}
+
+	public float[] getScreenFromObjectPosition(float x, float y) {
+		return getTransformedPosition(x, y, false);
+	}
+
+	private float[] getTransformedPosition(float x, float y, boolean inverse) {
+		if (inverse) {
+			x -= offsetX;
+			y -= offsetY;
+		}
+
+		float[] xy = new float[3];
+		PMatrix3D m = new PMatrix3D();
+		m.apply(matrix);
+		if (inverse) {
+			m.invert();
+		}
+		m.mult(new float[] { x, y, 0 }, xy);
+
+		if (!inverse) {
+			xy[0] += offsetX;
+			xy[1] += offsetY;
+		}
+
+		return xy;
+	}
+
+
 	public float[] getTransformedPosition(float x, float y) {
 		return getTransformedPositionWithoutOffset(x - offsetX, y - offsetY, true);
 	}
+	
 	
 	public float[] getTransformedPositionWithoutOffset(float x, float y, boolean inverse) {
 		float[] preXY = new float[3];
@@ -161,6 +195,7 @@ public class TNTransformableObject {
 		matrix.scale(scale);
 		matrix.rotate(angle);
 		matrix.translate(-originalCenterX, -originalCenterY);
+		
 	}
 
 	boolean first = true;
@@ -228,5 +263,5 @@ public class TNTransformableObject {
 		float angle = PApplet.atan2(difY, difX);
 		return angle;
 	}
-
+	
 }
