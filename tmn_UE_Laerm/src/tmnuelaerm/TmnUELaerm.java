@@ -191,6 +191,12 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	 * PDXIII background Stuff
 	 */
     public float tintMin = 20;
+    
+    public float tintSize = tintMax - tintMin;
+    
+    public float tintingStep = 0.2f;
+    
+    public int inactiveCol;
 
 
 //    end PDXIII background stuff
@@ -225,7 +231,8 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		
 		
 		background(0);
-		size(1024, 768,OPENGL);
+		size(400,300, OPENGL);
+//		size(1024, 768,OPENGL);
 		frameRate(25);
 		
 
@@ -332,51 +339,58 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 //		how fast and strong the want to get back 
 
 		if(runtimeCounter%42==1){
-		for(int pl2 = 0; pl2<pathsList.size();pl2++ ){
-//		pathsList.get(pl2).ptclPathDisplay();
-		pathsList.get(pl2).resetPointPtcls(); 
-		}
+			for(int pl2 = 0; pl2<pathsList.size();pl2++ ){
+//				pathsList.get(pl2).ptclPathDisplay();
+				pathsList.get(pl2).resetPointPtcls(); 
+			}
 		}
 //		this is for switching every 300 frames the path to follow
-		if(runtimeCounter%432 == 0){
+//		if(runtimeCounter%432 == 0){
 //			println("Range: "+myRange +"   Pathnum: "+myPathNum +"   Dir: "+myDirection);
-			switchPath = true;
+//			switchPath = true;
 //			myPathNum += 1*myDirection;
 //			if((myPathNum > myRange-2)||(myPathNum == 0)){
 //				myDirection = -myDirection;
 //			}
-			
-			if(DAY){
-				DAY=false;
-			}else{
-				DAY=true;
-			}
-			
-			}
+//			
+//			if(DAY){
+//				DAY=false;
+//			}else{
+//				DAY=true;
+//			}
+//			
+//		}
+//		
+		if(tinter > tintSize/2 + tintMin){
+			DAY=true;
+		}else{
+			DAY=false;
+		}
 		
+//		println(DAY + ", "+ tinter);
+
 		
 		for (int i = 0; i < ptclsList.size(); i++) {
-				Particle ptcl =  ptclsList.get(i);
-//				if the particle is not part of a path
-				if(ptcl.hidden!=true){
+			Particle ptcl =  ptclsList.get(i);
+//			if the particle is not part of a path
+			if(ptcl.hidden!=true){
 
-				// Path following and separation are worked on in this function
-//					pathNum = floor(random(0,8));
-//					println(pathNum);
-//					use the myPathNum variable for constant switching
-//					use the switchPath stuff for random path selection
-					
-					if(switchPath){
-						ptcl.pathNum =floor(random(0,8));//myPathNum;
-					}
+			// Path following and separation are worked on in this function
+//				pathNum = floor(random(0,8));
+//				println(pathNum);
+//				use the myPathNum variable for constant switching
+//				use the switchPath stuff for random path selection
+				
+				if(switchPath){
+					ptcl.pathNum =floor(random(0,8));//myPathNum;
+				}
 				ptcl.applyForces(ptclsList,pathsList.get(ptcl.pathNum));
 				switchPath = false;
-
-				}
-				// Call the generic run method (update, borders, display, etc.)
-				ptcl.run();
-				
 			}
+				// Call the generic run method (update, borders, display, etc.)
+			ptcl.run();
+				
+		}
 		
 //		must be rebuild at runtime so it doesn't store all the time new
 //		repellers in the list
@@ -408,20 +422,16 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		}
 		
 		
-
-		
-		
-		
-		for(int i = 0; i< repellers.size(); i++){
-			
-			Repeller rep = (Repeller) repellers.get(i);
-			rep.display();
-			
-		}
+//		for(int i = 0; i< repellers.size(); i++){
+//			
+//			Repeller rep = (Repeller) repellers.get(i);
+//			rep.display();
+//			
+//		}
 //		display all objects
 //		drawObstacleObjects();
 		for (TNObstacleObject transformableObject : transObjects) {
-			transformableObject.draw();
+			transformableObject.draw(inactiveCol);
 			
 		}
 //		DEBUGGING START
@@ -501,16 +511,18 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	 */
     public void theBackground(){
         
+    	int a = ceil(tinter);
         tint(220, 40+tinter, 40+tinter);
+        inactiveCol = color(220, 20 + a, 20 +a);
         image(fadingBG,0,0);
         if (tinter >= tintMax){tintBack = true;}
         
         if (tinter <= tintMin){tintBack = false;}
         
         if(!tintBack){
-                tinter += 0.2f;
+                tinter += tintingStep;
         }else{
-                tinter -= 0.2f;
+                tinter -= tintingStep;
         }
     }
         
@@ -539,40 +551,6 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	 * @see TUIO.TuioListener#addTuioCursor(TUIO.TuioCursor)
 	 */
 	@Override
-//	public void addTuioCursor(TuioCursor arg0) {
-//		
-//		float nowX = arg0.getScreenX(width);
-//		float nowY = arg0.getScreenY(height);
-//		int nowID = arg0.getCursorID();
-//		PVector nowPos = new PVector(nowX, nowY);
-//		
-//		for(int j = 0; j < obstclObjList.size(); j++){
-//			
-//			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(j);
-//				
-//			if(obstclObject.boundingBox.contains(nowX, nowY)){
-//				
-//				if(obstclObject.coursor01ID < 99){
-//					
-//					obstclObject.coursor02ID = nowID;
-//					obstclObject.coursor02Pos = nowPos;
-//					obstclObject.newCoursor02Pos = nowPos;
-//
-//					
-//				}else{
-//				
-//					obstclObject.coursor01ID = nowID;
-//					obstclObject.coursor01Pos = nowPos;
-//					obstclObject.newCoursor01Pos = nowPos;
-//
-//					obstclObject.setOffset(nowPos);
-//					
-//					obstclObject.setTime_01();
-//				}
-//			}
-//		}
-//	}
-	
 	public void addTuioCursor(TuioCursor tcur) {
 		// Hit test for all objects: first gets the hit, ordered by creation.
 		// TODO Order by z-index, updated by last activation/usage
@@ -583,54 +561,10 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 			}
 		}
 	}
-
 	/* (non-Javadoc)
 	 * @see TUIO.TuioListener#updateTuioCursor(TUIO.TuioCursor)
 	 */
 	@Override
-//	public void updateTuioCursor(TuioCursor arg0) {
-//		
-//		float nowX = arg0.getScreenX(width);
-//		float nowY = arg0.getScreenY(height);
-//		int nowID = arg0.getCursorID();
-//
-//		
-//		PVector nowPos = new PVector(nowX, nowY);
-//
-//		
-//		for(int j = 0; j < obstclObjList.size(); j++){
-//			
-//			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(j);
-//				
-//			
-//			if(obstclObject.coursor01ID == nowID && obstclObject.coursor02ID == 99){
-//				
-//				obstclObject.move(nowPos);
-//				obstclObject.setTime_01();
-//
-//				obstclObject.newCoursor01Pos = nowPos;
-//				
-//			
-//			}else if(obstclObject.boundingBox.contains(nowX, nowY)){
-//				
-//				
-//				if(obstclObject.coursor01ID < 99 && obstclObject.coursor01ID != nowID){
-//					
-//					obstclObject.coursor02ID = nowID;
-//					obstclObject.coursor02Pos = nowPos;
-//					
-//				}else{
-//					
-//					obstclObject.coursor01ID = nowID;
-//					obstclObject.coursor01Pos = nowPos;
-//					obstclObject.setTime_01();
-//
-//					obstclObject.setOffset(nowPos);
-//					
-//				}
-//			}
-//		}
-	
 	public void updateTuioCursor(TuioCursor tcur) {
 		for (TNObstacleObject ttObj : transObjects) {
 			if (ttObj.isHit(tcur.getScreenX(width), tcur.getScreenY(height))) {
@@ -640,46 +574,10 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		}
 	}
 		
-//		PARTICLE STUFF
-//		this method sets the Force and Speed if the Particles depending on the Radius
-//		of the Repellers in the Obstacle Object
-//		bigger repeller means more force and speed
-//		ptclsReactOnObject();
-		
-//		this method sets the radius of the path depending on the radius 
-//		of the Repellers in the Obstacle Object
-//		bigger repellers means wider path
-
-	
-	
 	/* (non-Javadoc)
 	 * @see TUIO.TuioListener#removeTuioCursor(TUIO.TuioCursor)
 	 */
 	@Override
-//	public void removeTuioCursor(TuioCursor arg0) {
-//		
-//		int nowID = arg0.getCursorID();
-//
-//		for(int j = 0; j < obstclObjList.size(); j++){
-//			
-//			ObstacleObject obstclObject = (ObstacleObject) obstclObjList.get(j);
-//			
-//			if(obstclObject.coursor01ID == nowID){
-//				
-//				obstclObject.coursor01ID = 99;
-//				obstclObject.coursor01Pos = null;
-//				obstclObject.setTime_02();
-//			}
-//			
-//			if(obstclObject.coursor02ID == nowID){
-//				
-//				obstclObject.coursor02ID = 99;
-//				obstclObject.coursor02Pos = null;
-//
-//			}
-//		}
-//	}
-	
 	public void removeTuioCursor(TuioCursor tcur) {
 		for (TNObstacleObject ttObj : transObjects) {
 			// Pass trough remove-event to all objects, to allow fingerUp also out of boundaries,
