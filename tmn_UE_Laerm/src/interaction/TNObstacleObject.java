@@ -120,8 +120,6 @@ public class TNObstacleObject extends TNTransformableObject{
 
 		}
 		
-//		PApplet.println("time01 " + time01 + "; time02 " + time02 + " " + changeState + " " + isActive);
-
 	}
 
 	public void setTime(){
@@ -130,16 +128,11 @@ public class TNObstacleObject extends TNTransformableObject{
 		if (time01 > 0){
 			
 			time02 = p.millis();
-			PApplet.println("#2 OK ");
-
 		}
 
 		if (time01 == 0){
 			
-
 			time01 = p.millis();
-			PApplet.println("#1 OK ");
-
 		}
 		
 	}
@@ -149,7 +142,6 @@ public class TNObstacleObject extends TNTransformableObject{
 
 		int timeDif = time02 - time01;
 		
-		PApplet.println("compare " + time01 + " t1; " + time02 + " t2; "+ timeDif);
 		
 		if(timeDif < activationDelay && timeDif > 10){
 			

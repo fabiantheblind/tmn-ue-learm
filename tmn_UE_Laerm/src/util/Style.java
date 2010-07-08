@@ -52,6 +52,7 @@ public class Style {
 
 	public static int activeColor;
 	public static int inactiveCol;
+	public static int tintingH;
 
 	
 	/**
@@ -123,6 +124,8 @@ public static void create(){
 	
 	activeColor = p.color(0);
 	inactiveCol = p.color(0,100);
+	
+	tintingH = 220;
 
 	
 	clsColor = p.color(255,0,100,100);

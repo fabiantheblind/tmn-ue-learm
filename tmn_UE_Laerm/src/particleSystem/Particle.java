@@ -76,23 +76,23 @@ public class Particle {
 	 */
 	public float lifeTime = 100000.0f;    // the lifetime of an Particle
 	
-    /**
-     *  The higher the mass of an particle the lesser the particles get pushed by <code>Repeller</code><br>
-     *  may never be real 0 i think (or at startup) set it to 0.00000001f
-     *  @see <a href="Repeller.html#pushParticle(particleSystem.Particle)"><code>Repeller.pushParticle(Particle)</code></a>
-     */
-    public float mass = 0.5f; //
-    
-    /**
-     * this is not used i think : )
-     */
-    public boolean affection;
-    
-    /**
-     * if this is true the particle will not be drawn to the screen<br>
-     * and the other particles dont steer around them
-     * @see <a href="../tmnuelaerm/TmnUELaerm.html#draw()">it happens in <code>TMNUelaerm.draw()</code></a>
-     */
+	/**
+	 *  The higher the mass of an particle the lesser the particles get pushed by <code>Repeller</code><br>
+	 *  may never be real 0 i think (or at startup) set it to 0.00000001f
+	 *  @see <a href="Repeller.html#pushParticle(particleSystem.Particle)"><code>Repeller.pushParticle(Particle)</code></a>
+	 */
+	public float mass = 0.5f; //
+	
+	/**
+	 * this is not used i think : )
+	 */
+	public boolean affection;
+	
+	/**
+	 * if this is true the particle will not be drawn to the screen<br>
+	 * and the other particles dont steer around them
+	 * @see <a href="../tmnuelaerm/TmnUELaerm.html#draw()">it happens in <code>TMNUelaerm.draw()</code></a>
+	 */
     public boolean hidden;
 	/**
 	 * the number of the path to follow. This is specially if you have more than one path. so the particle can switch between paths
@@ -100,11 +100,11 @@ public class Particle {
 	public int pathNum;
 
 
-    /**
-     * the particle knows where he originated.<br>
-     * this is for the paths points They are also particles<br>
-     * @see <a href="Path.html#resetPointPtcls()"><code>Path.resetPointPtcls()</code></a>
-     */
+	/**
+	 * the particle knows where he originated.<br>
+	 * this is for the paths points They are also particles<br>
+	 * @see <a href="Path.html#resetPointPtcls()"><code>Path.resetPointPtcls()</code></a>
+	 */
     public final PVector origin;
 
 //	some graphical stuff
@@ -650,7 +650,7 @@ public class Particle {
 			}
 		}
 
-//	    // Draw the debugging stuff
+//		// Draw the debugging stuff
 //		if (debug) {
 //	// Draw normal location
 //			p.fill(0);
@@ -684,12 +684,12 @@ public class Particle {
 	 * @return normalPoint
 	 */
 	public PVector getNormalPoint(PVector p, PVector a, PVector b) {
-	    // Vector from a to p
+		// Vector from a to p
 		PVector ap = PVector.sub(p,a);
-	    // Vector from a to b
+		// Vector from a to b
 		PVector ab = PVector.sub(b,a);
 		ab.normalize(); // Normalize the line
-	    // Project vector "diff" onto line by using the dot product
+		// Project vector "diff" onto line by using the dot product
 		ab.mult(ap.dot(ab));
 		PVector normalPoint = PVector.add(a,ab);
 		return normalPoint;
@@ -717,7 +717,7 @@ public class Particle {
 	// Calculate vector pointing away from neighbor
 				PVector diff = PVector.sub(loc,other.loc);
 				diff.normalize();
-				diff.div(d);        // Weight by distance
+				diff.div(d);		// Weight by distance
 				steer.add(diff);
 				count++;   
 				}// Keep track of how many
@@ -728,7 +728,7 @@ public class Particle {
 			steer.div((float)count);
 		}
 
-	    // As long as the vector is greater than 0
+		// As long as the vector is greater than 0
 		if (steer.mag() > 0) {
 	// Implement Reynolds: Steering = Desired - Velocity
 			steer.normalize();
@@ -750,9 +750,9 @@ public class Particle {
 	 * @see ParticleSystem#setEmitterOrigin(PVector)
 	 */
 	public void update() {
-	    // Update velocity
+		// Update velocity
 		this.vel.add(acc);
-	    // Limit speed
+		// Limit speed
 		this.vel.limit(maxspeed);
 		this.loc.add(vel);
 		// Reset accelertion to 0 each cycle
@@ -795,24 +795,24 @@ public class Particle {
 	  // A method that calculates a steering vector towards a target
 	  // Takes a second argument, if true, it slows down as it approaches the target
 	  public PVector steer(PVector target, boolean slowdown) {
-	    PVector steer;  // The steering vector
-	    PVector desired = PVector.sub(target,loc);  // A vector pointing from the location to the target
-	    float d = desired.mag(); // Distance from the target is the magnitude of the vector
-	    // If the distance is greater than 0, calc steering (otherwise return zero vector)
-	    if (d > 0) {
-	      // Normalize desired
-	      desired.normalize();
-	      // Two options for desired vector magnitude (1 -- based on distance, 2 -- maxspeed)
-	      if ((slowdown) && (d < 100.0f)) desired.mult(maxspeed*(d/100.0f)); // This damping is somewhat arbitrary
-	      else desired.mult(maxspeed);
-	      // Steering = Desired minus Velocity
-	      steer = PVector.sub(desired,vel);
-	      steer.limit(maxforce);  // Limit to maximum steering force
-	    } 
-	    else {
-	      steer = new PVector(0,0);
-	    }
-	    return steer;
+		PVector steer;  // The steering vector
+		PVector desired = PVector.sub(target,loc);  // A vector pointing from the location to the target
+		float d = desired.mag(); // Distance from the target is the magnitude of the vector
+		// If the distance is greater than 0, calc steering (otherwise return zero vector)
+		if (d > 0) {
+		  // Normalize desired
+		  desired.normalize();
+		  // Two options for desired vector magnitude (1 -- based on distance, 2 -- maxspeed)
+		  if ((slowdown) && (d < 100.0f)) desired.mult(maxspeed*(d/100.0f)); // This damping is somewhat arbitrary
+		  else desired.mult(maxspeed);
+		  // Steering = Desired minus Velocity
+		  steer = PVector.sub(desired,vel);
+		  steer.limit(maxforce);  // Limit to maximum steering force
+		} 
+		else {
+		  steer = new PVector(0,0);
+		}
+		return steer;
 	  }
 
 

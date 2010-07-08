@@ -66,7 +66,7 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	/**
 	 * controls the amount of TNObstleOjects
 	 */
-	public int howManyObstacles = 2;
+	public int howManyObstacles = 8;
 
 //	public ArrayList<ObstacleObject> obstclObjList;
 	
@@ -186,23 +186,23 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	/**
 	 * PDXIII background Stuff
 	 */
-    public float tintMax = 60;
+	public float tintMax = 60;
 	/**
 	 * PDXIII background Stuff
 	 */
-    public float tintMin = 20;
-    
-    public float tintSize = tintMax - tintMin;
-    
-    public float tintingStep = 0.2f;
-    
-    public int inactiveCol;
+	public float tintMin = 20;
+	
+	public float tintSize = tintMax - tintMin;
+	
+	public float tintingStep = 0.2f;
+	
+	public int inactiveCol;
 
 
-//    end PDXIII background stuff
-    
+//	end PDXIII background stuff
+	
 
-//    this is for selecting paths not randomly
+//	this is for selecting paths not randomly
 //	private int myPathNum;
 //	private int myDirection;
 //	private int myRange;
@@ -231,8 +231,8 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		
 		
 		background(0);
-		size(400,300, OPENGL);
-//		size(1024, 768,OPENGL);
+//		size(400,300, OPENGL);
+		size(1024, 768,OPENGL);
 		frameRate(25);
 		
 
@@ -509,24 +509,26 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	/**
 	 * PDXIII background Stuff
 	 */
-    public void theBackground(){
-        
-    	int a = ceil(tinter);
-        tint(220, 40+tinter, 40+tinter);
-        inactiveCol = color(220, 20 + a, 20 +a);
-        image(fadingBG,0,0);
-        if (tinter >= tintMax){tintBack = true;}
-        
-        if (tinter <= tintMin){tintBack = false;}
-        
-        if(!tintBack){
-                tinter += tintingStep;
-        }else{
-                tinter -= tintingStep;
-        }
-    }
-        
-        
+	public void theBackground(){
+		
+		int a = ceil(tinter);
+		tint(Style.tintingH, 0, 40+tinter);
+
+//		tint(Style.tintingH, 40+tinter, 40+tinter);
+		inactiveCol = color(Style.tintingH, 20 + a, 20 +a);
+		image(fadingBG,0,0);
+		if (tinter >= tintMax){tintBack = true;}
+		
+		if (tinter <= tintMin){tintBack = false;}
+		
+		if(!tintBack){
+				tinter += tintingStep;
+		}else{
+				tinter -= tintingStep;
+		}
+	}
+		
+		
 	
 	//PDXIII TUIO Stuff
 	/**
@@ -652,16 +654,16 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 					  }
 				  }
 			  
-//			    if( key==CODED ){
-//			        if( keyCode == UP ){ 
-//			        }
-//			        if( keyCode == DOWN ){ 
-//			        }
-//			        if( keyCode == LEFT ){ 
-//			        }
-//			        if( keyCode == RIGHT ){ 
-//			        }
-//			    }
+//				if( key==CODED ){
+//					if( keyCode == UP ){ 
+//					}
+//					if( keyCode == DOWN ){ 
+//					}
+//					if( keyCode == LEFT ){ 
+//					}
+//					if( keyCode == RIGHT ){ 
+//					}
+//				}
 			}
 
 			
@@ -695,8 +697,8 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 //			  PSUtil.newPtkl(this, mouseX, mouseY, ptclsList, ptclRadius);
 				
 				for (int i = 0; i < someRepellers.size(); i++) {
-				    Repeller r = someRepellers.get(i); 
-				    r.clicked(mouseX,mouseY);
+					Repeller r = someRepellers.get(i); 
+					r.clicked(mouseX,mouseY);
 				  }
 			}
 			
@@ -706,8 +708,8 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 			public void mouseReleased() {
 				
 				  for (int i = 0; i < someRepellers.size(); i++) {
-				    Repeller r = someRepellers.get(i); 
-				    r.stopDragging();
+					Repeller r = someRepellers.get(i); 
+					r.stopDragging();
 				  }
 				}
 
