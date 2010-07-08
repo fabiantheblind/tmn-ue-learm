@@ -50,7 +50,7 @@ public class Style {
 	
 	public static int superSoftWhite;
 
-	
+	public static int activeColor;
 	
 	/**
 	 * If you wan't the Text white
@@ -118,6 +118,8 @@ public static void create(){
 	textColorBlk = p.color(255,0,0,100);
 	
 	superSoftWhite =  p.color(0,0,100,5);
+	
+	activeColor = p.color(255);
 
 	
 	clsColor = p.color(255,0,100,100);

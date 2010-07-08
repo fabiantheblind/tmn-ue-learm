@@ -28,14 +28,22 @@ public class TNObstacleObject extends TNTransformableObject{
 
 	public float difX;
 	public float difY;
-	public PVector theMiddle;
 	
 	float oldAngle;
 	float oldDist;
 
 	float oldX;
 	float oldY;
+	
+	public boolean isActive = false;
+	public boolean changeState = false;
+	
+	public int time01 = 0;
+	public int time02 = 0;
+	public int activationDelay = 1000;
 
+	
+	
 	public TNObstacleObject(PApplet p, float offsetX, float offsetY, float width,
 			float height) {
 		super(p, offsetX, offsetY, width, height);
@@ -47,25 +55,89 @@ public class TNObstacleObject extends TNTransformableObject{
 
 	}
 	
-	public void internalDraw(){
+	public void internalDraw(){		
 		
-		p.fill(Style.textColorWhite);
-		p.textFont(Style.MisoBold72);
-		p.text(property.name, 0,p.textAscent());
-		float ascent = p.textAscent();
-		p.noFill();
-		p.stroke(Style.tmn_green);
-		p.rect(0, 0, width, height);
-		super.width = p.textWidth(property.name);
-		super.height = ascent;
-		p.rect(0, 0, width, height);
+		if(isActive){
+			
+			p.fill(Style.activeColor);
+			p.textFont(Style.MisoBold72);
+			p.text(property.name, 0,p.textAscent());
+			float ascent = p.textAscent();
+			p.noFill();
+			p.stroke(inactiveCol);
+			super.width = p.textWidth(property.name);
+			super.height = ascent;
+			
+			initRepellers();
+			
+		}else{
+			
+			p.fill(inactiveCol);
+			p.textFont(Style.MisoBold72);
+			p.text(property.name, 0,p.textAscent());
+			float ascent = p.textAscent();
+			super.width = p.textWidth(property.name);
+			super.height = ascent;
+			
+			ObstclsRepellerList = new ArrayList<Repeller>();
+			
+//			if(scale < 1){
+//				scale(1.1f);
+//			}
+//			if(scale > 1){
+//				scale(0.9f);
+//			}
+			
+			
+		}
 		
-		theMiddle = new PVector((width/2), (height/2));
+		setTime02();
+		
+		compareTime();
+		
+		if(changeState){
+			
+			if (isActive){
+				
+				isActive = false;
+				changeState = false;
+								
+			} else if(!isActive){
+			
+				isActive = true;
+				changeState = false;
+			}
+		}
+		
+		PApplet.println("time01 " + time01 + "; time02 " + time02 + " " + changeState + " " + isActive);
 
-		p.ellipse(theMiddle.x, theMiddle.y, 10, 10);
+	}
+
+	public void setTime01(){
 		
-		initRepellers();
+		time01 = p.millis();
+		
+	}
 	
+	public void setTime02(){
+		
+		time02 = p.millis();
+		
+	}
+	
+	public boolean compareTime(){
+
+		if((time02 - time01) > activationDelay){
+			
+			changeState = true;
+			time02 = 0;
+			time01 = 0;
+		}else{
+			
+			changeState = false;
+
+		}
+		return changeState;
 	}
 	
 	private void initRepellers(){
@@ -107,12 +179,18 @@ public class TNObstacleObject extends TNTransformableObject{
 
 			oldX = tuioCursor1.getScreenX(p.width);
 			oldY = tuioCursor1.getScreenY(p.height);
+			
+			if(time01 == 0){
+				setTime01();
+			}
 
 		} else if (tuioCursor2 == null) {
 			tuioCursor2 = tuioCursor;
 
 			oldAngle = getAngleBetween(tuioCursor1, tuioCursor2);
 			oldDist = getDistance(tuioCursor1, tuioCursor2);
+			
+			time01 = 0;
 		} else {
 			PApplet.println("Already 2 cursors in use for rotation. Omitting further ones.");
 		}
@@ -121,6 +199,8 @@ public class TNObstacleObject extends TNTransformableObject{
 	public void removeTuioCursor(TuioCursor tuioCursor) {
 		if (tuioCursor2 != null && tuioCursor2.getCursorID() == tuioCursor.getCursorID()) {
 			tuioCursor2 = null;
+			setTime01();
+
 		}
 
 		if (tuioCursor1 != null && tuioCursor1.getCursorID() == tuioCursor.getCursorID()) {
@@ -132,6 +212,9 @@ public class TNObstacleObject extends TNTransformableObject{
 				// Shall not jump after switching, so a "new" oldPos is stored for diff calc.
 				oldX = tuioCursor1.getScreenX(p.width);
 				oldY = tuioCursor1.getScreenY(p.height);
+				
+				time01 = 0;
+
 			}
 		}
 	}
@@ -166,6 +249,13 @@ public class TNObstacleObject extends TNTransformableObject{
 			float dy = y - oldY;
 
 			addOffset(dx, dy);
+			
+			if(PApplet.abs(dx) >5 && PApplet.abs(dy) >5){
+				
+				if(time01 == 0){
+					setTime01();
+				}
+			}
 
 			oldX = x;
 			oldY = y;
