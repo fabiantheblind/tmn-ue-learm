@@ -66,7 +66,7 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 	/**
 	 * controls the amount of TNObstleOjects
 	 */
-	public int howManyObstacles = 1;
+	public int howManyObstacles = 2;
 
 //	public ArrayList<ObstacleObject> obstclObjList;
 	
@@ -431,7 +431,7 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 //		display all objects
 //		drawObstacleObjects();
 		for (TNObstacleObject transformableObject : transObjects) {
-			transformableObject.draw(inactiveCol);
+			transformableObject.draw();
 			
 		}
 //		DEBUGGING START
@@ -569,6 +569,7 @@ public class TmnUELaerm extends PApplet implements TuioListener{
 		for (TNObstacleObject ttObj : transObjects) {
 			if (ttObj.isHit(tcur.getScreenX(width), tcur.getScreenY(height))) {
 				ttObj.updateTuioCursor(tcur);
+
 				break;
 			}
 		}

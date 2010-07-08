@@ -51,6 +51,8 @@ public class Style {
 	public static int superSoftWhite;
 
 	public static int activeColor;
+	public static int inactiveCol;
+
 	
 	/**
 	 * If you wan't the Text white
@@ -119,7 +121,8 @@ public static void create(){
 	
 	superSoftWhite =  p.color(0,0,100,5);
 	
-	activeColor = p.color(255);
+	activeColor = p.color(0);
+	inactiveCol = p.color(0,100);
 
 	
 	clsColor = p.color(255,0,100,100);

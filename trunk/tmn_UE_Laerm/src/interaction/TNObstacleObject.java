@@ -63,8 +63,7 @@ public class TNObstacleObject extends TNTransformableObject{
 			p.textFont(Style.MisoBold72);
 			p.text(property.name, 0,p.textAscent());
 			float ascent = p.textAscent();
-			p.noFill();
-			p.stroke(inactiveCol);
+
 			super.width = p.textWidth(property.name);
 			super.height = ascent;
 			
@@ -72,7 +71,7 @@ public class TNObstacleObject extends TNTransformableObject{
 			
 		}else{
 			
-			p.fill(inactiveCol);
+			p.fill(Style.inactiveCol);
 			p.textFont(Style.MisoBold72);
 			p.text(property.name, 0,p.textAscent());
 			float ascent = p.textAscent();
@@ -81,53 +80,78 @@ public class TNObstacleObject extends TNTransformableObject{
 			
 			ObstclsRepellerList = new ArrayList<Repeller>();
 			
-//			if(scale < 1){
-//				scale(1.1f);
-//			}
-//			if(scale > 1){
-//				scale(0.9f);
-//			}
+			if(scale < 1){
+				scale(1.005f);
+			}
+			if(scale > 1){
+				scale(0.995f);
+			}
 			
+//			if(angle > 0){
+//				rotate(0.005f);
+//			}
+//			if(angle < 0){
+//				rotate(-0.005f);
+//			}
 			
 		}
-		
-		setTime02();
 		
 		compareTime();
 		
 		if(changeState){
 			
-			if (isActive){
+			PApplet.println("changeState ");
+
+			
+			if (isActive && changeState){
 				
 				isActive = false;
 				changeState = false;
 								
-			} else if(!isActive){
+			} 
+			
+			if(!isActive && changeState){
 			
 				isActive = true;
 				changeState = false;
 			}
+			
+			PApplet.println(isActive);
+
 		}
 		
-		PApplet.println("time01 " + time01 + "; time02 " + time02 + " " + changeState + " " + isActive);
+//		PApplet.println("time01 " + time01 + "; time02 " + time02 + " " + changeState + " " + isActive);
 
 	}
 
-	public void setTime01(){
+	public void setTime(){
 		
-		time01 = p.millis();
+		
+		if (time01 > 0){
+			
+			time02 = p.millis();
+			PApplet.println("#2 OK ");
+
+		}
+
+		if (time01 == 0){
+			
+
+			time01 = p.millis();
+			PApplet.println("#1 OK ");
+
+		}
 		
 	}
-	
-	public void setTime02(){
-		
-		time02 = p.millis();
-		
-	}
+
 	
 	public boolean compareTime(){
 
-		if((time02 - time01) > activationDelay){
+		int timeDif = time02 - time01;
+		
+		PApplet.println("compare " + time01 + " t1; " + time02 + " t2; "+ timeDif);
+		
+		if(timeDif < activationDelay && timeDif > 10){
 			
 			changeState = true;
 			time02 = 0;
@@ -137,6 +161,13 @@ public class TNObstacleObject extends TNTransformableObject{
 			changeState = false;
 
 		}
+		
+		if(timeDif > activationDelay){
+			
+			time02 = 0;
+			time01 = 0;
+		}
+
 		return changeState;
 	}
 	
@@ -180,9 +211,7 @@ public class TNObstacleObject extends TNTransformableObject{
 			oldX = tuioCursor1.getScreenX(p.width);
 			oldY = tuioCursor1.getScreenY(p.height);
 			
-			if(time01 == 0){
-				setTime01();
-			}
+
 
 		} else if (tuioCursor2 == null) {
 			tuioCursor2 = tuioCursor;
@@ -190,7 +219,6 @@ public class TNObstacleObject extends TNTransformableObject{
 			oldAngle = getAngleBetween(tuioCursor1, tuioCursor2);
 			oldDist = getDistance(tuioCursor1, tuioCursor2);
 			
-			time01 = 0;
 		} else {
 			PApplet.println("Already 2 cursors in use for rotation. Omitting further ones.");
 		}
@@ -199,7 +227,6 @@ public class TNObstacleObject extends TNTransformableObject{
 	public void removeTuioCursor(TuioCursor tuioCursor) {
 		if (tuioCursor2 != null && tuioCursor2.getCursorID() == tuioCursor.getCursorID()) {
 			tuioCursor2 = null;
-			setTime01();
 
 		}
 
@@ -213,53 +240,56 @@ public class TNObstacleObject extends TNTransformableObject{
 				oldX = tuioCursor1.getScreenX(p.width);
 				oldY = tuioCursor1.getScreenY(p.height);
 				
-				time01 = 0;
-
 			}
+			
+			if (tuioCursor1 == null){
+				setTime();
+				}
+			
 		}
 	}
 
 	public void updateTuioCursor(TuioCursor tcur) {
-		if (tuioCursor1 != null && tuioCursor2 != null) {
-			// Two fingers: rotate and scale
-
-			if (tuioCursor2.getCursorID() == tcur.getCursorID()) {
-				centerX = tuioCursor1.getScreenX(p.width) - offsetX;
-				centerY = tuioCursor1.getScreenY(p.height) - offsetY;
-			} else {
-				centerX = tuioCursor2.getScreenX(p.width) - offsetX;
-				centerY = tuioCursor2.getScreenY(p.height) - offsetY;
-			}
-
-			float newAngle = getAngleBetween(tuioCursor1, tuioCursor2);
-			float angle = newAngle - oldAngle;
-			oldAngle = newAngle;
-			rotate(angle);
-
-			float newDist = getDistance(tuioCursor1, tuioCursor2);
-			float newScale = newDist / oldDist;
-			oldDist = newDist;
-			scale(newScale);
-
-		} else if (tuioCursor1 != null) {
-			// One finger: move
-			float x = tuioCursor1.getScreenX(p.width);
-			float y = tuioCursor1.getScreenY(p.height);
-			float dx = x - oldX;
-			float dy = y - oldY;
-
-			addOffset(dx, dy);
+		
+		if(isActive){
 			
-			if(PApplet.abs(dx) >5 && PApplet.abs(dy) >5){
-				
-				if(time01 == 0){
-					setTime01();
-				}
-			}
+			if (tuioCursor1 != null && tuioCursor2 != null) {
+				// Two fingers: rotate and scale
 
-			oldX = x;
-			oldY = y;
+				if (tuioCursor2.getCursorID() == tcur.getCursorID()) {
+					centerX = tuioCursor1.getScreenX(p.width) - offsetX;
+					centerY = tuioCursor1.getScreenY(p.height) - offsetY;
+				} else {
+					centerX = tuioCursor2.getScreenX(p.width) - offsetX;
+					centerY = tuioCursor2.getScreenY(p.height) - offsetY;
+				}
+
+				float newAngle = getAngleBetween(tuioCursor1, tuioCursor2);
+				float angle = newAngle - oldAngle;
+				oldAngle = newAngle;
+				rotate(angle);
+
+				float newDist = getDistance(tuioCursor1, tuioCursor2);
+				float newScale = newDist / oldDist;
+				oldDist = newDist;
+				scale(newScale);
+
+			} else if (tuioCursor1 != null) {
+				// One finger: move
+				float x = tuioCursor1.getScreenX(p.width);
+				float y = tuioCursor1.getScreenY(p.height);
+				float dx = x - oldX;
+				float dy = y - oldY;
+
+				addOffset(dx, dy);
+				
+
+				oldX = x;
+				oldY = y;
+			}
+			
 		}
+
 	}
 
 }
