@@ -31,7 +31,6 @@ public class TNTransformableObject {
 	float scale = 1;
 
 	int color;
-	public int inactiveCol;
 
 
 	PMatrix3D matrix = new PMatrix3D();
@@ -55,9 +54,8 @@ public class TNTransformableObject {
 		calculateMatrix();
 	}
 
-	public void draw(int inactiveCol) {
+	public void draw() {
 		
-		this.inactiveCol = inactiveCol;
 		p.pushMatrix();
 		if (nonMatrixOffset) {
 			p.translate(offsetX, offsetY);
