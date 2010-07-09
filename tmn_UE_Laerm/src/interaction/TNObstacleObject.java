@@ -67,7 +67,7 @@ public class TNObstacleObject extends TNTransformableObject{
 			super.width = p.textWidth(property.name);
 			super.height = ascent;
 			
-			initRepellers();
+//			initRepellers();
 			
 		}else{
 			
@@ -100,7 +100,7 @@ public class TNObstacleObject extends TNTransformableObject{
 		
 		if(changeState){
 			
-			PApplet.println("changeState ");
+//			PApplet.println("changeState ");
 
 			
 			if (isActive && changeState){
@@ -116,7 +116,7 @@ public class TNObstacleObject extends TNTransformableObject{
 				changeState = false;
 			}
 			
-			PApplet.println(isActive);
+//			PApplet.println(isActive);
 
 		}
 		

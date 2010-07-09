@@ -28,6 +28,7 @@ public class PSUtil {
 	 * 
 	 */
 	private static PApplet p;
+	public static int numOfPaths = 9;
 
 	/**
 	 * 
@@ -136,7 +137,7 @@ public class PSUtil {
 		// float maxspeed = 0.3f; // Maximum speed
 		// float myMaxspeed = Particle.maxspeed;
 		// float myMaxforce = Particle.maxforce;//+random(-1f,1f);
-		int pathNum = PApplet.floor(p.random(0, 8));
+		int pathNum = PApplet.floor(p.random(0,PSUtil.numOfPaths));
 
 		Particle ptcl = new Particle(p, new PVector(x, y), new PVector(x, y),
 				ptclRadius, pathNum, true, false);
@@ -257,4 +258,35 @@ public class PSUtil {
 		}
 		// }
 	}
+	
+	public static void makeSpaces(ArrayList<Path> pathsList){
+		
+		setNumOfPaths(9);
+			int[] pathsSize = { 80, 100, 120, 230, 250, 270, 340, 360, 380 };
+			int[] pathsRadius = { 20, 60, 30, 20, 60, 30, 20, 60, 30 };
+	
+	
+//		int[] pathsSize = { 100, 250, 360};//, 230, 250, 270, 340, 360, 380 };
+//		int[] pathsRadius = { 60, 70, 60};//, 20, 60, 30, 20, 60, 30 };
+		
+		for (int p = 0; p < numOfPaths ; p++) {
+			pathsList.add(initCirclePath(20, pathsRadius[p],pathsSize[p]));
+		}
+		
+	}
+
+	/**
+	 * @return the numOfPaths
+	 */
+	public static synchronized int getNumOfPaths() {
+		return numOfPaths;
+	}
+
+	/**
+	 * @param numOfPaths the numOfPaths to set
+	 */
+	public static synchronized void setNumOfPaths(int numOfPaths) {
+		PSUtil.numOfPaths = numOfPaths;
+	}
+
 }

@@ -172,6 +172,7 @@ public class XMLImporter {
 		root = new XMLElement(p, "./data/affectionPropertys.xml");
 		XMLElement obstcls[] = root.getChildren("obstclObject");
 		return obstcls;
+
 	}
 
 	/**

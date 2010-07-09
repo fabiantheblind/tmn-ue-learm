@@ -2,6 +2,7 @@ package particleSystem;
 
 import interaction.TNObstacleObject;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +80,147 @@ public class ParticleSystem {
 			ptcl.applyRepellForce(f);
 		}
 	}
+	/**
+	 * A function for particles to interact with all Repellers that are near to
+	 * the repeller
+	 * 
+	 * @param ObstclsList
+	 *            List
+	 * @param day
+	 * @see #calcPtclReaction(Repeller, float, Particle, boolean, PVector)
+	 * @see #myApplyRepellers(ArrayList, boolean)
+	 * @see old.ObstacleObject#ObstclsRepellerList
+	 */
+	public void applyObstcles(List<TNObstacleObject> ObstclsList, boolean day) {
+		// For every Particle
+		int x;
+		int y;
+
+		for (int i = 0; i < particles.size(); i++) {
+			Particle ptcl = (Particle) particles.get(i);
+			x = PApplet.floor(ptcl.loc.x);
+			y = PApplet.floor(ptcl.loc.y);
+
+			for (int j = 0; j < ObstclsList.size(); j++) {
+				if (ObstclsList.get(j).isActive) {
+					TNObstacleObject obsObj = ObstclsList.get(j);
+
+					if ((obsObj.isHit(x, y) == true)) {
+
+						Force force = new Force(p, obsObj.property.index,
+								obsObj.property.name,
+								obsObj.property.affectionProps, new PVector(x,
+										y), 10);
+						calcPtclReactionOnForce(force, ptcl, day);
+					}
+				}
+			}
+		}
+	}
+	/**
+	 * @param f the <code>force</code>
+	 * @param time the <code>Property</code> value time
+	 * @param space the <code>Property</code> value space
+	 * @param ptcl
+	 */
+	private void reactOnForceValues(Force f, int time, int space , Particle ptcl) {
+
+		switch (f.valueByIndex(time, space)) {
+		case -2:
+			f.repel = f.pushParticle(ptcl);
+			ptcl.applyRepellForce(f.repel);
+			 ptcl.setColorCol1(20, 100, 100, 100);
+			//
+			 ptcl.setColorCol2(40, 50, 100, 50);
+			// ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+			// ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+			break;
+		case -1:
+			f.repel = f.pushParticle(ptcl);
+			ptcl.applyRepellForce(f.repel);
+			ptcl.setColorCol1(60, 100, 100, 100);
+
+			ptcl.setColorCol2(60, 50, 100, 50);
+			// ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+			// ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+			break;
+		case 0:
+			break;
+		case 1:
+			// repel = r.pushParticle(ptcl);
+			// ptcl.applyRepellForce(repel);
+			ptcl.setColorCol1(80, 100, 100, 100);
+
+			ptcl.setColorCol2(80, 50, 100, 50);
+			// ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+			// ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+			break;
+		case 2:
+			// repel = r.pushParticle(ptcl);
+			// ptcl.applyRepellForce(repel);
+			ptcl.setColorCol1(123, 100, 100, 100);
+
+			ptcl.setColorCol2(123, 100, 100, 50);
+			// ptcl.setMaxforce(ptcl.maxforce + r.property.valueByIndex(0, 0));
+			// ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
+			break;
+		}
+
+	}
+
+	private void calcPtclReactionOnForce(Force f, Particle ptcl, boolean day) {
+		float d = ptcl.loc.dist(f.loc);
+		if (d <= f.getRadius()) {
+
+			// this is in private space
+			if ((ptcl.pathNum == 0) || (ptcl.pathNum == 1)
+					|| (ptcl.pathNum == 2)) {
+
+				if (day) {
+					// at daytime
+					reactOnForceValues(f, 0, 0, ptcl);
+				} else {
+					// at nite
+					reactOnForceValues(f, 1, 0, ptcl);
+
+				}
+				// this is in public space
+			} else if ((ptcl.pathNum == 3) || (ptcl.pathNum == 4)
+					|| (ptcl.pathNum == 5)) {
+
+				// at Daytime
+
+				if (day) {
+					reactOnForceValues(f, 0, 1, ptcl);
+
+				} else {
+					// at nite
+					reactOnForceValues(f, 1, 1, ptcl);
+
+				}
+				// this is in work space
+			} else if ((ptcl.pathNum == 6) || (ptcl.pathNum == 7)
+					|| (ptcl.pathNum == 8)) {
+				// at Daytime
+				if (day) {
+					reactOnForceValues(f, 0, 2, ptcl);
+				} else {
+					// at nite
+					reactOnForceValues(f, 1, 2, ptcl);
+				}
+			} else {
+				// if the Particle has no path to follow just a basic action
+				// takes place
+				// this is for pushing the particles that build the path around
+
+				f.repel = f.pushParticle(ptcl);
+				ptcl.applyRepellForce(f.repel);
+				ptcl.setMaxspeed(ptcl.maxspeed + 0.05f);
+				ptcl.setMass(ptcl.mass - 0.01f);
+				ptcl.setMaxforce(ptcl.maxforce + 0.01f);
+			}
+		}
+	}
 
 	/**
 	 * A function for particles to interact with all Repellers this function is
@@ -103,7 +245,6 @@ public class ParticleSystem {
 		}
 	}
 
-	//
 	/**
 	 * A function for particles to interact with all <code>Repeller</code>'s
 	 * that are near to the repeller
@@ -112,9 +253,9 @@ public class ParticleSystem {
 	 *            ArrayList
 	 * @see Particle Class Particle
 	 * @see #calcPtclReaction(Repeller, float, Particle, boolean, PVector)
-	 * @see #myApplyObstcles(List, boolean)
+	 * @see #applyObstcles(List, boolean)
 	 */
-	public void myApplyRepellers(ArrayList<Repeller> repellers, boolean day) {
+	public void applyRepellers(ArrayList<Repeller> repellers, boolean day) {
 		// For every Particle
 		for (int i = 0; i < particles.size(); i++) {
 			Particle ptcl = (Particle) particles.get(i);
@@ -138,45 +279,33 @@ public class ParticleSystem {
 	}
 
 	/**
-	 * A function for particles to interact with all Repellers that are near to
-	 * the repeller
-	 * 
 	 * @param ObstclsList
-	 *            ArrayList
 	 * @param day
-	 * @see #calcPtclReaction(Repeller, float, Particle, boolean, PVector)
-	 * @see #myApplyRepellers(ArrayList, boolean)
-	 * @see old.ObstacleObject#ObstclsRepellerList
+	 * @deprecated
 	 */
-	public void myApplyObstcles(List<TNObstacleObject> ObstclsList, boolean day) {
+	public void applyObstRepeller(List<TNObstacleObject> ObstclsList,
+			boolean day) {
 		// For every Particle
 		for (int i = 0; i < particles.size(); i++) {
 			Particle ptcl = (Particle) particles.get(i);
-			int x = PApplet.floor(ptcl.loc.x);
-			int y = PApplet.floor(ptcl.loc.y);
 
-			// if(ObstclsList.get(0).isHit(x,y)){
-			//
-			// };
-			// for every Obstacle
+
 			for (int j = 0; j < ObstclsList.size(); j++) {
-
-				if ((ObstclsList.get(j).isHit(x, y)==true) && (ObstclsList.get(j).ObstclsRepellerList != null)) {
-				
-						// ArrayList<Repeller> repellersList =
-						// ObstclsList.get(j).ObstclsRepellerList;
-						// // For every Repeller
-						for (int k = 0; k < ObstclsList.get(j).ObstclsRepellerList.size(); k++) {
-							Repeller r = (Repeller) ObstclsList.get(j).ObstclsRepellerList.get(k);
-							// // Calculate and apply a force from Repeller to
-							// Particle
-							float d = ptcl.loc.dist(r.loc);
-							PVector repel = new PVector(0, 0);
-							calcPtclReaction(r, d, ptcl, day, repel);
+				if (ObstclsList.get(j).isActive) {
+					TNObstacleObject obsObj = ObstclsList.get(j);
+					// For every Repeller
+					for (int k = 0; k < obsObj.ObstclsRepellerList.size(); k++) {
+						Repeller r = (Repeller) ObstclsList.get(j).ObstclsRepellerList.get(k);
+						// // Calculate and apply a force from Repeller to
+						// Particle
+						float d = ptcl.loc.dist(r.loc);
+						PVector repel = new PVector(0, 0);
+						calcPtclReaction(r, d, ptcl, day, repel);
 					}
 				}
 			}
 		}
+
 	}
 
 	/**
@@ -193,6 +322,7 @@ public class ParticleSystem {
 	 * @param repel
 	 *            a <code>PVector</code> for repelling
 	 * @see #reactOnPropValues(Repeller, int, int, PVector, Particle)
+	 * @deprecated
 	 */
 	private void calcPtclReaction(Repeller r, float d, Particle ptcl,
 			boolean day, PVector repel) {
@@ -271,10 +401,10 @@ public class ParticleSystem {
 	 *            the replling force
 	 * @param ptcl
 	 *            the Particle
-	 * @see #myApplyObstcles(List, boolean)
+	 * @see #applyObstcles(List, boolean)
 	 * @see #myApplyRepellers(ArrayList, boolean)
 	 * @see Property#affectionProps
-	 * 
+	 * @deprecated
 	 */
 	private void reactOnPropValues(Repeller r, int time, int space,
 			PVector repel, Particle ptcl) {
@@ -300,9 +430,9 @@ public class ParticleSystem {
 			break;
 		case 0:
 			// do nothing
-			ptcl.setColorCol1(120, 100, 100, 100);
-
-			ptcl.setColorCol2(120, 100, 100, 100);
+			// ptcl.setColorCol1(120, 100, 100, 100);
+			//
+			// ptcl.setColorCol2(120, 100, 100, 100);
 			break;
 		case 1:
 			// repel = r.pushParticle(ptcl);
@@ -326,6 +456,7 @@ public class ParticleSystem {
 
 	}
 
+	
 	/**
 	 * this runs the ParticleSystem
 	 * 

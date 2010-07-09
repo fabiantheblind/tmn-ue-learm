@@ -58,9 +58,9 @@ public class Repeller {
 	/**
 	 * The first color of the Repeller
 	 * 
-	 * @see Style#col3
+	 * @see Style#ptclCol3
 	 */
-	private int color2 = Style.col3;
+	private int color2 = Style.ptclCol3;
 
 	/**
 	 * The {@link Property} Object of {@code this} {@code Repeller}
