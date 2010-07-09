@@ -19,12 +19,12 @@ public class Repeller {
 	/**
 	 * the Gravitational Constant
 	 */
-	public float G;
+	private float G;
 
 	/**
 	 * the location of the Repeller
 	 */
-	public PVector loc;
+	private PVector loc;
 
 	/**
 	 * the PApplet
@@ -34,7 +34,7 @@ public class Repeller {
 	/**
 	 * the size of a repeller
 	 */
-	public float radius = 10;
+	private float radius = 10;
 
 	/**
 	 * For mouse interaction. Is the object being dragged?
@@ -78,7 +78,7 @@ public class Repeller {
 	 */
 	public Repeller(PApplet p, float x, float y) {
 		this.p = p;
-		this.loc = new PVector(x, y);
+		this.setLoc(new PVector(x, y));
 		this.drag = new PVector(0, 0);
 		this.G = PApplet.pow(10, 3);
 	}
@@ -91,7 +91,7 @@ public class Repeller {
 	 */
 	public Repeller(PApplet p, PVector loc) {
 		this.p = p;
-		this.loc = loc;
+		this.setLoc(loc);
 		this.drag = new PVector(0, 0);
 		this.G = PApplet.pow(10, 3);
 
@@ -107,7 +107,7 @@ public class Repeller {
 	 */
 	public Repeller(PApplet p, PVector loc, float radius) {
 		this.p = p;
-		this.loc = loc;
+		this.setLoc(loc);
 		this.drag = new PVector(0, 0);
 		this.G = PApplet.pow(10, 3);
 		this.radius = radius;
@@ -129,7 +129,7 @@ public class Repeller {
 	public Repeller(PApplet p, PVector loc, float G, float radius,
 			Property property) {
 		this.p = p;
-		this.loc = loc;
+		this.setLoc(loc);
 		this.drag = new PVector(0, 0);
 		this.G = G;
 		this.radius = radius;
@@ -150,7 +150,7 @@ public class Repeller {
 	 */
 	public Repeller(PApplet p, float x, float y, float G, float radius) {
 		this.p = p;
-		this.loc = new PVector(x, y);
+		this.setLoc(new PVector(x, y));
 		this.drag = new PVector(0, 0);
 		this.G = G;
 		this.radius = radius;
@@ -169,7 +169,7 @@ public class Repeller {
 			p.fill(color2);
 		else
 			p.noFill();
-		p.ellipse(loc.x, loc.y, radius * 2, radius * 2);
+		p.ellipse(getLoc().x, getLoc().y, radius * 2, radius * 2);
 	}
 
 	//
@@ -181,7 +181,7 @@ public class Repeller {
 	 * @return PVector direction
 	 */
 	public PVector pushParticle(Particle ptcl) {
-		PVector dir = PVector.sub(loc, ptcl.loc); // Calculate direction of
+		PVector dir = PVector.sub(getLoc(), ptcl.getLoc()); // Calculate direction of
 													// force
 		float d = dir.mag(); // Distance between objects
 		dir.normalize(); // Normalize vector (distance doesn't matter here, we
@@ -201,7 +201,21 @@ public class Repeller {
 	 */
 	public void update(PVector loc) {
 
+		this.setLoc(loc);
+	}
+
+	/**
+	 * @param loc the loc to set
+	 */
+	public void setLoc(PVector loc) {
 		this.loc = loc;
+	}
+
+	/**
+	 * @return the loc
+	 */
+	public PVector getLoc() {
+		return loc;
 	}
 
 	/**
@@ -287,11 +301,11 @@ public class Repeller {
 	 * @param my
 	 */
 	public void clicked(int mx, int my) {
-		float d = PApplet.dist(mx, my, loc.x, loc.y);
+		float d = PApplet.dist(mx, my, getLoc().x, getLoc().y);
 		if (d < radius) {
 			dragging = true;
-			this.drag.x = loc.x - mx;
-			this.drag.y = loc.y - my;
+			this.drag.x = getLoc().x - mx;
+			this.drag.y = getLoc().y - my;
 		}
 	}
 
@@ -302,7 +316,7 @@ public class Repeller {
 	 * @param my
 	 */
 	void rollover(int mx, int my) {
-		float d = PApplet.dist(mx, my, loc.x, loc.y);
+		float d = PApplet.dist(mx, my, getLoc().x, getLoc().y);
 		if (d < radius) {
 			rollover = true;
 		} else {
@@ -323,8 +337,8 @@ public class Repeller {
 	 */
 	public void drag() {
 		if (dragging) {
-			this.loc.x = p.mouseX + drag.x;
-			this.loc.y = p.mouseY + drag.y;
+			this.getLoc().x = p.mouseX + drag.x;
+			this.getLoc().y = p.mouseY + drag.y;
 		}
 	}
 }

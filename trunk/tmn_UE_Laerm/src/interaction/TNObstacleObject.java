@@ -23,11 +23,11 @@ public class TNObstacleObject extends TNTransformableObject{
 	public Property property;
 	
 	public ArrayList <Repeller> ObstclsRepellerList;
-	public float grav = PApplet.pow(10,3);
-	public float radius; 
+	float grav = PApplet.pow(10,3);
+	float radius; 
 
-	public float difX;
-	public float difY;
+	float difX;
+	float difY;
 	
 	float oldAngle;
 	float oldDist;
@@ -41,6 +41,7 @@ public class TNObstacleObject extends TNTransformableObject{
 	public int time01 = 0;
 	public int time02 = 0;
 	public int activationDelay = 1000;
+	String name;
 
 	
 	
@@ -52,6 +53,7 @@ public class TNObstacleObject extends TNTransformableObject{
 	public TNObstacleObject(PApplet p, float offsetX, float offsetY, float width, float height, Property property) {
 		super(p, offsetX, offsetY, width, height);
 		this.property = property;
+		this.name = property.getName();
 
 	}
 	
@@ -61,10 +63,10 @@ public class TNObstacleObject extends TNTransformableObject{
 			
 			p.fill(Style.activeColor);
 			p.textFont(Style.MisoBold72);
-			p.text(property.name, 0,p.textAscent());
+			p.text(name, 0,p.textAscent());
 			float ascent = p.textAscent();
 
-			super.width = p.textWidth(property.name);
+			super.width = p.textWidth(name);
 			super.height = ascent;
 			
 //			initRepellers();
@@ -73,9 +75,9 @@ public class TNObstacleObject extends TNTransformableObject{
 			
 			p.fill(Style.inactiveCol);
 			p.textFont(Style.MisoBold72);
-			p.text(property.name, 0,p.textAscent());
+			p.text(name, 0,p.textAscent());
 			float ascent = p.textAscent();
-			super.width = p.textWidth(property.name);
+			super.width = p.textWidth(name);
 			super.height = ascent;
 			
 			ObstclsRepellerList = new ArrayList<Repeller>();
@@ -282,6 +284,20 @@ public class TNObstacleObject extends TNTransformableObject{
 			
 		}
 
+	}
+
+	/**
+	 * @return the property
+	 */
+	public synchronized Property getProperty() {
+		return property;
+	}
+
+	/**
+	 * @param property the property to set
+	 */
+	public synchronized void setProperty(Property property) {
+		this.property = property;
 	}
 
 }

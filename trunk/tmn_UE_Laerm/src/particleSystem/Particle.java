@@ -28,17 +28,17 @@ public class Particle {
 	/**
 	 * the location of the particle
 	 */
-	public PVector loc;
+	private PVector loc;
 
 	/**
 	 * the velocity of the particle
 	 */
-	public PVector vel;
+	private PVector vel;
 
 	/**
 	 * the acceleration of the particle
 	 */
-	public PVector acc;
+	private PVector acc;
 
 	/**
 	 * the gravity of the particle.<br>
@@ -47,16 +47,16 @@ public class Particle {
 	 * 
 	 * @see ParticleSystem#addParticleEmitter(boolean)
 	 */
-	public float gravity = 0.0f;
+	private float gravity = 0.0f;
 
 	/**
 	 * the maximum steering force of the particle
 	 */
-	public float maxforce = 0.5f;
+	private float maxforce = 0.5f;
 	/**
 	 * the maximum speed of the particle
 	 */
-	public float maxspeed = 2.0f;
+	private float maxspeed = 2.0f;
 
 	/**
 	 * the radius of the particle.<br>
@@ -65,7 +65,7 @@ public class Particle {
 	 * 
 	 * @see #display()
 	 */
-	public float radius;// = 5f; // radius
+	private float radius;// = 5f; // radius
 
 	/**
 	 * the time a particle lifes.<br>
@@ -79,7 +79,7 @@ public class Particle {
 	 * @see #update()
 	 * @see #getALife()
 	 */
-	public float lifeTime = 100000.0f; // the lifetime of an Particle
+	private float lifeTime = 100000.0f; // the lifetime of an Particle
 
 	/**
 	 * The higher the mass of an particle the lesser the particles get pushed by
@@ -89,12 +89,12 @@ public class Particle {
 	 * @see <a
 	 *      href="Repeller.html#pushParticle(particleSystem.Particle)"><code>Repeller.pushParticle(Particle)</code></a>
 	 */
-	public float mass = 0.5f; //
+	private float mass = 0.5f; //
 
 	/**
 	 * to check if an particle should get affected by the repellers or not
 	 */
-	public boolean affection;
+	private boolean affection;
 
 	/**
 	 * if this is true the particle will not be drawn to the screen<br>
@@ -103,12 +103,12 @@ public class Particle {
 	 * @see <a href="../tmnuelaerm/TmnUELaerm.html#draw()">it happens in
 	 *      <code>TMNUelaerm.draw()</code></a>
 	 */
-	public boolean hidden;
+	private boolean hidden;
 	/**
 	 * the number of the path to follow. This is specially if you have more than
 	 * one path. so the particle can switch between paths
 	 */
-	public int pathNum;
+	private int pathNum;
 
 	/**
 	 * the particle knows where he originated.<br>
@@ -117,7 +117,7 @@ public class Particle {
 	 * @see <a
 	 *      href="Path.html#resetPointPtcls()"><code>Path.resetPointPtcls()</code></a>
 	 */
-	public final PVector origin;
+	private final PVector origin;
 
 	// some graphical stuff
 	/**
@@ -268,6 +268,20 @@ public class Particle {
 	}
 
 	/**
+	 * @return the loc
+	 */
+	public synchronized PVector getLoc() {
+		return loc;
+	}
+
+	/**
+	 * @param loc the loc to set
+	 */
+	public synchronized void setLoc(float x,float y,float z) {
+		this.loc.set(x, y, z);
+	}
+
+	/**
 	 * set the lifetime of the particle<br>
 	 * if u want to use this you need to add {@code this.lifeTime -= 0.5; } to
 	 * {@link #update()}<br>
@@ -281,9 +295,16 @@ public class Particle {
 	 * @see ParticleSystem#addParticleEmitter(boolean)
 	 * @see ParticleSystem#setEmitterOrigin(PVector)
 	 */
-	public void setLifeTime(float lifeTimeIn) {
+	public synchronized void setLifeTime(float lifeTimeIn) {
 
 		this.lifeTime = lifeTimeIn;
+	}
+
+	/**
+	 * @return the lifeTime
+	 */
+	public synchronized float getLifeTime() {
+		return lifeTime;
 	}
 
 	/**
@@ -300,7 +321,7 @@ public class Particle {
 	 * @see #ptclCol1
 	 * @see Style#ptclCol1
 	 */
-	public void setColorCol1(int h, int s, int b, int a) {
+	public synchronized void setColorCol1(int h, int s, int b, int a) {
 		this.col1 = p.color(h, s, b, a);
 	}
 
@@ -319,7 +340,7 @@ public class Particle {
 	 * @see #ptclCol2
 	 * @see Style#ptclCol2
 	 */
-	public void setColorCol2(int h, int s, int b, int a) {
+	public synchronized void setColorCol2(int h, int s, int b, int a) {
 		this.col2 = p.color(h, s, b, a);
 	}
 
@@ -331,8 +352,15 @@ public class Particle {
 	 * @see #gravity
 	 * @see ParticleSystem#addParticleEmitter(boolean)
 	 */
-	public void setGravity(float inGravity) {
+	public synchronized void setGravity(float inGravity) {
 		this.gravity = inGravity;
+	}
+
+	/**
+	 * @return the gravity
+	 */
+	public synchronized float getGravity() {
+		return gravity;
 	}
 
 	/**
@@ -341,7 +369,7 @@ public class Particle {
 	 * @see #gravity
 	 * @see ParticleSystem#addParticleEmitter(boolean)
 	 */
-	public void resetGravity() {
+	public synchronized void resetGravity() {
 		this.gravity = 0.0f;
 	}
 
@@ -354,8 +382,15 @@ public class Particle {
 	 * @see #resetMaxforce()
 	 */
 
-	public void setMaxforce(float inMaxforce) {
+	public synchronized void setMaxforce(float inMaxforce) {
 		this.maxforce = inMaxforce;
+	}
+
+	/**
+	 * @return the maxforce
+	 */
+	public synchronized float getMaxforce() {
+		return this.maxforce;
 	}
 
 	/**
@@ -364,7 +399,7 @@ public class Particle {
 	 * @see #maxforce
 	 * @see #setMaxforce(float)
 	 */
-	public void resetMaxforce() {
+	public synchronized void resetMaxforce() {
 		this.maxforce = 0.3f;
 	}
 
@@ -376,8 +411,15 @@ public class Particle {
 	 * @see #maxspeed
 	 * @see #resetMaxspeed()
 	 */
-	public void setMaxspeed(float inMaxspeed) {
+	public synchronized void setMaxspeed(float inMaxspeed) {
 		this.maxspeed = inMaxspeed;
+	}
+
+	/**
+	 * @return the maxspeed
+	 */
+	public synchronized float getMaxspeed() {
+		return this.maxspeed;
 	}
 
 	/**
@@ -386,7 +428,7 @@ public class Particle {
 	 * @see #maxspeed
 	 * @see #setMaxspeed(float)
 	 */
-	public void resetMaxspeed() {
+	public synchronized void resetMaxspeed() {
 		this.maxspeed = 2.0f;
 	}
 
@@ -397,8 +439,15 @@ public class Particle {
 	 *            float value
 	 * @see #radius
 	 */
-	public void setRadius(float inRadius) {
+	public synchronized void setRadius(float inRadius) {
 		this.radius = inRadius;
+	}
+
+	/**
+	 * @return the radius
+	 */
+	public synchronized float getRadius() {
+		return radius;
 	}
 
 	/**
@@ -409,9 +458,16 @@ public class Particle {
 	 * @see #mass
 	 * @see #resetMass()
 	 */
-	public void setMass(float massIn) {
+	public synchronized void setMass(float massIn) {
 		this.mass = massIn;
 
+	}
+
+	/**
+	 * @return the mass
+	 */
+	public synchronized float getMass() {
+		return mass;
 	}
 
 	/**
@@ -420,7 +476,7 @@ public class Particle {
 	 * @see #mass
 	 * @see #setMass(float)
 	 */
-	public void resetMass() {
+	public synchronized void resetMass() {
 		this.mass = 0.5f;
 
 	}
@@ -432,11 +488,39 @@ public class Particle {
 	 *            int value
 	 * @see <a href="./Path.html"><code>Class Path</code></a>
 	 */
-	public void setPathNum(int pathNumIn) {
+	public synchronized void setPathNum(int pathNumIn) {
 		this.pathNum = pathNumIn;
 
 	}
 
+	/**
+	 * @return the pathNum
+	 */
+	public synchronized int getPathNum() {
+		return pathNum;
+	}
+
+	/**
+	 * @return the hidden
+	 */
+	public synchronized boolean isHidden() {
+		return hidden;
+	}
+
+	/**
+	 * @param hidden the hidden to set
+	 */
+	public synchronized void setHidden(boolean hidden) {
+		this.hidden = hidden;
+	}
+
+	/**
+	 * @return the origin
+	 */
+	public synchronized PVector getOrigin() {
+		return origin;
+	}
+	
 	/**
 	 * this is for playing around with forces it is not used right now
 	 * 
@@ -530,7 +614,6 @@ public class Particle {
 		// Follow path force
 		PVector f = follow(path);
 		// Separate from other boids force
-
 		PVector s = separate(ptkls);
 		// Arbitrary weighting
 		f.mult(3);
@@ -612,12 +695,12 @@ public class Particle {
 								// can easily be beaten
 
 		// Loop through all points of the path
-		for (int i = 0; i < pt.ptclPoints.size(); i++) {
+		for (int i = 0; i < pt.getPtclPoints().size(); i++) {
 
 			// Look at a line segment
-			PVector a = (PVector) pt.ptclPoints.get(i).loc;
-			PVector b = (PVector) pt.ptclPoints.get((i + 1)
-					% pt.ptclPoints.size()).loc; // Path wraps around
+			PVector a = (PVector) pt.getPtclPoints().get(i).loc;
+			PVector b = (PVector) pt.getPtclPoints().get((i + 1)
+					% pt.getPtclPoints().size()).loc; // Path wraps around
 
 			// Get the normal point to that line
 			PVector normal = getNormalPoint(predictLoc, a, b);
@@ -632,8 +715,8 @@ public class Particle {
 				normal = b.get();
 				// If we're at the end we really want the next line segment for
 				// looking ahead
-				a = (PVector) pt.ptclPoints.get((i + 1) % pt.ptclPoints.size()).loc;
-				b = (PVector) pt.ptclPoints.get((i + 2) % pt.ptclPoints.size()).loc; // Path
+				a = (PVector) pt.getPtclPoints().get((i + 1) % pt.getPtclPoints().size()).loc;
+				b = (PVector) pt.getPtclPoints().get((i + 2) % pt.getPtclPoints().size()).loc; // Path
 																						// wraps
 																						// around
 				line = PVector.sub(b, a);

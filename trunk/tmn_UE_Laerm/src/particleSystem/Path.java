@@ -24,12 +24,12 @@ public class Path {
 	 * A Path is an ArrayList of Particles (PVector objects)
 	 * 
 	 */
-	public ArrayList<Particle> ptclPoints;
+	private ArrayList<Particle> ptclPoints;
 
 	/**
 	 * the PApplet
 	 */
-	PApplet p;
+	private PApplet p;
 
 	/**
 	 * A path has a radius, i.e how far is it ok for the particle to wander off
@@ -84,7 +84,7 @@ public class Path {
 		PVector pos = new PVector(x, y);
 		// PVector vel = new PVector(0,0);
 		Particle ptcl = new Particle(p, pos, false, true);
-		ptcl.setMass(0.01f);
+		ptcl.setMass(0.5f);
 		ptcl.setGravity(0f);
 		ptcl.setMaxforce(0.1f);
 		ptcl.setMaxspeed(1.5f);
@@ -104,33 +104,32 @@ public class Path {
 	 */
 	public void resetPointPtcls() {
 
-		Particle testPtcl = ptclPoints.get(1);
-		float dist = testPtcl.loc.dist(testPtcl.origin);
+
 		// p.fill(255);
 		// p.ellipse(testPtcl.loc.x,testPtcl.loc.y,10,10);
 		// p.println(dist/1000);
 		// p.println(testPtcl.mass);
 
-		for (int i = 0; i < ptclPoints.size(); i++) {
-			Particle ptcl = ptclPoints.get(i);
+		for (int i = 0; i < this.ptclPoints.size(); i++) {
+			Particle ptcl = this.ptclPoints.get(i);
 
-			float d = ptcl.loc.dist(ptcl.origin);
+			float d = ptcl.getLoc().dist(ptcl.getOrigin());
 
-			if (ptcl.affection == false) {
-				ptcl.seek(ptcl.origin);
+			if (ptcl.isHidden() == true) {
+				ptcl.seek(ptcl.getOrigin());
 
-				if (ptcl.mass < 1) {
-					ptcl.setMass(ptcl.mass + (d / 500));
+				if (ptcl.getMass() < 0.5) {
+					ptcl.setMass(ptcl.getMass() + (d / 500));
 				}
 				ptcl.setGravity(0f);
-				if (ptcl.maxforce < 0.1f) {
-					ptcl.setMaxforce(ptcl.maxforce + (d / 1000));
+				if (ptcl.getMaxspeed() < 0.1f) {
+					ptcl.setMaxforce(ptcl.getMaxforce() + (d / 1000));
 				}
-				if (ptcl.maxspeed < 0.5f) {
-					ptcl.setMaxspeed(ptcl.maxspeed + (d / 100000));
+				if (ptcl.getMaxspeed() < 0.5f) {
+					ptcl.setMaxspeed(ptcl.getMaxspeed() + (d / 100000));
 				}
 				ptcl.setRadius(0.01f);
-				ptcl.hidden = true;
+				ptcl.setHidden(true);
 
 			}
 		}
@@ -161,6 +160,13 @@ public class Path {
 	 */
 	public Particle getPathPtclPointVector(int i) {
 		return this.ptclPoints.get(i);
+	}
+
+	/**
+	 * @return the ptclPoints
+	 */
+	public synchronized ArrayList<Particle> getPtclPoints() {
+		return ptclPoints;
 	}
 
 	/**
@@ -252,7 +258,7 @@ public class Path {
 
 		// Draw end points
 		for (int i = 0; i < ptclPoints.size(); i++) {
-			PVector point = ptclPoints.get(i).loc;
+			PVector point = ptclPoints.get(i).getLoc();
 			p.fill(Style.superSoftWhite);
 			p.noStroke();
 			p.ellipse(point.x, point.y, this.radius * 2, this.radius * 2);
@@ -260,9 +266,9 @@ public class Path {
 
 		// Draw Polygon around path
 		for (int i = 0; i < ptclPoints.size(); i++) {
-			PVector start = ptclPoints.get(i).loc;
+			PVector start = ptclPoints.get(i).getLoc();
 			// We're assuming path is a circle in this example
-			PVector end = ptclPoints.get((i + 1) % ptclPoints.size()).loc;
+			PVector end = ptclPoints.get((i + 1) % ptclPoints.size()).getLoc();
 			PVector line = PVector.sub(end, start);
 			PVector normal = new PVector(line.y, -line.x);
 			normal.normalize();
@@ -290,7 +296,7 @@ public class Path {
 		p.noFill();
 		p.beginShape();
 		for (int i = 0; i < ptclPoints.size(); i++) {
-			PVector loc = ptclPoints.get(i).loc;
+			PVector loc = ptclPoints.get(i).getLoc();
 			p.vertex(loc.x, loc.y);
 		}
 		p.endShape(PApplet.CLOSE);

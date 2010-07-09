@@ -1,8 +1,10 @@
 package particleSystem;
 
+import java.awt.Component;
 import java.util.ArrayList;
 
 import old.ObstacleObject;
+
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -29,7 +31,6 @@ public class PSUtil {
 	 */
 	private static PApplet p;
 	public static int numOfPaths = 9;
-
 	/**
 	 * 
 	 * this sets the PApplet for all the functions it has to be called first
@@ -163,7 +164,7 @@ public class PSUtil {
 			ArrayList<ObstacleObject> obstclObjList,
 			ArrayList<Particle> ptclsList) {
 		// println(obstclObjList.get(0).ObstclsRepellerList.get(0).radius);
-		float mySize = obstclObjList.get(0).ObstclsRepellerList.get(0).radius;
+		float mySize = obstclObjList.get(0).ObstclsRepellerList.get(0).getRadius();
 		float myNewForce = PApplet.map(mySize, 10, 100, 0.5f, 13f);
 
 		float myNewSpeed = PApplet.map(mySize, 10, 100, 0.5f, 13f);
@@ -250,13 +251,13 @@ public class PSUtil {
 
 	}
 
-	public static void resetPath(int runtimeCounter, ArrayList<Path> pathsList) {
+	public static void resetPath( ArrayList<Path> pathsList) {
+		
+
 		// TODO Auto-generated method stub
-		// if(runtimeCounter%23==1){
 		for (int i = 0; i < pathsList.size(); i++) {
 			pathsList.get(i).resetPointPtcls();
 		}
-		// }
 	}
 	
 	public static void makeSpaces(ArrayList<Path> pathsList){
@@ -270,7 +271,7 @@ public class PSUtil {
 //		int[] pathsRadius = { 60, 70, 60};//, 20, 60, 30, 20, 60, 30 };
 		
 		for (int p = 0; p < numOfPaths ; p++) {
-			pathsList.add(initCirclePath(20, pathsRadius[p],pathsSize[p]));
+			pathsList.add(initCirclePath(13, pathsRadius[p],pathsSize[p]));
 		}
 		
 	}
@@ -287,6 +288,26 @@ public class PSUtil {
 	 */
 	public static synchronized void setNumOfPaths(int numOfPaths) {
 		PSUtil.numOfPaths = numOfPaths;
+	}
+
+	public static void applyPaths(ArrayList<Particle> ptclsList, boolean switchPath, ArrayList<Path> pathsList) {
+		
+		for (int i = 0; i < ptclsList.size(); i++) {
+			Particle ptcl = ptclsList.get(i);
+			// if the particle is not part of a path
+			if (ptcl.isHidden() != true) {
+				// use the switchPath variable for random path selection
+				if (switchPath) {
+					ptcl.setPathNum(PApplet.floor(p.random(0, PSUtil.numOfPaths)));// myPathNum;
+				}
+				ptcl.applyForces(ptclsList, pathsList.get(ptcl.getPathNum()));
+				switchPath = false;
+
+			}
+			// Call the generic run method (update, borders, display, etc.)
+			ptcl.run();
+
+		}		
 	}
 
 }
