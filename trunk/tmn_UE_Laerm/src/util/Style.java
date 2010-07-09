@@ -18,15 +18,15 @@ public class Style {
 	/**
 	 * Color 1
 	 */
-	public static int col1;
+	public static int ptclCol1;
 	/**
 	 * Color 2
 	 */
-	public static int col2; 
+	public static int ptclCol2; 
 	/**
 	 * Color 3
 	 */
-	public static int col3;
+	public static int ptclCol3;
 	
 	public static int tmn_green;
 	
@@ -97,9 +97,9 @@ public class Style {
 public static void create(){
 		
 //		colors
-	col1 = p.color(0,100,0,100);
-	col2 = p.color(0,100,0,23); 
-	col3 = p.color(360,0,100,100);
+	ptclCol1 = p.color(0,0,100,100);
+	ptclCol2 = p.color(0,0,100,100); 
+	ptclCol3 = p.color(360,0,0,100);
 	
 	tmn_green = p.color(107,100,100);
 	
@@ -123,7 +123,7 @@ public static void create(){
 	superSoftWhite =  p.color(0,0,100,5);
 	
 	activeColor = p.color(0);
-	inactiveCol = p.color(0,100);
+	inactiveCol = p.color(0,23);
 	
 	tintingH = 220;
 

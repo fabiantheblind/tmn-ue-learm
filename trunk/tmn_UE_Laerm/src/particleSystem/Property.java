@@ -18,18 +18,18 @@ public class Property {
 	 * the index from the xml
 	 * 
 	 */
-	public final int index;
+	public int index;
 	/**
 	 * the word or name to write to the screen
 	 */
-	public final String name;
+	public String name;
 	/**
 	 * a 2 dimensinal float array to store the values
 	 * {@code float [time( 2 values )][space( 3 values )]} the time 0 day or 1
 	 * night the space as private 0 / public 1 / work 2
 	 */
 	public int[][] affectionProps;
-
+	
 	/**
 	 * @param index
 	 * @param name
@@ -42,6 +42,22 @@ public class Property {
 		this.index = index;
 		this.name = name.toUpperCase();
 		this.affectionProps = affectionProps;
+
+	}
+	
+	public Property() {
+		
+		this.index = 0;
+		this.name = "";
+		int[][] propertys = new int[2][3];
+		propertys[0][0] = 0;
+		propertys[0][1] = 0;
+		propertys[0][2] = 0;
+		propertys[1][0] = 0;
+		propertys[1][1] = 0;
+		propertys[1][2] = 0;
+		
+		this.affectionProps = propertys;
 
 	}
 
@@ -108,6 +124,14 @@ public class Property {
 	 */
 	public synchronized void setAffectionProps(int[][] affectionProps) {
 		this.affectionProps = affectionProps;
+	}
+	
+	public void cloneProperty(Property extProp){
+
+		
+		this.index = extProp.index;
+		this.name = extProp.name;
+		this.affectionProps = extProp.affectionProps;
 	}
 
 }

@@ -91,7 +91,6 @@ public class Debug {
 			ParticleSystem ps) {
 
 		Particle myPtcl = ptclsList.get(0);
-		// float distToCenterPS = myPtcl.loc.dist(ps.origin);
 
 		myPtcl.setColorCol1(150, 100, 100, 100);
 		myPtcl.setColorCol2(150, 100, 100, 20);
@@ -105,15 +104,6 @@ public class Debug {
 		p.ellipse(myPtcl.loc.x, myPtcl.loc.y, 10, 10);
 		p.noFill();
 		drawMyPtclForce(WAP_position, myPtcl);
-		// PApplet.println(myPtcl.maxforce);
-		// myPtcl.setRadius(10);
-
-		// println("MyPtkls Data -- Gravity: " +nf(myPtcl.gravity,7,7)
-		// +" Mass: "+nf(myPtcl.mass,7,7)
-		// +" Speed: "+nf(myPtcl.maxspeed,7,7)
-		// +" Force: "+nf(myPtcl.maxforce,7,7)
-		// +" vel.x: "+nf(myPtcl.vel.x,7,7)+" vel.y: "+nf(myPtcl.vel.y,7,7)
-		// );
 
 	}
 

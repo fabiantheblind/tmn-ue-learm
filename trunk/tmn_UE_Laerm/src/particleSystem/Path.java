@@ -87,7 +87,7 @@ public class Path {
 		ptcl.setMass(0.01f);
 		ptcl.setGravity(0f);
 		ptcl.setMaxforce(0.1f);
-		ptcl.setMaxspeed(0.5f);
+		ptcl.setMaxspeed(1.5f);
 		ptcl.setRadius(0.1f);
 		// ptcl.setPathNum(10);
 		ptclPoints.add(ptcl);

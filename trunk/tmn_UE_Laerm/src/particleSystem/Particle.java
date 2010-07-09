@@ -123,23 +123,23 @@ public class Particle {
 	/**
 	 * the first color of the Particle
 	 * 
-	 * @see Style#col1
+	 * @see Style#ptclCol1
 	 */
 	@SuppressWarnings("unused")
-	private int col1 = Style.col1;
+	private int col1 = Style.ptclCol1;
 	/**
 	 * the second color of the Particle
 	 * 
-	 * @see Style#col2
+	 * @see Style#ptclCol2
 	 */
-	private int col2 = Style.col2;
+	private int col2 = Style.ptclCol2;
 
 	/**
 	 * the third color of the Particle
 	 * 
-	 * @see Style#col3
+	 * @see Style#ptclCol3
 	 */
-	private int col3 = Style.col3;
+	private int col3 = Style.ptclCol3;
 
 	/**
 	 * This is the Master Constructor. you can also set all these parameters at
@@ -157,7 +157,7 @@ public class Particle {
 	 *            the maxspeed
 	 * @param mf
 	 *            the maxforce
-	 * @param pathNum
+	 * @param numOfPaths
 	 *            the path to follow
 	 * @param affection
 	 *            should it get affected or not
@@ -216,7 +216,6 @@ public class Particle {
 	 * @param loc
 	 * @param vel
 	 * @param r
-	 * @param pathNum
 	 * @param affection
 	 * @param hidden
 	 */
@@ -229,9 +228,6 @@ public class Particle {
 		this.acc = new PVector(0, 0);
 		this.vel = new PVector(0, 0);
 		this.lifeTime = 100000.0f;
-		this.col1 = p.color(Style.col1);
-		this.col2 = p.color(Style.col2);
-		this.col3 = p.color(Style.col3);
 		this.affection = affection;
 		this.origin = new PVector(loc.x, loc.y);
 		this.hidden = hidden;
@@ -251,10 +247,6 @@ public class Particle {
 		this.acc = new PVector(0, 0);
 		this.vel = new PVector(0, 0);
 		this.loc = loc.get();
-		this.col1 = p.color(Style.col1);
-		this.col2 = p.color(Style.col2);
-		this.col3 = p.color(Style.col3);
-
 		this.affection = affection;
 		this.origin = new PVector(loc.x, loc.y);
 		this.hidden = hidden;
@@ -294,26 +286,8 @@ public class Particle {
 		this.lifeTime = lifeTimeIn;
 	}
 
-	// // some graphical stuff in RGB
-	// public void setColorCol1(int r, int g, int b, int a){
-	// col1 = p.color(r,g,b,a);
-	// }
-	//
-	// public void setColorCol1Grey(int greyVal, int a){
-	// col1 = p.color(greyVal,a);
-	// }
-	//
-	// public void setColorCol2(int r, int g, int b, int a){
-	// col2 = p.color(r,g,b,a);
-	// }
-	//
-	// public void setColorCol2Grey(int greyVal, int a){
-	// col2 = p.color(greyVal,a);
-	// }
-
-	//
 	/**
-	 * set the field col1
+	 * set the field ptclCol1
 	 * 
 	 * @param h
 	 *            hue 0 - 360
@@ -323,29 +297,16 @@ public class Particle {
 	 *            brightness 0 - 100
 	 * @param a
 	 *            alpha 0 - 100
-	 * @see #col1
-	 * @see Style#col1
+	 * @see #ptclCol1
+	 * @see Style#ptclCol1
 	 */
 	public void setColorCol1(int h, int s, int b, int a) {
 		this.col1 = p.color(h, s, b, a);
 	}
 
-	/**
-	 * set the field col1 If you want it black and white
-	 * 
-	 * @param greyVal
-	 *            0 - 100
-	 * @param a
-	 *            0 - 100
-	 * @see #col1
-	 * @see Style#col1
-	 */
-	public void setColorCol1Grey(int greyVal, int a) {
-		this.col1 = p.color(360, 0, greyVal, a);
-	}
 
 	/**
-	 * set the field col2
+	 * set the field ptclCol2
 	 * 
 	 * @param h
 	 *            hue 0 - 360
@@ -355,25 +316,11 @@ public class Particle {
 	 *            brightness 0 - 100
 	 * @param a
 	 *            alpha 0 - 100
-	 * @see #col2
-	 * @see Style#col2
+	 * @see #ptclCol2
+	 * @see Style#ptclCol2
 	 */
 	public void setColorCol2(int h, int s, int b, int a) {
 		this.col2 = p.color(h, s, b, a);
-	}
-
-	/**
-	 * set the field col2 If you want it black and white
-	 * 
-	 * @param greyVal
-	 *            0 - 100
-	 * @param a
-	 *            0 - 100
-	 * @see #col2
-	 * @see Style#col2
-	 */
-	public void setColorCol2Grey(int greyVal, int a) {
-		this.col2 = p.color(360, 0, greyVal, a);
 	}
 
 	/**
@@ -499,28 +446,10 @@ public class Particle {
 
 		for (int i = 0; i < obstacles.size(); i++) {
 			Particle obstcl = obstacles.get(i);
-
 			PVector force = new PVector(obstcl.loc.x, obstcl.loc.y); // obstcl.loc;
-
 			force.normalize();
-
 			loc.x = loc.x + force.x;
 			loc.y = loc.y + force.y;
-
-			// if( (loc.x > (obstcl.loc.x + obstcl.radius/2))){
-			// vel.x = vel.x + 1;
-			// }else if (loc.x < (obstcl.loc.x - obstcl.radius/2 )){
-			// vel.x = vel.x - 1;
-			// }
-			// if( (loc.y > (obstcl.loc.y + obstcl.radius/2))){
-			// vel.y = vel.y + 1;
-			// }else if (loc.y < (obstcl.loc.y - obstcl.radius/2 )){
-			// vel.y = vel.y - 1;
-			// } else {
-			//
-			// vel.x = vel.x;
-			// vel.y = vel.y;
-			// }
 
 		}
 	}
@@ -553,25 +482,29 @@ public class Particle {
 
 		if (hidden != true) {
 
-			p.stroke(col3);
-			p.point(p.random(loc.x - 0.5f, loc.x + 0.5f),
-					p.random(loc.y - 0.5f, loc.y + 0.5f));
-			p.stroke(col2);
+			p.stroke(col1);
 			p.strokeWeight(this.radius);
-			p.point(p.random(loc.x - 0.5f, loc.x + 0.5f),
-					p.random(loc.y - 0.5f, loc.y + 0.5f));
-			p.point(p.random(loc.x - 0.5f, loc.x + 0.5f),
-					p.random(loc.y - 0.5f, loc.y + 0.5f));
+			p.point(loc.x,loc.y);
 
-			// p.fill(col1);
+			p.stroke(col2);
+			p.point(loc.x,loc.y);
+			p.noStroke();
+//			p.stroke(ptclCol2);
+//			p.strokeWeight(this.radius);
+//			p.point(p.random(loc.x - 0.5f, loc.x + 0.5f),
+//					p.random(loc.y - 0.5f, loc.y + 0.5f));
+//			p.point(p.random(loc.x - 0.5f, loc.x + 0.5f),
+//					p.random(loc.y - 0.5f, loc.y + 0.5f));
+
+			// p.fill(ptclCol1);
 			// p.ellipse(loc.x, loc.y, radius, radius);
 			// p.noStroke();
-			// p.fill(col2);
+			// p.fill(ptclCol2);
 			// p.ellipse(loc.x,loc.y,radius*1.05f,radius*1.05f);
 
 			// for(int i=0;i<2;i++){
 			// p.strokeWeight(1);
-			// p.stroke(col2);
+			// p.stroke(ptclCol2);
 			// p.beginShape(p.LINES);
 			// p.vertex(loc.x+p.random(-radius*1.05f,radius*1.05f),
 			// loc.y+p.random(-radius*1.05f,radius*1.05f));
@@ -614,7 +547,7 @@ public class Particle {
 	 *            PVector
 	 * @see ParticleSystem#myApplyRepellers(ArrayList, boolean)
 	 * @see ParticleSystem#applyRepellers(ArrayList)
-	 * @see ParticleSystem#myApplyObstcles(java.util.List, boolean)
+	 * @see ParticleSystem#applyObstcles(java.util.List, boolean)
 	 */
 	public void applyRepellForce(PVector force) {
 
