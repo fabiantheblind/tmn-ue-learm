@@ -18,25 +18,25 @@ public class Force extends Property{
 	/**
 	 * the Gravitational Constant
 	 */
-	public float G;
+	private float G;
 	
 	
 	/**
 	 * the location where the Force happens
 	 */
-	public PVector loc;
+	private PVector loc;
 	
 	/**
 	 * the PApplet
 	 */
-	PApplet p;
+	private PApplet p;
 	
 	/**
 	 * the size of a force
 	 */
-	public float radius = 10;
+	private float radius = 10;
 	
-	public PVector repel;
+	private PVector repel;
 
 	
 	public Force(PApplet p,int index, String name, int[][] affectionProps,
@@ -58,8 +58,71 @@ public class Force extends Property{
 //	}
 
 
+	/**
+	 * @return the g
+	 */
+	public synchronized float getG() {
+		return G;
+	}
+
+	/**
+	 * @return the loc
+	 */
+	public synchronized PVector getLoc() {
+		return loc;
+	}
+
+	/**
+	 * @return the p
+	 */
+	public synchronized PApplet getP() {
+		return p;
+	}
+
+	/**
+	 * @return the repel
+	 */
+	public synchronized PVector getRepel() {
+		return repel;
+	}
+
+	/**
+	 * @param g the g to set
+	 */
+	public synchronized void setG(float g) {
+		G = g;
+	}
+
+	/**
+	 * @param loc the loc to set
+	 */
+	public synchronized void setLoc(PVector loc) {
+		this.loc = loc;
+	}
+
+	/**
+	 * @param p the p to set
+	 */
+	public synchronized void setP(PApplet p) {
+		this.p = p;
+	}
+
+	/**
+	 * @param radius the radius to set
+	 */
+	public synchronized void setRadius(float radius) {
+		this.radius = radius;
+	}
+
+	/**
+	 * @param repel the repel to set
+	 */
+	public synchronized void setRepel(PVector repel) {
+		this.repel = repel;
+	}
+
 	public PVector pushParticle(Particle ptcl) {
-		PVector dir = PVector.sub(loc, ptcl.loc); // Calculate direction of
+		PVector dir = PVector.sub(loc, ptcl.getLoc()); // Calculate direction of
 													// force
 		float d = dir.mag(); // Distance between objects
 		dir.normalize(); // Normalize vector (distance doesn't matter here, we
@@ -89,6 +152,6 @@ public class Force extends Property{
 	 *      XMLIMPORTER</a>
 	 */
 	public int valueByIndex(int time, int space) {
-		return affectionProps[time][space];
+		return getAffectionProps()[time][space];
 	}
 }

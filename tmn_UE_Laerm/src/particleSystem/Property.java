@@ -18,17 +18,17 @@ public class Property {
 	 * the index from the xml
 	 * 
 	 */
-	public int index;
+	int index;
 	/**
 	 * the word or name to write to the screen
 	 */
-	public String name;
+	String name;
 	/**
 	 * a 2 dimensinal float array to store the values
 	 * {@code float [time( 2 values )][space( 3 values )]} the time 0 day or 1
 	 * night the space as private 0 / public 1 / work 2
 	 */
-	public int[][] affectionProps;
+	int[][] affectionProps;
 	
 	/**
 	 * @param index
@@ -81,6 +81,17 @@ public class Property {
 	public synchronized int[][] getAffectionProps() {
 		return affectionProps;
 	}
+	public synchronized void setAffectionProps(int[][] affectionProps) {
+		this.affectionProps = affectionProps;
+	}
+
+	/**
+	 * @param index the index to set
+	 */
+	public synchronized void setIndex(int index) {
+		this.index = index;
+	}
+
 
 	/**
 	 * @return all daytime values from the Class Property as a {@code float[]}
@@ -122,9 +133,7 @@ public class Property {
 	 * @param affectionProps
 	 *            the affectionProps to set
 	 */
-	public synchronized void setAffectionProps(int[][] affectionProps) {
-		this.affectionProps = affectionProps;
-	}
+
 	
 	public void cloneProperty(Property extProp){
 

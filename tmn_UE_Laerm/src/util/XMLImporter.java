@@ -67,7 +67,7 @@ import processing.xml.XMLElement;
 public class XMLImporter {
 
 	private static PApplet p;
-	public static XMLElement root;
+	private static XMLElement root;
 
 	/**
 	 * this is for setting the PApplet for the whole class must be called in the

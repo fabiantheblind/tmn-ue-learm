@@ -97,13 +97,14 @@ public class Debug {
 		p.noFill();
 		p.strokeWeight(1);
 		p.stroke(Style.textColorWhite);
-		p.line(WAP_position.x - 7, WAP_position.y - 3, myPtcl.loc.x
-				- myPtcl.radius, myPtcl.loc.y - myPtcl.radius);
+		p.line(WAP_position.x - 7, WAP_position.y - 3, myPtcl.getLoc().x
+				- myPtcl.getRadius(), myPtcl.getLoc().y - myPtcl.getRadius());
 		p.stroke(150, 100, 100, 100);
 		p.ellipseMode(PApplet.CENTER);
-		p.ellipse(myPtcl.loc.x, myPtcl.loc.y, 10, 10);
+		p.ellipse(myPtcl.getLoc().x, myPtcl.getLoc().y, 10, 10);
 		p.noFill();
 		drawMyPtclForce(WAP_position, myPtcl);
+
 
 	}
 
@@ -135,15 +136,15 @@ public class Debug {
 
 		p.fill(color);
 		p.text("The life of one Particle", (lineheight * 0) + pos.x, 0 + pos.y);
-		p.text("MaxForce: " + myPtcl.maxforce, 0 + pos.x, (lineheight * 1)
+		p.text("MaxForce: " + myPtcl.getMaxforce(), 0 + pos.x, (lineheight * 1)
 				+ pos.y);
-		p.text("MaxSpeed: " + myPtcl.maxspeed, 0 + pos.x, (lineheight * 2)
+		p.text("MaxSpeed: " + myPtcl.getMaxspeed(), 0 + pos.x, (lineheight * 2)
 				+ pos.y);
-		p.text("Mass: " + myPtcl.mass, 0 + pos.x, (lineheight * 3) + pos.y);
-		p.text("Gravity: " + myPtcl.gravity, 0 + pos.x, (lineheight * 4)
+		p.text("Mass: " + myPtcl.getMass(), 0 + pos.x, (lineheight * 3) + pos.y);
+		p.text("Gravity: " + myPtcl.getGravity(), 0 + pos.x, (lineheight * 4)
 				+ pos.y);
-		if (myPtcl.lifeTime < 100000.0f) {
-			p.text("Lifetime: " + myPtcl.lifeTime, 0 + pos.x, (lineheight * 5)
+		if (myPtcl.getLifeTime() < 100000.0f) {
+			p.text("Lifetime: " + myPtcl.getLifeTime(), 0 + pos.x, (lineheight * 5)
 					+ pos.y);
 		}
 		p.noFill();
@@ -180,9 +181,9 @@ public class Debug {
 		p.textFont(Style.MisoReg13);
 		int lineheight = 16;
 		p.noStroke();
-		makeRepTextWithShadow(myRep.loc, Style.textColorBlk, lineheight,
+		makeRepTextWithShadow(myRep.getLoc(), Style.textColorBlk, lineheight,
 				myRep.property);
-		makeRepTextWithShadow(new PVector(myRep.loc.x - 1, myRep.loc.y - 1),
+		makeRepTextWithShadow(new PVector(myRep.getLoc().x - 1, myRep.getLoc().y - 1),
 				Style.textColorWhite, lineheight, myRep.property);
 		p.noFill();
 
@@ -193,9 +194,9 @@ public class Debug {
 		p.fill(color);
 		// p.text("Data of this Repeller", loc.x +12, 0 + loc.y+12
 		// +(lineheight*0));
-		p.text("index: " + property.index, loc.x + 12, 0 + loc.y + 12
+		p.text("index: " + property.getIndex(), loc.x + 12, 0 + loc.y + 12
 				+ (lineheight * 0));
-		p.text("Name: " + property.name, loc.x + 12, 0 + loc.y + 12
+		p.text("Name: " + property.getName(), loc.x + 12, 0 + loc.y + 12
 				+ (lineheight * 1));
 		p.text("Propertys : " + "Day " + " prvt:( "
 				+ property.valueByIndex(0, 0) + ") " + " pblc:( "

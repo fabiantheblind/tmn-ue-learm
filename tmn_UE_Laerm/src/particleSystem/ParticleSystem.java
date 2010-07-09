@@ -39,7 +39,7 @@ public class ParticleSystem {
 	 * @see #addParticleEmitter(boolean)
 	 * @see #setEmitterOrigin(PVector)
 	 */
-	public PVector origin;
+	private PVector origin;
 
 	/**
 	 * this is the masterconstructor
@@ -65,6 +65,20 @@ public class ParticleSystem {
 																	// to the
 																	// arraylist
 		}
+	}
+
+	/**
+	 * @return the origin
+	 */
+	public synchronized PVector getOrigin() {
+		return origin;
+	}
+
+	/**
+	 * @param origin the origin to set
+	 */
+	public synchronized void setOrigin(PVector origin) {
+		this.origin = origin;
 	}
 
 	/**
@@ -98,8 +112,8 @@ public class ParticleSystem {
 
 		for (int i = 0; i < particles.size(); i++) {
 			Particle ptcl = (Particle) particles.get(i);
-			x = PApplet.floor(ptcl.loc.x);
-			y = PApplet.floor(ptcl.loc.y);
+			x = PApplet.floor(ptcl.getLoc().x);
+			y = PApplet.floor(ptcl.getLoc().y);
 
 			for (int j = 0; j < ObstclsList.size(); j++) {
 				if (ObstclsList.get(j).isActive) {
@@ -107,9 +121,9 @@ public class ParticleSystem {
 
 					if ((obsObj.isHit(x, y) == true)) {
 
-						Force force = new Force(p, obsObj.property.index,
-								obsObj.property.name,
-								obsObj.property.affectionProps, new PVector(x,
+						Force force = new Force(p, obsObj.property.getIndex(),
+								obsObj.getProperty().getName(),
+								obsObj.getProperty().getAffectionProps(), new PVector(x,
 										y), 10);
 						calcPtclReactionOnForce(force, ptcl, day);
 					}
@@ -127,8 +141,8 @@ public class ParticleSystem {
 
 		switch (f.valueByIndex(time, space)) {
 		case -2:
-			f.repel = f.pushParticle(ptcl);
-			ptcl.applyRepellForce(f.repel);
+			f.setRepel(f.pushParticle(ptcl));
+			ptcl.applyRepellForce(f.getRepel());
 			 ptcl.setColorCol1(20, 100, 100, 100);
 			//
 			 ptcl.setColorCol2(40, 50, 100, 50);
@@ -136,8 +150,8 @@ public class ParticleSystem {
 			// ptcl.setMaxspeed(ptcl.maxspeed + r.property.valueByIndex(0, 0));
 			break;
 		case -1:
-			f.repel = f.pushParticle(ptcl);
-			ptcl.applyRepellForce(f.repel);
+			f.setRepel(f.pushParticle(ptcl));
+			ptcl.applyRepellForce(f.getRepel());
 			ptcl.setColorCol1(60, 100, 100, 100);
 
 			ptcl.setColorCol2(60, 50, 100, 50);
@@ -169,12 +183,12 @@ public class ParticleSystem {
 	}
 
 	private void calcPtclReactionOnForce(Force f, Particle ptcl, boolean day) {
-		float d = ptcl.loc.dist(f.loc);
+		float d = ptcl.getLoc().dist(f.getLoc());
 		if (d <= f.getRadius()) {
 
 			// this is in private space
-			if ((ptcl.pathNum == 0) || (ptcl.pathNum == 1)
-					|| (ptcl.pathNum == 2)) {
+			if ((ptcl.getPathNum() == 0) || (ptcl.getPathNum() == 1)
+					|| (ptcl.getPathNum() == 2)) {
 
 				if (day) {
 					// at daytime
@@ -185,8 +199,8 @@ public class ParticleSystem {
 
 				}
 				// this is in public space
-			} else if ((ptcl.pathNum == 3) || (ptcl.pathNum == 4)
-					|| (ptcl.pathNum == 5)) {
+			} else if ((ptcl.getPathNum() == 3) || (ptcl.getPathNum() == 4)
+					|| (ptcl.getPathNum() == 5)) {
 
 				// at Daytime
 
@@ -199,8 +213,8 @@ public class ParticleSystem {
 
 				}
 				// this is in work space
-			} else if ((ptcl.pathNum == 6) || (ptcl.pathNum == 7)
-					|| (ptcl.pathNum == 8)) {
+			} else if ((ptcl.getPathNum() == 6) || (ptcl.getPathNum() == 7)
+					|| (ptcl.getPathNum() == 8)) {
 				// at Daytime
 				if (day) {
 					reactOnForceValues(f, 0, 2, ptcl);
@@ -213,11 +227,11 @@ public class ParticleSystem {
 				// takes place
 				// this is for pushing the particles that build the path around
 
-				f.repel = f.pushParticle(ptcl);
-				ptcl.applyRepellForce(f.repel);
-				ptcl.setMaxspeed(ptcl.maxspeed + 0.05f);
-				ptcl.setMass(ptcl.mass - 0.01f);
-				ptcl.setMaxforce(ptcl.maxforce + 0.01f);
+				f.setRepel(f.pushParticle(ptcl));
+				ptcl.applyRepellForce(f.getRepel());
+				ptcl.setMaxspeed(ptcl.getMaxspeed() + 0.05f);
+				ptcl.setMass(ptcl.getMass() - 0.01f);
+				ptcl.setMaxforce(ptcl.getMaxforce() + 0.01f);
 			}
 		}
 	}
@@ -260,7 +274,7 @@ public class ParticleSystem {
 		for (int i = 0; i < particles.size(); i++) {
 			Particle ptcl = (Particle) particles.get(i);
 
-			float distToCenterPS = ptcl.loc.dist(origin);
+			float distToCenterPS = ptcl.getLoc().dist(origin);
 			float n = PApplet.norm(distToCenterPS, 0, p.width / 2f);
 			ptcl.setMass(n);
 			// For every Repeller
@@ -269,7 +283,7 @@ public class ParticleSystem {
 
 				Repeller r = repellers.get(j);
 				// Calculate the distance from a Repeller to the particle
-				float d = ptcl.loc.dist(r.loc);
+				float d = ptcl.getLoc().dist(r.getLoc());
 
 				PVector repel = new PVector(0, 0);
 				calcPtclReaction(r, d, ptcl, day, repel);
@@ -298,7 +312,7 @@ public class ParticleSystem {
 						Repeller r = (Repeller) ObstclsList.get(j).ObstclsRepellerList.get(k);
 						// // Calculate and apply a force from Repeller to
 						// Particle
-						float d = ptcl.loc.dist(r.loc);
+						float d = ptcl.getLoc().dist(r.getLoc());
 						PVector repel = new PVector(0, 0);
 						calcPtclReaction(r, d, ptcl, day, repel);
 					}
@@ -330,8 +344,8 @@ public class ParticleSystem {
 		if (d <= r.getRadius()) {
 
 			// this is in private space
-			if ((ptcl.pathNum == 0) || (ptcl.pathNum == 1)
-					|| (ptcl.pathNum == 2)) {
+			if ((ptcl.getPathNum() == 0) || (ptcl.getPathNum() == 1)
+					|| (ptcl.getPathNum() == 2)) {
 
 				if (day) {
 					// at daytime
@@ -342,8 +356,8 @@ public class ParticleSystem {
 
 				}
 				// this is in public space
-			} else if ((ptcl.pathNum == 3) || (ptcl.pathNum == 4)
-					|| (ptcl.pathNum == 5)) {
+			} else if ((ptcl.getPathNum() == 3) || (ptcl.getPathNum() == 4)
+					|| (ptcl.getPathNum() == 5)) {
 
 				// at Daytime
 
@@ -356,8 +370,8 @@ public class ParticleSystem {
 
 				}
 				// this is in work space
-			} else if ((ptcl.pathNum == 6) || (ptcl.pathNum == 7)
-					|| (ptcl.pathNum == 8)) {
+			} else if ((ptcl.getPathNum() == 6) || (ptcl.getPathNum() == 7)
+					|| (ptcl.getPathNum() == 8)) {
 				// at Daytime
 				if (day) {
 					reactOnPropValues(r, 0, 2, repel, ptcl);
@@ -376,9 +390,9 @@ public class ParticleSystem {
 
 				repel = r.pushParticle(ptcl);
 				ptcl.applyRepellForce(repel);
-				ptcl.setMaxspeed(ptcl.maxspeed + 0.05f);
-				ptcl.setMass(ptcl.mass - 0.01f);
-				ptcl.setMaxforce(ptcl.maxforce + 0.01f);
+				ptcl.setMaxspeed(ptcl.getMaxspeed() + 0.05f);
+				ptcl.setMass(ptcl.getMass() - 0.01f);
+				ptcl.setMaxforce(ptcl.getMaxforce() + 0.01f);
 
 			}
 
