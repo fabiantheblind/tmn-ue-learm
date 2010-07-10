@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import old.ObstacleObject;
 
-
 import processing.core.PApplet;
 import processing.core.PVector;
 import processing.xml.XMLElement;
@@ -31,6 +30,7 @@ public class PSUtil {
 	 */
 	private static PApplet p;
 	public static int numOfPaths = 9;
+
 	/**
 	 * 
 	 * this sets the PApplet for all the functions it has to be called first
@@ -63,8 +63,7 @@ public class PSUtil {
 
 		Path path = new Path(p, radius);
 		for (int i = 0; i <= 360; i += 360 / segments) {
-			// path.addPoint(width / 2 + sin(radians(i))*100,height / 2 +
-			// cos(radians(i))*100);
+
 			path.addPointPtcl((p.width / 2) + (PApplet.sin(PApplet.radians(i)))
 					* size, (p.height / 2) + (PApplet.cos(PApplet.radians(i)))
 					* size);
@@ -72,34 +71,16 @@ public class PSUtil {
 		return path;
 	}
 
-	// public static ArrayList <Path> initPaths(PApplet p, ArrayList <Path>
-	// pathsList){
-	//
-	// int [] segments = {13,13,13,13,13,13,13,13,13,13};
-	// int [] r = {50,50,50,50,50,50,50,50,50,50};
-	// int radiusFormula = (((p.height/2)/9)+50);
-	// for(int i = 0; i< 1; i++){
-	// Path path = new Path(p,r[i]);
-	// for(int j = 0; i <=360;j+=360/segments[i]){
-	// // path.addPoint(width / 2 + sin(radians(j))*100,height / 2 +
-	// cos(radians(j))*100);
-	// path.addPointPtcl((p.width / 2 +
-	// p.sin(p.radians(j)))*(radiusFormula*i),(p.height / 2 +
-	// p.cos(p.radians(j)))*(radiusFormula*i));
-	// }
-	// pathsList.add(path);
-	// }
-	// return pathsList;
-	// }
-
-	// for easier initalizing of particles
 	/**
+	 * for easier initalizing of particles
+	 * 
 	 * @param numPtkls
 	 *            the number of particles
 	 * @param ptclRadius
 	 *            the radius of the particle for collision with others
 	 * @param ptclsList
 	 *            the List of all Particles
+	 * @param ptcl
 	 * @return ptclsList
 	 * @see #newPtkl(float, float, ArrayList, float)
 	 * @see Particle Class Particle
@@ -108,21 +89,17 @@ public class PSUtil {
 			float ptclRadius, ArrayList<Particle> ptclsList) {
 
 		ptclsList = new ArrayList<Particle>();
+		Particle ptcl = null;
 		for (int i = 0; i < numPtkls; i++) {
-			newPtkl(p.random(p.width), p.random(p.height), ptclsList,
+			newPtkl(i, ptcl, p.random(p.width), p.random(p.height), ptclsList,
 					ptclRadius);
-
-			// Set some random force and speed
-			// ptclsList.get(i).setMaxforce(random(-5,5));
-			// ptclsList.get(i).setMaxspeed(random(-2,2));
 
 		}
 		return ptclsList;
 	}
 
-	// Create new Particles
 	/**
-	 * builds a new PArticle and adds him to the list of Perticles
+	 * builds a new PArticle and adds him to the list of Particles
 	 * 
 	 * @param x
 	 * @param y
@@ -131,25 +108,15 @@ public class PSUtil {
 	 * @see Particle Class Particle
 	 * 
 	 */
-	public static void newPtkl(float x, float y, ArrayList<Particle> ptclsList,
-			float ptclRadius) {
+	public static void newPtkl(int counter, Particle ptcl, float x, float y,
+			ArrayList<Particle> ptclsList, float ptclRadius) {
 
-		// float maxforce = 0.3f; // Maximum steering force
-		// float maxspeed = 0.3f; // Maximum speed
-		// float myMaxspeed = Particle.maxspeed;
-		// float myMaxforce = Particle.maxforce;//+random(-1f,1f);
-		int pathNum = PApplet.floor(p.random(0,PSUtil.numOfPaths));
+		int pathNum = counter % (PSUtil.numOfPaths);
 
-		Particle ptcl = new Particle(p, new PVector(x, y), new PVector(x, y),
+		ptcl = new Particle(p, new PVector(x, y), new PVector(x, y),
 				ptclRadius, pathNum, true, false);
-		// ptcl.setMaxforce(10f);
-		// ptcl.setMaxforce(5f);
-		// ptcl.setMaxspeed(2f);
 
 		ptclsList.add(ptcl);
-		// or use:
-		// ptclsList.add(new Particle(this,new PVector(x,y),new PVector(x,y),
-		// Particle.radius));
 
 	}
 
@@ -164,7 +131,8 @@ public class PSUtil {
 			ArrayList<ObstacleObject> obstclObjList,
 			ArrayList<Particle> ptclsList) {
 		// println(obstclObjList.get(0).ObstclsRepellerList.get(0).radius);
-		float mySize = obstclObjList.get(0).ObstclsRepellerList.get(0).getRadius();
+		float mySize = obstclObjList.get(0).ObstclsRepellerList.get(0)
+				.getRadius();
 		float myNewForce = PApplet.map(mySize, 10, 100, 0.5f, 13f);
 
 		float myNewSpeed = PApplet.map(mySize, 10, 100, 0.5f, 13f);
@@ -239,11 +207,16 @@ public class PSUtil {
 	}
 
 	public static ArrayList<Property> initPropertysList() {
+		
 		ArrayList<Property> propertysList = new ArrayList<Property>();
+		
 		XMLElement[] myObstaclObjcts = XMLImporter.getObsctlObjects();
+		String theName = null;
+		int[][] theValues = null;
 		for (int i = 0; i < myObstaclObjcts.length; i++) {
-			String theName = myObstaclObjcts[i].getStringAttribute("name");
-			int[][] theValues = XMLImporter.ObjectPropertys(i,
+			theName = myObstaclObjcts[i].getStringAttribute("name");
+			
+			theValues = XMLImporter.ObjectPropertys(i,
 					myObstaclObjcts[i].getParent());
 			propertysList.add(new Property(i, theName, theValues));
 		}
@@ -251,29 +224,29 @@ public class PSUtil {
 
 	}
 
-	public static void resetPath( ArrayList<Path> pathsList) {
-		
+	public static void resetPath(ArrayList<Path> pathsList) {
 
 		// TODO Auto-generated method stub
 		for (int i = 0; i < pathsList.size(); i++) {
+
 			pathsList.get(i).resetPointPtcls();
 		}
 	}
-	
-	public static void makeSpaces(ArrayList<Path> pathsList){
-		
+
+	public static void makeSpaces(ArrayList<Path> pathsList) {
+
 		setNumOfPaths(9);
-			int[] pathsSize = { 80, 100, 120, 230, 250, 270, 340, 360, 380 };
-			int[] pathsRadius = { 20, 60, 30, 20, 60, 30, 20, 60, 30 };
-	
-	
-//		int[] pathsSize = { 100, 250, 360};//, 230, 250, 270, 340, 360, 380 };
-//		int[] pathsRadius = { 60, 70, 60};//, 20, 60, 30, 20, 60, 30 };
-		
-		for (int p = 0; p < numOfPaths ; p++) {
-			pathsList.add(initCirclePath(13, pathsRadius[p],pathsSize[p]));
+		int[] pathsSize = { 80, 100, 120, 230, 250, 270, 340, 360, 380 };
+		int[] pathsRadius = { 20, 60, 30, 20, 60, 30, 20, 60, 30 };
+
+		// int[] pathsSize = { 100, 250, 360};//, 230, 250, 270, 340, 360, 380
+		// };
+		// int[] pathsRadius = { 60, 70, 60};//, 20, 60, 30, 20, 60, 30 };
+
+		for (int p = 0; p < numOfPaths; p++) {
+			pathsList.add(initCirclePath(13, pathsRadius[p], pathsSize[p]));
 		}
-		
+
 	}
 
 	/**
@@ -284,21 +257,24 @@ public class PSUtil {
 	}
 
 	/**
-	 * @param numOfPaths the numOfPaths to set
+	 * @param numOfPaths
+	 *            the numOfPaths to set
 	 */
 	public static synchronized void setNumOfPaths(int numOfPaths) {
 		PSUtil.numOfPaths = numOfPaths;
 	}
 
-	public static void applyPaths(ArrayList<Particle> ptclsList, boolean switchPath, ArrayList<Path> pathsList) {
-		
+	public static void applyPaths(ArrayList<Particle> ptclsList,
+			boolean switchPath, ArrayList<Path> pathsList) {
+
 		for (int i = 0; i < ptclsList.size(); i++) {
 			Particle ptcl = ptclsList.get(i);
 			// if the particle is not part of a path
 			if (ptcl.isHidden() != true) {
 				// use the switchPath variable for random path selection
 				if (switchPath) {
-					ptcl.setPathNum(PApplet.floor(p.random(0, PSUtil.numOfPaths)));// myPathNum;
+					ptcl.setPathNum(PApplet.floor(p
+							.random(0, PSUtil.numOfPaths)));// myPathNum;
 				}
 				ptcl.applyForces(ptclsList, pathsList.get(ptcl.getPathNum()));
 				switchPath = false;
@@ -307,7 +283,7 @@ public class PSUtil {
 			// Call the generic run method (update, borders, display, etc.)
 			ptcl.run();
 
-		}		
+		}
 	}
 
 }

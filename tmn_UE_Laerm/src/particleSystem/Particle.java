@@ -525,9 +525,11 @@ public class Particle {
 	 * this is for playing around with forces it is not used right now
 	 * 
 	 * @param obstacles
+	 * @deprecated
 	 */
 	public void myForce(ArrayList<Particle> obstacles) {
 
+		
 		for (int i = 0; i < obstacles.size(); i++) {
 			Particle obstcl = obstacles.get(i);
 			PVector force = new PVector(obstcl.loc.x, obstcl.loc.y); // obstcl.loc;
@@ -662,7 +664,7 @@ public class Particle {
 	 * target="blanc">see it at red3d.com</a> this is hard stuff. fabiantheblind
 	 * doesn't really understand ;(<br>
 	 * see the comments within the code to understand more<br>
-	 * there is inside also a debbuging function to see what they ae doing where
+	 * there is inside also a debbuging function to see what they are doing where
 	 * they are steering and all this
 	 * 
 	 * @param pt
@@ -695,8 +697,10 @@ public class Particle {
 								// can easily be beaten
 
 		// Loop through all points of the path
+	
 		for (int i = 0; i < pt.getPtclPoints().size(); i++) {
 
+			
 			// Look at a line segment
 			PVector a = (PVector) pt.getPtclPoints().get(i).loc;
 			PVector b = (PVector) pt.getPtclPoints().get((i + 1)
@@ -793,20 +797,23 @@ public class Particle {
 	/**
 	 * Separation Method. checks for nearby boids and steers away<br>
 	 * 
-	 * @param ptkls
+	 * @param ptclsList
 	 *            ArrayList of Particles
 	 * @return steer
 	 */
-	public PVector separate(ArrayList<Particle> ptkls) {
+	public PVector separate(ArrayList<Particle> ptclsList) {
 
 		float desiredseparation = radius * 2;
 		PVector steer = new PVector(0, 0);
 		int count = 0;
 
+		Particle ptcl = null;
+		Particle other = null;
 		// For every boid in the system, check if it's too close
-		for (int i = 0; i < ptkls.size(); i++) {
-			if (ptkls.get(i).hidden != true) {
-				Particle other = (Particle) ptkls.get(i);
+		for (int i = 0; i < ptclsList.size(); i++) {
+			ptcl = ptclsList.get(i);
+			if (ptcl.hidden != true) {
+				other = ptclsList.get(i);
 				float d = PVector.dist(loc, other.loc);
 				// If the distance is greater than 0 and less than an arbitrary
 				// amount (0 when you are yourself)

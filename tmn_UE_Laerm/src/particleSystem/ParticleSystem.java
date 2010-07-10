@@ -66,6 +66,14 @@ public class ParticleSystem {
 																	// arraylist
 		}
 	}
+	public ParticleSystem(PApplet p, PVector v,
+			ArrayList<Particle> particles) {
+		this.particles = particles; // Initialize the arraylist
+		this.p = p;
+		this.origin = v.get(); // Store the origin point
+	}
+	
+	
 
 	/**
 	 * @return the origin
@@ -89,8 +97,9 @@ public class ParticleSystem {
 	 * @see Particle#applyRepellForce(PVector)
 	 */
 	void applyForce(PVector f) {
+		Particle ptcl = null;
 		for (int i = 0; i < particles.size(); i++) {
-			Particle ptcl = (Particle) particles.get(i);
+			ptcl = (Particle) particles.get(i);
 			ptcl.applyRepellForce(f);
 		}
 	}
@@ -109,19 +118,22 @@ public class ParticleSystem {
 		// For every Particle
 		int x;
 		int y;
-
+		Particle ptcl = null;
+		TNObstacleObject obsObj = null;
+		Force force = null;
 		for (int i = 0; i < particles.size(); i++) {
-			Particle ptcl = (Particle) particles.get(i);
+			ptcl = (Particle) particles.get(i);
 			x = PApplet.floor(ptcl.getLoc().x);
 			y = PApplet.floor(ptcl.getLoc().y);
 
+			
 			for (int j = 0; j < ObstclsList.size(); j++) {
 				if (ObstclsList.get(j).isActive) {
-					TNObstacleObject obsObj = ObstclsList.get(j);
+					obsObj = ObstclsList.get(j);
 
 					if ((obsObj.isHit(x, y) == true)) {
 
-						Force force = new Force(p, obsObj.property.getIndex(),
+						force = new Force(p, obsObj.property.getIndex(),
 								obsObj.getProperty().getName(),
 								obsObj.getProperty().getAffectionProps(), new PVector(x,
 										y), 10);
@@ -246,14 +258,17 @@ public class ParticleSystem {
 	 */
 	public void applyRepellers(ArrayList<Repeller> repellers) {
 		// For every Particle
+		Particle ptcl = null;
+		Repeller r = null;
+		PVector repel = null;
 		for (int i = 0; i < particles.size(); i++) {
-			Particle ptcl = (Particle) particles.get(i);
+			ptcl = (Particle) particles.get(i);
 			// For every Repeller
 			for (int j = 0; j < repellers.size(); j++) {
-				Repeller r = (Repeller) repellers.get(j);
+				r = (Repeller) repellers.get(j);
 				// Calculate and apply a force from Repeller to Particle
 
-				PVector repel = r.pushParticle(ptcl);
+				repel = r.pushParticle(ptcl);
 				ptcl.applyRepellForce(repel);
 			}
 		}
@@ -271,8 +286,10 @@ public class ParticleSystem {
 	 */
 	public void applyRepellers(ArrayList<Repeller> repellers, boolean day) {
 		// For every Particle
+		Particle ptcl = null;
+		Repeller r = null;
 		for (int i = 0; i < particles.size(); i++) {
-			Particle ptcl = (Particle) particles.get(i);
+			ptcl = (Particle) particles.get(i);
 
 			float distToCenterPS = ptcl.getLoc().dist(origin);
 			float n = PApplet.norm(distToCenterPS, 0, p.width / 2f);
@@ -281,7 +298,7 @@ public class ParticleSystem {
 
 			for (int j = 0; j < repellers.size(); j++) {
 
-				Repeller r = repellers.get(j);
+				r = repellers.get(j);
 				// Calculate the distance from a Repeller to the particle
 				float d = ptcl.getLoc().dist(r.getLoc());
 

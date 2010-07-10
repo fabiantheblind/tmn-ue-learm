@@ -110,15 +110,17 @@ public class Path {
 		// p.println(dist/1000);
 		// p.println(testPtcl.mass);
 
+		Particle ptcl = null;
+		float d;
 		for (int i = 0; i < this.ptclPoints.size(); i++) {
-			Particle ptcl = this.ptclPoints.get(i);
+			ptcl = this.ptclPoints.get(i);
 
-			float d = ptcl.getLoc().dist(ptcl.getOrigin());
+			d = ptcl.getLoc().dist(ptcl.getOrigin());
 
 			if (ptcl.isHidden() == true) {
 				ptcl.seek(ptcl.getOrigin());
 
-				if (ptcl.getMass() < 0.5) {
+				if (ptcl.getMass() < 0.8) {
 					ptcl.setMass(ptcl.getMass() + (d / 500));
 				}
 				ptcl.setGravity(0f);
