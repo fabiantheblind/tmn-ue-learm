@@ -149,10 +149,7 @@ public class Style {
 
 		tintingH = 220;
 
-		
-		clsColor = p.color(255, 0, 100, 100);
-		
-
+		clsColor = p.color(255, 100, 0, 100);
 
 		// PDXIII TUIO Stuff
 		// enable on system installed fonts
@@ -168,16 +165,39 @@ public class Style {
 		fadingBG = p.loadImage("fadingBG.png");
 	}
 
-	public static void theBackground(boolean DAY, boolean switchPath) {
-		
+	public static boolean switchTime(boolean day) {
+
 		if (Style.tinter > Style.tintSize / 2 + Style.tintMin) {
-			DAY = true;
-			switchPath = true;
+			day = true;
 		} else {
-			DAY = false;
-			switchPath = true;
+			day = false;
 		}
+		return day;
+
+	}
+
+	public static boolean switchPath(boolean day, boolean switchPath) {
+
 		
+			if (p.frameCount % (Style.tintSize) == 0){
+				switchPath = true;
+			return switchPath;
+		}else{
+			switchPath = false;
+			return switchPath;
+		}
+	}
+
+	public static void theBackground() {
+
+//		if (Style.tinter > Style.tintSize / 2 + Style.tintMin) {
+//			DAY = true;
+//			switchPath = true;
+//		} else {
+//			DAY = false;
+//			switchPath = true;
+//		}
+
 		p.colorMode(PApplet.HSB, 360, 100, 100);
 		p.tint(220, 40 + tinter, 40 + tinter, 100);
 		p.image(fadingBG, 0, 0);
@@ -195,11 +215,12 @@ public class Style {
 			tinter -= 0.2f;
 		}
 	}
-	
+
 	/**
 	 * A Clear Screen Method writes a
 	 * {@code processing.core.PApplet.rect(float, float, float, float)} every
 	 * Frame
+	 * 
 	 * @deprecated
 	 */
 	public static void clearScreen() {
@@ -208,10 +229,11 @@ public class Style {
 		p.rect(0, 0, p.width, p.height);
 
 	}
-	
+
 	/**
 	 * PDXIII background Stuff
-	 * @param tinter 
+	 * 
+	 * @param tinter
 	 * @deprecated
 	 */
 	void drawBG(float tinter) {

@@ -126,7 +126,6 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	 * @see processing.core.PApplet#setup()
 	 */
 	public void setup() {
-
 		colorMode(HSB, 360, 100, 100);
 		// passing the PApplet thru to all static methods
 		// make the Styling
@@ -142,14 +141,14 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 
 		background(0);
 		size(1024, 768, OPENGL);
-
 		// init TUIO
 		tuioClient.addTuioListener(this);
 		tuioClient.connect();
 
 		// making ObstacleObjects
+		Property property;
 		for (int i = 0; i < howManyObstacles; i++) {
-			Property property = propertysList.get(i);
+			property = propertysList.get(i);
 			transObjects.add(new TNObstacleObject(this, 50 * i, 50 * i, 0, 0,property));
 		}
 
@@ -162,13 +161,20 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 		ptclsList = PSUtil.initParticles(numPtcls, ptclRadius, ptclsList);
 
 		// add the Path ptclPoints ArrayList of Particles to the ptclsList
-		for (int pl = 0; pl < pathsList.size(); pl++) {
-			for (int pp = 0; pp < pathsList.get(pl).getPtclPoints().size(); pp++) {
-				ptclsList.add(pathsList.get(pl).getPtclPoints().get(pp));
+		
+		
+		for(Path path : pathsList){
+			
+			for(Particle ptcl :path.getPtclPoints() ){
+				ptclsList.add(ptcl);
+				
 			}
 		}
+
 		// we need the particle system to interact with the TNObstacleObject
-		ps = new ParticleSystem(this, 0, new PVector(width / 2, height / 2),ptclsList);
+		ps = new ParticleSystem(this, new PVector(width / 2, height / 2),ptclsList);
+
+
 
 	}
 
@@ -178,10 +184,11 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	 * @see processing.core.PApplet#draw()
 	 */
 	public void draw() {
-
-		Style.theBackground(DAY, switchPath);
 		smooth();
 
+		DAY = Style.switchTime(DAY);
+		switchPath = Style.switchPath(DAY,switchPath);
+		Style.theBackground();
 		// this is for the particles that make the paths
 		// to get them back into their original position we have to reset them
 		// in the function Path.resetPointPtcls() you can set
@@ -410,6 +417,7 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 //		}
 	}
 
+
 	/**
 	 * 
 	 * @param args
@@ -417,5 +425,8 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PApplet.main(new String[] { tmnuelaerm.TmnUELaerm.class.getName() });
+
+
 	}
+	
 }
