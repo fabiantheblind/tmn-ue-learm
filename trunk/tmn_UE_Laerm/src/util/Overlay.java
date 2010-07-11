@@ -41,28 +41,26 @@ public class Overlay {
 	}
 
 	public void display() {
-
-		for (int i = 0; i < Style.pathsRadius9.length; i++) {
+		p.smooth();
+		for (int i = 2; i < Style.pathsRadius9.length; i+=3) {
 			int diam = Style.pathsSize9[i] * 2;
-			int innerDiam = diam - Style.pathsRadius9[i] * 2;
 			int outerDiam = diam + Style.pathsRadius9[i] * 2;
-			p.fill(Style.superSoftGrey);
+			p.noFill();
+			p.stroke(Style.superSoftWhite);
 			p.ellipse(center.x, center.y, outerDiam, outerDiam);
-			p.fill(Style.superSoftWhite);
-			p.ellipse(center.x, center.y, innerDiam, innerDiam);
+
 		}
 
-		p.textFont(Style.MisoBold18);
-		p.fill(Style.textColorBlk);
-		p.textAlign(PApplet.CENTER);
-		p.text("private", this.center.x + Style.pathsSize9[1] ,
-				this.center.y);
-		p.text("public", this.center.x + Style.pathsSize9[4],
-				this.center.y);
-		p.text("work", this.center.x + Style.pathsSize9[7],
-				this.center.y);
-		p.textAlign(PApplet.CORNER);
-		
+		p.textFont(Style.Unibody8);
+		p.noStroke();
+		p.fill(Style.textColorWhite);
+
+		p.text("private", this.center.x ,
+				this.center.y + Style.pathsSize9[0]);
+		p.text("public", this.center.x,
+				this.center.y + Style.pathsSize9[4]);
+		p.text("work", this.center.x,
+				this.center.y + Style.pathsSize9[7]);
 		
 	}
 
