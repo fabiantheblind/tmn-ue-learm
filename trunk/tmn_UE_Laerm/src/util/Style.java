@@ -30,26 +30,6 @@ public class Style {
 	 */
 	public static int ptclCol3;
 
-	public static int tmn_green;
-
-	public static int tmn_lightBlue;
-
-	public static int tmn_blue;
-
-	public static int tmn_darkBlue;
-
-	public static int tmn_lightRed;
-
-	public static int tmn_red;
-
-	public static int tmn_darkRed;
-
-	public static int tmn_lightLilac;
-
-	public static int tmn_lilac;
-
-	public static int tmn_darkLilac;
-
 	public static int superSoftWhite;
 	
 	public static int superSoftGrey;
@@ -159,19 +139,6 @@ public class Style {
 		ptclCol2 = p.color(50, 0, 0, 100);
 		ptclCol3 = p.color(50, 0, 0, 100);
 
-		tmn_green = p.color(107, 100, 100);
-
-		tmn_lightBlue = p.color(210, 10, 100, 80);
-		tmn_blue = p.color(210, 50, 100, 80);
-		tmn_darkBlue = p.color(210, 90, 100, 80);
-
-		tmn_lightRed = p.color(20, 10, 100, 80);
-		tmn_red = p.color(20, 50, 100, 80);
-		tmn_darkRed = p.color(20, 90, 100, 80);
-
-		tmn_lightLilac = p.color(280, 10, 100, 80);
-		tmn_lilac = p.color(280, 50, 100, 80);
-		tmn_darkLilac = p.color(280, 90, 100, 80);
 
 		textColorWhite = p.color(255, 0, 100, 100);
 		textColorBlk = p.color(255, 0, 0, 100);
