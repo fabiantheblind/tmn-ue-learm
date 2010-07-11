@@ -70,11 +70,11 @@ public class Style {
 	/**
 	 * PDXIII background Stuff
 	 */
-	public static float tintMax = 60;
+	public static float tintMax = 42;
 	/**
 	 * PDXIII background Stuff
 	 */
-	public static float tintMin = 20;
+	public static float tintMin = 0;
 
 	/**
 	 * PDXIII background Stuff
@@ -180,7 +180,7 @@ public class Style {
 		superSoftGrey = p.color(0, 0, 20, 5);
 
 		activeColor = p.color(0);
-		inactiveCol = p.color(0, 0,0,23);
+		inactiveCol = p.color(0,23);
 
 		tintingH = 220;
 
@@ -238,10 +238,8 @@ public class Style {
 		// switchPath = true;
 		// }
 
-		int a = PApplet.ceil(tinter);
 		p.tint(Style.tintingH, 0, 40 + tinter,70);
 
-//		inactiveCol = p.color(Style.tintingH, 0,  a + 20);
 		p.image(fadingBG, 0, 0);
 		if (tinter >= tintMax) {
 			tintBack = true;
