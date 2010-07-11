@@ -121,12 +121,15 @@ public class Debug {
 	 */
 	private static void drawMyPtclForce(PVector pos, Particle myPtcl) {
 
-		p.textFont(Style.MisoReg13);
+		p.textFont(Style.Unibody8);
+//		p.textFont(Style.MisoReg13);
 		int lineheight = 14;
 
-		makePtclTextWithShadow(pos, Style.textColorBlk, lineheight, myPtcl);
-		makePtclTextWithShadow(new PVector(pos.x - 1, pos.y - 1),
-				Style.textColorWhite, lineheight, myPtcl);
+		makePtclTextWithShadow(pos, Style.textColorWhite, lineheight, myPtcl);
+
+//		makePtclTextWithShadow(pos, Style.textColorBlk, lineheight, myPtcl);
+//		makePtclTextWithShadow(new PVector(pos.x - 1, pos.y - 1),
+//				Style.textColorWhite, lineheight, myPtcl);
 
 		p.noStroke();
 	}
@@ -136,17 +139,17 @@ public class Debug {
 
 		p.fill(color);
 		p.text("The life of one Particle", (lineheight * 0) + pos.x, 0 + pos.y);
-		p.text("MaxForce: " + myPtcl.getMaxforce(), 0 + pos.x, (lineheight * 1)
+		p.text("MaxForce: " + PApplet.nf(myPtcl.getMaxforce(), 1, 3), 0 + pos.x, (lineheight * 1)
 				+ pos.y);
-		p.text("MaxSpeed: " + myPtcl.getMaxspeed(), 0 + pos.x, (lineheight * 2)
+		p.text("MaxSpeed: " + PApplet.nf(myPtcl.getMaxspeed(), 1, 3), 0 + pos.x, (lineheight * 2)
 				+ pos.y);
-		p.text("Mass: " + myPtcl.getMass(), 0 + pos.x, (lineheight * 3) + pos.y);
-		p.text("Gravity: " + myPtcl.getGravity(), 0 + pos.x, (lineheight * 4)
-				+ pos.y);
-		if (myPtcl.getLifeTime() < 100000.0f) {
-			p.text("Lifetime: " + myPtcl.getLifeTime(), 0 + pos.x, (lineheight * 5)
-					+ pos.y);
-		}
+//		p.text("Mass: " + PApplet.nf(myPtcl.getMass(), 1, 3), 0 + pos.x, (lineheight * 3) + pos.y);
+//		p.text("Gravity: " + PApplet.nf(myPtcl.getGravity(), 1, 3), 0 + pos.x, (lineheight * 4)
+//				+ pos.y);
+//		if (myPtcl.getLifeTime() < 100000.0f) {
+//			p.text("Lifetime: " + myPtcl.getLifeTime(), 0 + pos.x, (lineheight * 5)
+//					+ pos.y);
+//		}
 		p.noFill();
 
 	}
@@ -178,13 +181,18 @@ public class Debug {
 	 */
 	private static void drawRepellerData(Repeller myRep) {
 		// TODO Auto-generated method stub
-		p.textFont(Style.MisoReg13);
-		int lineheight = 16;
+		p.textFont(Style.Unibody8);
+//		p.textFont(Style.MisoReg13);
+
+		int lineheight = 14;
 		p.noStroke();
-		makeRepTextWithShadow(myRep.getLoc(), Style.textColorBlk, lineheight,
-				myRep.property);
-		makeRepTextWithShadow(new PVector(myRep.getLoc().x - 1, myRep.getLoc().y - 1),
-				Style.textColorWhite, lineheight, myRep.property);
+		makeRepTextWithShadow(myRep.getLoc(), Style.textColorWhite, lineheight,
+		myRep.property);
+		
+//		makeRepTextWithShadow(myRep.getLoc(), Style.textColorBlk, lineheight,
+//				myRep.property);
+//		makeRepTextWithShadow(new PVector(myRep.getLoc().x - 1, myRep.getLoc().y - 1),
+//				Style.textColorWhite, lineheight, myRep.property);
 		p.noFill();
 
 	}
@@ -273,7 +281,7 @@ public class Debug {
 
 		p.noStroke();
 		p.fill(Style.textColorWhite);
-		p.text(tuioCursorList.size(), 50, 50);
+		p.text(tuioCursorList.size(), 50, 78);
 		p.noFill();
 	}
 
@@ -297,7 +305,7 @@ public class Debug {
 
 		p.noStroke();
 		p.fill(Style.textColorWhite);
-		p.text("Framecount: " + p.frameCount, 50, 70);
+		p.text("Framecount: " + p.frameCount, 50, 64);
 		p.noFill();
 	}
 

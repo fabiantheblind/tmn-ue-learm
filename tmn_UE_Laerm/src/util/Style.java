@@ -146,8 +146,8 @@ public class Style {
 	public static PFont MisoBold18;
 	public static PFont MisoBold36;
 	public static PFont MisoBold72;
-	public static PFont MisoBold144;
 
+	public static PFont Unibody8;
 	/**
 	 * Create all colors and stuff
 	 */
@@ -194,7 +194,8 @@ public class Style {
 		MisoBold18 = p.createFont("Miso-Bold", 18);
 		MisoBold36 = p.createFont("Miso-Bold", 36);
 		MisoBold72 = p.createFont("Miso-Bold", 72);
-		// MisoBold144 = p.createFont("Miso-Bold", 144);
+		
+		Unibody8 = p.loadFont("Unibody8SmallCaps-Regular-8.vlw");
 
 		// PDXIII background Stuff
 		fadingBG = p.loadImage("fadingBG.png");
@@ -238,7 +239,7 @@ public class Style {
 		// switchPath = true;
 		// }
 
-		p.tint(Style.tintingH, 0,23+tinter,70);
+		p.tint(Style.tintingH, 0, 23 + tinter,70);
 
 		p.image(fadingBG, 0, 0);
 		if (tinter >= tintMax) {
