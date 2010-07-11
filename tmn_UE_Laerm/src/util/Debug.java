@@ -15,7 +15,7 @@ import processing.core.PVector;
 /**
  * this is for debbuging only and has no effect on the Application<br>
  * 
- * @author fabianthelbind
+ * @author fabiantheblind
  * @author PDXIII
  * 
  * 
