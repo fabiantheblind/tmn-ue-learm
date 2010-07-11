@@ -36,8 +36,8 @@ import particleSystem.Property;
  * target="blanc"> GitHub</a><br>
  * 
  * @author PDXIII
- * @author fabianthelbind
- * @version 0.113
+ * @author fabiantheblind
+ * @version 0.115
  * 
  * 
  */
@@ -87,7 +87,7 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	 */
 	public ArrayList<Path> pathsList = new ArrayList<Path>();
 	/**
-	 * number of particles
+	 * number of <code>Particle</code>'s
 	 */
 	int numPtcls = 1005;
 	/**
@@ -97,10 +97,10 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	 */
 	public ArrayList<Property> propertysList;
 	/**
-	 * standard radius for the particles<br>
+	 * standard radius for the <code>Particle</code>'s<br>
 	 * every particle can have his own force / radius / speed<br>
 	 * they can be changed later<br>
-	 * this is for the collision of particles<br>
+	 * this is for the collision of <code>Particle</code>'s<br>
 	 */
 	float ptclRadius = 2;
 	/**
@@ -127,6 +127,7 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	 * 
 	 * @see processing.core.PApplet#setup()
 	 */
+	@Override
 	public void setup() {
 		colorMode(HSB, 360, 100, 100);
 		// passing the PApplet thru to all static methods
@@ -164,10 +165,10 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 		// particle stuff
 		
 		PSUtil.makeSpaces(pathsList);
-		// We are now making random Particles and storing them in an ArrayList ptclsList
+		// We are now making random <code>Particle</code>'s and storing them in an ArrayList ptclsList
 		ptclsList = PSUtil.initParticles(numPtcls, ptclRadius, ptclsList);
 
-		// add the Path ptclPoints ArrayList of Particles to the ptclsList
+		// add the Path ptclPoints ArrayList of <code>Particle</code>'s to the ptclsList
 		
 		
 		for(Path path : pathsList){
@@ -190,14 +191,15 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	 * 
 	 * @see processing.core.PApplet#draw()
 	 */
+	@Override
 	public void draw() {
 		smooth();
 
 		DAY = Style.switchTime(DAY);
 		switchPath = Style.switchPath(DAY,switchPath);
 		Style.theBackground();
-//		overlay.display();
-		// this is for the particles that make the paths
+		overlay.display();
+		// this is for the <code>Particle</code>'s that make the paths
 		// to get them back into their original position we have to reset them
 		// in the function Path.resetPointPtcls() you can set
 		// how fast and strong the want to get back
@@ -504,6 +506,7 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	 * 
 	 * @see processing.core.PApplet#mousePressed()
 	 */
+	@Override
 	public void mousePressed() {
 //		// PSUtil.newPtkl(this, mouseX, mouseY, ptclsList, ptclRadius);
 //
@@ -518,6 +521,7 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	 * 
 	 * @see processing.core.PApplet#mouseReleased()
 	 */
+	@Override
 	public void mouseReleased() {
 //
 //		for (int i = 0; i < someRepellers.size(); i++) {
