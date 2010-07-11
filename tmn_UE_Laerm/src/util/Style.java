@@ -190,12 +190,12 @@ public class Style {
 		// enable on system installed fonts
 		p.hint(PApplet.ENABLE_NATIVE_FONTS);
 		MisoBold11 = p.createFont("Miso-Bold", 11);
-		MisoReg13 = p.createFont("Miso", 13);
+		MisoReg13 = p.createFont("Miso-Regular", 13);
 		MisoBold18 = p.createFont("Miso-Bold", 18);
 		MisoBold36 = p.createFont("Miso-Bold", 36);
 		MisoBold72 = p.createFont("Miso-Bold", 72);
 		
-		Unibody8 = p.loadFont("Unibody8SmallCaps-Regular-8.vlw");
+		Unibody8 = p.createFont("Unibody8SmallCaps-Regular", 8);
 
 		// PDXIII background Stuff
 		fadingBG = p.loadImage("fadingBG.png");
