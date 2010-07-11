@@ -92,14 +92,14 @@ public class Debug {
 
 		Particle myPtcl = ptclsList.get(0);
 
-		myPtcl.setColorCol1(150, 100, 100, 100);
-		myPtcl.setColorCol2(150, 100, 100, 20);
+//		myPtcl.setColorCol1(150, 100, 100, 100);
+//		myPtcl.setColorCol2(150, 100, 100, 20);
 		p.noFill();
 		p.strokeWeight(1);
-		p.stroke(Style.textColorWhite);
+		p.stroke(myPtcl.getCol1());
 		p.line(WAP_position.x - 7, WAP_position.y - 3, myPtcl.getLoc().x
 				- myPtcl.getRadius(), myPtcl.getLoc().y - myPtcl.getRadius());
-		p.stroke(150, 100, 100, 100);
+		p.stroke(myPtcl.getCol1());
 		p.ellipseMode(PApplet.CENTER);
 		p.ellipse(myPtcl.getLoc().x, myPtcl.getLoc().y, 10, 10);
 		p.noFill();

@@ -783,6 +783,34 @@ public class Particle {
 	}
 
 	/**
+	 * @return the col1
+	 */
+	public synchronized int getCol1() {
+		return col1;
+	}
+
+	/**
+	 * @return the col2
+	 */
+	public synchronized int getCol2() {
+		return col2;
+	}
+
+	/**
+	 * @param col1 the col1 to set
+	 */
+	public synchronized void setCol1(int col1) {
+		this.col1 = col1;
+	}
+
+	/**
+	 * @param col2 the col2 to set
+	 */
+	public synchronized void setCol2(int col2) {
+		this.col2 = col2;
+	}
+
+	/**
 	 * set the gravity of the <code>Particle</code>. if the <code>Particle</code> follows a path you wont
 	 * see much of the gravity. but with the emitter! wow!!!!!
 	 * 

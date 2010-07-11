@@ -37,7 +37,7 @@ import particleSystem.Property;
  * 
  * @author PDXIII
  * @author fabiantheblind
- * @version 0.115
+ * @version 0.121
  * 
  * 
  */
@@ -144,7 +144,7 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 
 //		background(0);
 		size(1024, 768, OPENGL);
-		
+		frameRate(35);
 		// init TUIO
 		tuioClient.addTuioListener(this);
 		tuioClient.connect();
@@ -198,7 +198,7 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 		DAY = Style.switchTime(DAY);
 		switchPath = Style.switchPath(DAY,switchPath);
 		Style.theBackground();
-		overlay.display();
+//		overlay.display();
 		// this is for the <code>Particle</code>'s that make the paths
 		// to get them back into their original position we have to reset them
 		// in the function Path.resetPointPtcls() you can set
