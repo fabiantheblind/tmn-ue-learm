@@ -35,7 +35,6 @@ import particleSystem.Property;
  * or here: <a href="http://github.com/fabiantheblind/TMN_UE_Laerm.git"
  * target="blanc"> GitHub</a><br>
  * 
- * 
  * MISO http://www.omkrets.se/typografi/
  * 
  * Unibody8 http://www.underware.nl/site2/index.php?id1=unibody&id2=info
@@ -125,6 +124,10 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	 * display the paths if {@code true}
 	 */
 	boolean showDebugPath = false;
+	
+	
+	boolean showOverlay = false;
+
 	private Overlay overlay;
 
 	/*
@@ -203,7 +206,7 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 		DAY = Style.switchTime(DAY);
 		switchPath = Style.switchPath(DAY,switchPath);
 		Style.theBackground();
-//		overlay.display();
+		
 		// this is for the <code>Particle</code>'s that make the paths
 		// to get them back into their original position we have to reset them
 		// in the function Path.resetPointPtcls() you can set
@@ -236,6 +239,11 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 			}
 			Debug.drawFrameRate();
 			Debug.drawFrameCount();
+			
+			if (showOverlay){
+				
+				overlay.display();
+			}
 		}
 		// //just for adjustment
 		// debug.drawGrid();
@@ -469,6 +477,15 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 			} else {
 				showDebugPath = true;
 
+			}
+		}
+		if (key == 'l'){
+			
+			if(showOverlay){
+				showOverlay = false;
+			} else {
+				
+				showOverlay = true;
 			}
 		}
 

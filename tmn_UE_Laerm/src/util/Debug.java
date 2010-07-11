@@ -262,10 +262,9 @@ public class Debug {
 
 		for (int i = 0; i < tuioCursorList.size(); i++) {
 			TuioCursor tcur = (TuioCursor) tuioCursorList.get(i);
-			p.stroke(100, 255, 255);
+			p.fill(Style.textColorWhite);
+			p.ellipse(tcur.getScreenX(p.width), tcur.getScreenY(p.height), 10,10);
 			p.noFill();
-			p.ellipse(tcur.getScreenX(p.width), tcur.getScreenY(p.height), 10,
-					10);
 		}
 	}
 
