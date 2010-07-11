@@ -139,7 +139,7 @@ public class Path {
 	 * This is for showing the {@code Path} DEBUGGING
 	 * 
 	 */
-	public void ptclPathDisplay() {
+	public void display() {
 
 		// Draw the radius as thick lines and circles
 
@@ -261,6 +261,8 @@ public class Path {
 		// Draw end points
 		for (int i = 0; i < ptclPoints.size(); i++) {
 			PVector point = ptclPoints.get(i).getLoc();
+		
+			
 			p.fill(Style.textColorBlk);
 			p.noStroke();
 			p.ellipse(point.x, point.y, 10, 10);
