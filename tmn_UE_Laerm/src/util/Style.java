@@ -70,7 +70,7 @@ public class Style {
 	/**
 	 * PDXIII background Stuff
 	 */
-	public static float tintMax = 42;
+	public static float tintMax = 23;
 	/**
 	 * PDXIII background Stuff
 	 */
@@ -84,7 +84,7 @@ public class Style {
 	/**
 	 * PDXIII background Stuff
 	 */
-	public static float tintingStep = 0.2f;
+	public static float tintingStep = 0.1f;
 	/**
 	 * PDXIII background Stuff
 	 */
@@ -155,9 +155,9 @@ public class Style {
 		p.colorMode(PApplet.HSB, 360, 100, 100);
 
 		// colors
-		ptclCol1 = p.color(0, 0, 100, 100);
-		ptclCol2 = p.color(0, 100, 0, 100);
-		ptclCol3 = p.color(360, 0, 0, 100);
+		ptclCol1 = p.color(50, 0, 20, 100);
+		ptclCol2 = p.color(50, 0, 0, 100);
+		ptclCol3 = p.color(50, 0, 0, 100);
 
 		tmn_green = p.color(107, 100, 100);
 
@@ -182,7 +182,7 @@ public class Style {
 		activeColor = p.color(0);
 		inactiveCol = p.color(0,23);
 
-		tintingH = 220;
+		tintingH = 290;
 
 		clsColor = p.color(255, 100, 0, 100);
 
@@ -238,7 +238,7 @@ public class Style {
 		// switchPath = true;
 		// }
 
-		p.tint(Style.tintingH, 0, 40 + tinter,70);
+		p.tint(Style.tintingH, 0,23+tinter,70);
 
 		p.image(fadingBG, 0, 0);
 		if (tinter >= tintMax) {

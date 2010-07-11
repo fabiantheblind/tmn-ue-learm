@@ -122,7 +122,7 @@ public class ParticleSystem {
 	 * @see Particle#applyRepellForce(PVector)
 	 * @deprecated
 	 */
-	@Deprecated
+
 	void applyForce(PVector f) {
 		Particle ptcl = null;
 		for (int i = 0; i < particles.size(); i++) {
@@ -131,14 +131,17 @@ public class ParticleSystem {
 		}
 	}
 
-	/**This is the method where the collision takes place.
-	 * <code>Particle</code>s interact with all Obstacles using <code>TNObstacleObject.isHit(float x, floaty)</code>
+	/**
+	 * This is the method where the collision takes place. <code>Particle</code>
+	 * s interact with all Obstacles using
+	 * <code>TNObstacleObject.isHit(float x, floaty)</code>
 	 * 
 	 * @param ObstclsList
 	 *            List
 	 * @param day
 	 * @see #calcPtclReaction(Repeller, float, Particle, boolean, PVector)
-	 * @see <a href"./doc/interaction/TNObstacleObject.html"><code>TNObstacleObject</code></a>
+	 * @see <a href"./doc/interaction/TNObstacleObject.html">
+	 *      <code>TNObstacleObject</code></a>
 	 */
 	public void applyObstcles(List<TNObstacleObject> ObstclsList, boolean day) {
 		// For every Particle
@@ -346,9 +349,13 @@ public class ParticleSystem {
 
 	/**
 	 * Here the Reaction on the Force gets calculated<br>
-	 * @param f a Force
-	 * @param ptcl a Particle
-	 * @param day the day and night boolean
+	 * 
+	 * @param f
+	 *            a Force
+	 * @param ptcl
+	 *            a Particle
+	 * @param day
+	 *            the day and night boolean
 	 */
 	private void calcPtclReactionOnForce(Force f, Particle ptcl, boolean day) {
 		float d = ptcl.getLoc().dist(f.getLoc());
@@ -426,6 +433,7 @@ public class ParticleSystem {
 
 	/**
 	 * this for gettin the proper values from the <code>Force</code><br>
+	 * 
 	 * @param f
 	 *            the <code>force</code>
 	 * @param time
@@ -442,8 +450,7 @@ public class ParticleSystem {
 		case -2:
 			f.setRepel(f.pushParticle(ptcl));
 			ptcl.applyRepellForce(f.getRepel());
-			ptcl.setColorCol1(20, 100, 100, 100);
-			ptcl.setColorCol2(40, 50, 100, 50);
+			changeColorHue(ptcl, f, time, space);
 			ptcl.setMaxforce(ptcl.getMaxforce() + 0.1f);
 			ptcl.setMaxspeed(ptcl.getMaxspeed() + 0.2f);
 			if (ptcl.getMaxspeed() > 3f) {
@@ -457,9 +464,8 @@ public class ParticleSystem {
 		case -1:
 			f.setRepel(f.pushParticle(ptcl));
 			ptcl.applyRepellForce(f.getRepel());
-			ptcl.setColorCol1(60, 100, 100, 100);
+			changeColorHue(ptcl, f, time, space);
 
-			ptcl.setColorCol2(60, 50, 100, 50);
 			ptcl.setMaxspeed(ptcl.getMaxspeed() + 0.1f);
 
 			if (ptcl.getMaxspeed() > 3f) {
@@ -468,44 +474,141 @@ public class ParticleSystem {
 
 			break;
 		case 0:
-			ptcl.resetColorCol1();
-			ptcl.resetColorCol2();
+			changeColorHue(ptcl, f, time, space);
 			break;
 		case 1:
 			// repel = r.pushParticle(ptcl);
 			// ptcl.applyRepellForce(repel);
-			ptcl.setColorCol1(80, 100, 100, 100);
-			ptcl.setColorCol2(80, 50, 100, 50);
+			changeColorHue(ptcl, f, time, space);
 			ptcl.setMaxspeed(ptcl.getMaxspeed() - 0.1f);
-
 			if (ptcl.getMaxspeed() < 1.5 && DAY) {
 				ptcl.setMaxspeed(1.5f);
-			} 
-			if (ptcl.getMaxspeed() < 1.5 && (DAY!=true)) {
+			}
+			if (ptcl.getMaxspeed() < 1.5 && (DAY != true)) {
 				ptcl.setMaxspeed(1.0f);
 			}
-
 			break;
 		case 2:
 			// repel = r.pushParticle(ptcl);
 			// ptcl.applyRepellForce(repel);
-			ptcl.setColorCol1(123, 100, 100, 100);
-			ptcl.setColorCol2(123, 100, 100, 50);
+			changeColorHue(ptcl, f, time, space);
 			ptcl.setMaxforce(ptcl.getMaxforce() - 0.1f);
 			ptcl.setMaxspeed(ptcl.getMaxspeed() - 0.2f);
-
 			if (ptcl.getMaxforce() < 0.5) {
 				ptcl.setMaxforce(0.4f);
 			}
 			if (ptcl.getMaxspeed() < 1.5 && DAY) {
 				ptcl.setMaxspeed(1.5f);
-			} else if (ptcl.getMaxspeed() < 1.5 && (DAY !=true)) {
+			} else if (ptcl.getMaxspeed() < 1.5 && (DAY != true)) {
 				ptcl.setMaxspeed(1.0f);
 			}
 			break;
 		}
 
 	}
+
+	private void changeColorHue(Particle ptcl, Force f, int time, int space) {
+		
+		int minHue = 10;
+		int maxHue = 90;
+
+		int tempCol;
+		float tempColH;
+
+		int newHue;
+
+		//Mapping the vales
+		int newHueM;
+
+		tempCol = ptcl.getCol1();
+		tempColH = p.hue(tempCol);
+		newHue = PApplet.floor(tempColH + f.valueByIndex(time, space));	
+		newHueM = PApplet.constrain(newHue, minHue, maxHue);
+		ptcl.setColorCol1(newHueM, 100, 100, 100);
+		
+		tempCol = ptcl.getCol2();
+		tempColH = p.hue(tempCol);
+		newHue = PApplet.floor(tempColH + f.valueByIndex(time, space));
+		newHueM = PApplet.constrain(newHue, minHue, maxHue);
+		ptcl.setColorCol2(newHueM, 50, 100,50);
+
+	}
+	
+	private void changeColorSaturation(Particle ptcl, Force f, int time, int space) {
+		
+		int minSat1 = 0;
+		int maxSat1 = 100;
+		int minSat2 = 0;
+		int maxSat2 = 50;
+
+		int tempCol;
+		float tempColS;
+
+		int newSat;
+
+		//Mapping the vales
+		int newSatM;
+
+		tempCol = ptcl.getCol1();
+		tempColS = p.saturation(tempCol);
+		newSat = PApplet.floor(tempColS + f.valueByIndex(time, space));	
+		newSatM = PApplet.constrain(newSat, minSat1, maxSat1);
+		ptcl.setColorCol1(80, newSatM, 0, 100);
+		
+		tempCol = ptcl.getCol2();
+		tempColS = p.saturation(tempCol);
+		newSat = PApplet.floor(tempColS + f.valueByIndex(time, space));
+		newSatM = PApplet.constrain(newSat, minSat2, maxSat2);
+		ptcl.setColorCol2(80, newSatM, 0,50);
+
+	}
+	
+	private void changeColorSatBrightness(Particle ptcl, Force f, int time, int space) {
+		
+		int minBr1 = 0;
+		int maxBr1 = 100;
+		int minBr2 = 0;
+		int maxBr2 = 50;
+		
+		int minSat1 = 0;
+		int maxSat1 = 100;
+		int minSat2 = 0;
+		int maxSat2 = 50;
+
+		int tempCol;
+		float tempColB;
+		float tempColS;
+
+		int newSat;
+		int newBr;
+
+		//Mapping the vales
+		int newSatM;
+		//Mapping the vales
+		int newBrM;
+
+		tempCol = ptcl.getCol1();
+		tempColB = p.hue(tempCol);
+		tempColS = p.saturation(tempCol);
+		newBr = PApplet.floor(tempColB + f.valueByIndex(time, space));
+		newSat = PApplet.floor(tempColS + f.valueByIndex(time, space));
+		newBrM = PApplet.constrain(newBr, minBr1, maxBr1);
+		newSatM = PApplet.constrain(newSat, minSat1, maxSat1);
+		
+		ptcl.setColorCol1(80, newSatM, newBrM, 100);
+		
+		tempCol = ptcl.getCol2();
+		
+		tempColB = p.hue(tempCol);
+		tempColS = p.saturation(tempCol);
+		newBr = PApplet.floor(tempColB + f.valueByIndex(time, space));
+		newSat = PApplet.floor(tempColS + f.valueByIndex(time, space));
+		newBrM = PApplet.constrain(newBr, minBr2, maxBr2);
+		newSatM = PApplet.constrain(newSat, minSat2, maxSat2);
+
+		ptcl.setColorCol2(80, newSatM, newBrM, 100);
+
+	}	
 
 	/**
 	 * here the reaction on the property gets applied
