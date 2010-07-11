@@ -18,7 +18,7 @@ public class Property {
 	 * the index from the xml
 	 * 
 	 */
-	int index;
+	public int index;
 	/**
 	 * the word or name to write to the screen
 	 */
