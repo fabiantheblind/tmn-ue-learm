@@ -64,7 +64,7 @@ public class Debug {
 	public static void writeIMGs() {
 		if (writeImg) {
 			String sa = PApplet.nf(imgNum, 6);
-			p.saveFrame("./bilder/ParticleSystem-" + sa + ".tif");
+			p.saveFrame("./bilder/tif_sequenz/ParticleSystem-" + sa + ".tif");
 			imgNum++;
 		}
 	}
@@ -227,7 +227,7 @@ public class Debug {
 
 		for (int i = 0; i < pathsList.size(); i++) {
 
-			pathsList.get(i).ptclPathDisplay();
+			pathsList.get(i).display();
 
 		}
 
