@@ -14,36 +14,72 @@ import util.XMLImporter;
  * This Class is for helping with the <code>ParticleSystem</code><br>
  * they don't affect the Core Application but are very usefull<br>
  * 
- * @author fabianthelbind
+ * @author fabiantheblind
  * @see Particle Class Particle
  * @see Path Class Path
  * @see Repeller Class Repeller
- * @author fabianthelbind
+ * @author fabiantheblind
  * 
  */
 @SuppressWarnings("deprecation")
 public class PSUtil {
 
+	public static int numOfPaths = 9;
 	/**
 	 * the PApplet
 	 * 
 	 */
 	private static PApplet p;
-	public static int numOfPaths = 9;
 
-	/**
-	 * 
-	 * this sets the PApplet for all the functions it has to be called first
-	 * 
-	 * @param p_
-	 */
-	public static void setPApplet(PApplet p_) {
+	public static void applyPaths(ArrayList<Particle> ptclsList,
+			boolean switchPath, ArrayList<Path> pathsList) {
 
-		p = p_;
+		for (int i = 0; i < ptclsList.size(); i++) {
+			Particle ptcl = ptclsList.get(i);
+			// if the particle is not part of a path
+			if (ptcl.isHidden() != true) {
+				// use the switchPath variable for random path selection
+				if (switchPath) {
+					ptcl.setPathNum(PApplet.floor(p
+							.random(0, PSUtil.numOfPaths)));// myPathNum;
+				}
+				ptcl.applyForces(ptclsList, pathsList.get(ptcl.getPathNum()));
+				switchPath = false;
 
+			}
+			// Call the generic run method (update, borders, display, etc.)
+			ptcl.run();
+
+		}
 	}
 
 	// Particle stuff
+
+	/**
+	 * this is for displaying the repellers for debugging
+	 * 
+	 * @param someRepellers
+	 * @see Repeller Class Repeller
+	 * @see #makeSomeRepellers(ArrayList)
+	 * 
+	 */
+	public static void displaySomeRepellers(ArrayList<Repeller> someRepellers) {
+
+		// Display all repellers
+		for (int i = 0; i < someRepellers.size(); i++) {
+			Repeller r = someRepellers.get(i);
+			r.display();
+			r.drag();
+		}
+	}
+
+	/**
+	 * @return the numOfPaths
+	 */
+	public static synchronized int getNumOfPaths() {
+		return numOfPaths;
+	}
+
 
 	/**
 	 * This a number of points circling around the center. for a smother path
@@ -57,7 +93,7 @@ public class PSUtil {
 	 *            the diameter of the circle
 	 * @return Path
 	 * @see Path Class Path
-	 * @see Path#addPointPtcl(float, float)
+	 * @see <a href="Path.html#addPointPtcl(float, float)"><code>Path.addPointPtcl</code></a>
 	 */
 	public static Path initCirclePath(int segments, int radius, int size,int pathNum) {
 
@@ -80,10 +116,9 @@ public class PSUtil {
 	 *            the radius of the particle for collision with others
 	 * @param ptclsList
 	 *            the List of all Particles
-	 * @param ptcl
 	 * @return ptclsList
-	 * @see #newPtkl(float, float, ArrayList, float)
 	 * @see Particle Class Particle
+	 * @see #newPtkl(int, Particle, float, float, ArrayList, float)
 	 */
 	public static ArrayList<Particle> initParticles(int numPtkls,
 			float ptclRadius, ArrayList<Particle> ptclsList) {
@@ -98,50 +133,22 @@ public class PSUtil {
 		return ptclsList;
 	}
 
-	/**
-	 * builds a new PArticle and adds him to the list of Particles
-	 * 
-	 * @param x
-	 * @param y
-	 * @param ptclsList
-	 * @param ptclRadius
-	 * @see Particle Class Particle
-	 * 
-	 */
-	public static void newPtkl(int counter, Particle ptcl, float x, float y,
-			ArrayList<Particle> ptclsList, float ptclRadius) {
-
-		int pathNum = counter % (PSUtil.numOfPaths);
-
-		ptcl = new Particle(p, new PVector(x, y), new PVector(x, y),
-				ptclRadius, pathNum, true, false);
-
-		ptclsList.add(ptcl);
-
-	}
-
-	/**
-	 * not used right now
-	 * 
-	 * @param obstclObjList
-	 * @param ptclsList
-	 * @deprecated also old stuff
-	 */
-	public static void ptclsReactOnObject(
-			ArrayList<ObstacleObject> obstclObjList,
-			ArrayList<Particle> ptclsList) {
-		// println(obstclObjList.get(0).ObstclsRepellerList.get(0).radius);
-		float mySize = obstclObjList.get(0).ObstclsRepellerList.get(0)
-				.getRadius();
-		float myNewForce = PApplet.map(mySize, 10, 100, 0.5f, 13f);
-
-		float myNewSpeed = PApplet.map(mySize, 10, 100, 0.5f, 13f);
-		for (int i = 0; i < ptclsList.size(); i++) {
-
-			ptclsList.get(i).setMaxforce(myNewForce);
-			ptclsList.get(i).setMaxspeed(myNewSpeed);
-
+	public static ArrayList<Property> initPropertysList() {
+		
+		ArrayList<Property> propertysList = new ArrayList<Property>();
+		
+		XMLElement[] myObstaclObjcts = XMLImporter.getObsctlObjects();
+		String theName = null;
+		int[][] theValues = null;
+		for (int i = 0; i < myObstaclObjcts.length; i++) {
+			theName = myObstaclObjcts[i].getStringAttribute("name");
+			
+			theValues = XMLImporter.ObjectPropertys(i,
+					myObstaclObjcts[i].getParent());
+			propertysList.add(new Property(i, theName, theValues));
 		}
+		return propertysList;
+
 	}
 
 	/**
@@ -188,40 +195,60 @@ public class PSUtil {
 
 	}
 
-	/**
-	 * this is for displaying the repellers for debugging
-	 * 
-	 * @param someRepellers
-	 * @see Repeller Class Repeller
-	 * @see #makeSomeRepellers(ArrayList)
-	 * 
-	 */
-	public static void displaySomeRepellers(ArrayList<Repeller> someRepellers) {
+	public static void makeSpaces(ArrayList<Path> pathsList) {
 
-		// Display all repellers
-		for (int i = 0; i < someRepellers.size(); i++) {
-			Repeller r = someRepellers.get(i);
-			r.display();
-			r.drag();
+		setNumOfPaths(9);
+		for (int p = 0; p < numOfPaths; p++) {
+			pathsList.add(initCirclePath(13, Style.pathsRadius9[p], Style.pathsSize9[p], p));
 		}
+
 	}
 
-	public static ArrayList<Property> initPropertysList() {
-		
-		ArrayList<Property> propertysList = new ArrayList<Property>();
-		
-		XMLElement[] myObstaclObjcts = XMLImporter.getObsctlObjects();
-		String theName = null;
-		int[][] theValues = null;
-		for (int i = 0; i < myObstaclObjcts.length; i++) {
-			theName = myObstaclObjcts[i].getStringAttribute("name");
-			
-			theValues = XMLImporter.ObjectPropertys(i,
-					myObstaclObjcts[i].getParent());
-			propertysList.add(new Property(i, theName, theValues));
-		}
-		return propertysList;
+	/**
+	 * 	 * builds a new <code>Particle</code> and adds him to the <code>ArrayList</code> of <code>Particle</code>s
 
+	 * @param counter
+	 * @param ptcl
+	 * @param x
+	 * @param y
+	 * @param ptclsList
+	 * @param ptclRadius
+	 */
+	public static void newPtkl(int counter, Particle ptcl, float x, float y,
+			ArrayList<Particle> ptclsList, float ptclRadius) {
+
+		int pathNum = counter % (PSUtil.numOfPaths);
+
+		ptcl = new Particle(p, new PVector(x, y), new PVector(x, y),
+				ptclRadius, pathNum, true, false);
+
+		ptclsList.add(ptcl);
+
+	}
+
+	/**
+	 * not used right now
+	 * 
+	 * @param obstclObjList
+	 * @param ptclsList
+	 * @deprecated also old stuff
+	 */
+	@Deprecated
+	public static void ptclsReactOnObject(
+			ArrayList<ObstacleObject> obstclObjList,
+			ArrayList<Particle> ptclsList) {
+		// println(obstclObjList.get(0).ObstclsRepellerList.get(0).radius);
+		float mySize = obstclObjList.get(0).ObstclsRepellerList.get(0)
+				.getRadius();
+		float myNewForce = PApplet.map(mySize, 10, 100, 0.5f, 13f);
+
+		float myNewSpeed = PApplet.map(mySize, 10, 100, 0.5f, 13f);
+		for (int i = 0; i < ptclsList.size(); i++) {
+
+			ptclsList.get(i).setMaxforce(myNewForce);
+			ptclsList.get(i).setMaxspeed(myNewSpeed);
+
+		}
 	}
 
 	public static void resetPath(ArrayList<Path> pathsList) {
@@ -233,22 +260,6 @@ public class PSUtil {
 		}
 	}
 
-	public static void makeSpaces(ArrayList<Path> pathsList) {
-
-		setNumOfPaths(9);
-		for (int p = 0; p < numOfPaths; p++) {
-			pathsList.add(initCirclePath(13, Style.pathsRadius9[p], Style.pathsSize9[p], p));
-		}
-
-	}
-
-	/**
-	 * @return the numOfPaths
-	 */
-	public static synchronized int getNumOfPaths() {
-		return numOfPaths;
-	}
-
 	/**
 	 * @param numOfPaths
 	 *            the numOfPaths to set
@@ -257,26 +268,16 @@ public class PSUtil {
 		PSUtil.numOfPaths = numOfPaths;
 	}
 
-	public static void applyPaths(ArrayList<Particle> ptclsList,
-			boolean switchPath, ArrayList<Path> pathsList) {
+	/**
+	 * 
+	 * this sets the PApplet for all the functions it has to be called first
+	 * 
+	 * @param p_
+	 */
+	public static void setPApplet(PApplet p_) {
 
-		for (int i = 0; i < ptclsList.size(); i++) {
-			Particle ptcl = ptclsList.get(i);
-			// if the particle is not part of a path
-			if (ptcl.isHidden() != true) {
-				// use the switchPath variable for random path selection
-				if (switchPath) {
-					ptcl.setPathNum(PApplet.floor(p
-							.random(0, PSUtil.numOfPaths)));// myPathNum;
-				}
-				ptcl.applyForces(ptclsList, pathsList.get(ptcl.getPathNum()));
-				switchPath = false;
+		p = p_;
 
-			}
-			// Call the generic run method (update, borders, display, etc.)
-			ptcl.run();
-
-		}
 	}
 
 }

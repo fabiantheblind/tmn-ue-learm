@@ -9,7 +9,7 @@ import util.Style;
  * based on: <a href="http://www.shiffman.net/teaching/nature/"
  * target="blanc">Daniel Shiffman's Nature of Code</a>
  * 
- * @author fabianthelbind
+ * @author fabiantheblind
  * @see Class ParticleSystem Class
  * @see Class Particle Class
  * 

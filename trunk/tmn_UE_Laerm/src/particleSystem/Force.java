@@ -8,7 +8,7 @@ import processing.core.PVector;
  * based on: <a href="http://www.shiffman.net/teaching/nature/"
  * target="blanc">Daniel Shiffman's Nature of Code</a>
  * 
- * @author fabianthelbind
+ * @author fabiantheblind
  * @see Class ParticleSystem Class
  * @see Class Particle Class
  * 
@@ -79,11 +79,29 @@ public class Force extends Property{
 		return p;
 	}
 
+	public synchronized float getRadius() {
+		return this.radius;
+	}
+
 	/**
 	 * @return the repel
 	 */
 	public synchronized PVector getRepel() {
 		return repel;
+	}
+
+	public PVector pushParticle(Particle ptcl) {
+		PVector dir = PVector.sub(loc, ptcl.getLoc()); // Calculate direction of
+													// force
+		float d = dir.mag(); // Distance between objects
+		dir.normalize(); // Normalize vector (distance doesn't matter here, we
+							// just want this vector for direction)
+		d = PApplet.constrain(d, 5, 100); // Keep distance within a reasonable
+											// range
+		float force = -1 * G / (d * d); // Repelling force is inversely
+										// proportional to distance
+		dir.mult(force); // Get force vector --> magnitude * direction
+		return dir;
 	}
 
 	/**
@@ -121,24 +139,6 @@ public class Force extends Property{
 		this.repel = repel;
 	}
 
-	public PVector pushParticle(Particle ptcl) {
-		PVector dir = PVector.sub(loc, ptcl.getLoc()); // Calculate direction of
-													// force
-		float d = dir.mag(); // Distance between objects
-		dir.normalize(); // Normalize vector (distance doesn't matter here, we
-							// just want this vector for direction)
-		d = PApplet.constrain(d, 5, 100); // Keep distance within a reasonable
-											// range
-		float force = -1 * G / (d * d); // Repelling force is inversely
-										// proportional to distance
-		dir.mult(force); // Get force vector --> magnitude * direction
-		return dir;
-	}
-
-	public float getRadius() {
-		return this.radius;
-	}
-
 	/**
 	 * 
 	 * @param time
@@ -151,6 +151,7 @@ public class Force extends Property{
 	 *      href="./util/XMLImporter.html#ObjectPropertys(int id XMLElement root)">
 	 *      XMLIMPORTER</a>
 	 */
+	@Override
 	public int valueByIndex(int time, int space) {
 		return getAffectionProps()[time][space];
 	}
