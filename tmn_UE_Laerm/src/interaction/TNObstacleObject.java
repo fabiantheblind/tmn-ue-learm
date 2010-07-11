@@ -43,7 +43,6 @@ public class TNObstacleObject extends TNTransformableObject{
 	public int time02 = 0;
 	public int activationDelay = 1000;
 	String name;
-
 	
 	
 	public TNObstacleObject(PApplet p, float offsetX, float offsetY, float width,
@@ -70,8 +69,6 @@ public class TNObstacleObject extends TNTransformableObject{
 			super.width = p.textWidth(name);
 			super.height = ascent;
 			
-//			initRepellers();
-			
 		}else{
 			
 			p.fill(Style.inactiveCol);
@@ -81,8 +78,6 @@ public class TNObstacleObject extends TNTransformableObject{
 			super.width = p.textWidth(name);
 			super.height = ascent;
 			
-			ObstclsRepellerList = new ArrayList<Repeller>();
-			
 			if(scale < 1){
 				scale(1.005f);
 			}
@@ -90,21 +85,11 @@ public class TNObstacleObject extends TNTransformableObject{
 				scale(0.995f);
 			}
 			
-//			if(angle > 0){
-//				rotate(0.005f);
-//			}
-//			if(angle < 0){
-//				rotate(-0.005f);
-//			}
-			
 		}
 		
 		compareTime();
 		
 		if(changeState){
-			
-//			PApplet.println("changeState ");
-
 			
 			if (isActive && changeState){
 				
@@ -118,11 +103,7 @@ public class TNObstacleObject extends TNTransformableObject{
 				isActive = true;
 				changeState = false;
 			}
-			
-//			PApplet.println(isActive);
-
 		}
-		
 	}
 
 	public void setTime(){
@@ -166,29 +147,6 @@ public class TNObstacleObject extends TNTransformableObject{
 		return changeState;
 	}
 	
-	private void initRepellers(){
-		
-		radius = height/2;
-		
-		int howManyRep = PApplet.ceil((width/ radius) +1);
-		float howMuchSpace = width / howManyRep;
-		
-		ObstclsRepellerList = new ArrayList<Repeller>();
-		
-		for(int i = 1; i < howManyRep; i++){
-			
-			
-			float repXpos = i*howMuchSpace;
-			float repYpos = height/2;
-			
-			float[] repPos =  getScreenFromObjectPosition(repXpos, repYpos);
-
-			PVector loc = new PVector(repPos[0], repPos[1]);
-			ObstclsRepellerList.add(new Repeller(p, loc, grav, radius*scale, property));
-			
-		}
-	}
-	
 	protected float getDistance(TuioCursor tuioCursor1, TuioCursor tuioCursor2) {
 		return PApplet.dist(tuioCursor1.getScreenX(p.width), tuioCursor1.getScreenY(p.height),
 				tuioCursor2.getScreenX(p.width), tuioCursor2.getScreenY(p.height));
@@ -222,7 +180,6 @@ public class TNObstacleObject extends TNTransformableObject{
 	public void removeTuioCursor(TuioCursor tuioCursor) {
 		if (tuioCursor2 != null && tuioCursor2.getCursorID() == tuioCursor.getCursorID()) {
 			tuioCursor2 = null;
-
 		}
 
 		if (tuioCursor1 != null && tuioCursor1.getCursorID() == tuioCursor.getCursorID()) {
@@ -234,7 +191,6 @@ public class TNObstacleObject extends TNTransformableObject{
 				// Shall not jump after switching, so a "new" oldPos is stored for diff calc.
 				oldX = tuioCursor1.getScreenX(p.width);
 				oldY = tuioCursor1.getScreenY(p.height);
-				
 			}
 			
 			if (tuioCursor1 == null){

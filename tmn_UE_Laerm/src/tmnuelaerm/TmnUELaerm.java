@@ -57,7 +57,7 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	/**
 	 * controls the amount of TNObstleOjects
 	 */
-	public int howManyObstacles = 9;
+	public int howManyObstacles = 8;
 
 	/**
 	 * The Tuio Client
@@ -152,7 +152,11 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 		Property property;
 		for (int i = 0; i < howManyObstacles; i++) {
 			property = propertysList.get(i);
-			transObjects.add(new TNObstacleObject(this, 50 * i, 50 * i, 0, 0,property));
+			TNObstacleObject transObstclObj= new TNObstacleObject(this, 0, 0, 0, 0,property);
+
+			firstPosition(transObstclObj);
+
+			transObjects.add(transObstclObj);
 		}
 
 		// end PDXIII TUIO Stuff
@@ -240,6 +244,107 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	 * @see TUIO.TuioListener#addTuioCursor(TUIO.TuioCursor)
 	 */
 
+	
+	void firstPosition(TNObstacleObject transObstclObj){
+		
+//		following sets the ObstclObjects on the edges of the screen
+		
+//		if(transObstclObj.property.index == 0){
+//			
+//			transObstclObj.addOffset(width/ 5, height - 50);
+//		}
+//		
+//		if(transObstclObj.property.index == 1){
+//			
+//			transObstclObj.addOffset(width/ 5 * 3, height - 50);
+//		}
+//		
+//		
+//		if(transObstclObj.property.index == 2){
+//			
+//			transObstclObj.addOffset(width/ 5 * 2, 50);
+//			transObstclObj.rotate(PI);
+//		}
+//		
+//		if(transObstclObj.property.index == 3){
+//			
+//			transObstclObj.addOffset(width/ 5 * 4, 50);
+//			transObstclObj.rotate(PI);
+//		}
+//		
+//		if(transObstclObj.property.index == 4){
+//			
+//			transObstclObj.addOffset(50, height/5);
+//			transObstclObj.rotate(PI/2);
+//		}
+//		
+//		if(transObstclObj.property.index == 5){
+//			
+//			transObstclObj.addOffset(50, height/5 * 3);
+//			transObstclObj.rotate(PI/2);
+//		}
+//		
+//		if(transObstclObj.property.index == 6){
+//			
+//			transObstclObj.addOffset(width - 50, height/5 * 2);
+//			transObstclObj.rotate(-PI/2);
+//		}
+//		
+//		if(transObstclObj.property.index == 7){
+//			
+//			transObstclObj.addOffset(width - 50, height/5 * 4);
+//			transObstclObj.rotate(-PI/2);
+//		}
+		
+		if(transObstclObj.property.index == 0){
+			
+			transObstclObj.addOffset(width/2, height/2);
+		}
+		
+		if(transObstclObj.property.index == 1){
+			
+			transObstclObj.addOffset(width/2, height/2);
+			transObstclObj.rotate(PI/2);
+
+		}
+		
+		
+		if(transObstclObj.property.index == 2){
+			
+			transObstclObj.addOffset(width/2, height/2);
+			transObstclObj.rotate(PI);
+		}
+		
+		if(transObstclObj.property.index == 3){
+			
+			transObstclObj.addOffset(width/2, height/2);
+			transObstclObj.rotate(-PI/2);
+		}
+		
+		if(transObstclObj.property.index == 4){
+			
+			transObstclObj.addOffset(width/2, height/2 + 50);
+		}
+		
+		if(transObstclObj.property.index == 5){
+			
+			transObstclObj.addOffset(width/2 -50, height/2);
+			transObstclObj.rotate(PI/2);
+		}
+		
+		if(transObstclObj.property.index == 6){
+			
+			transObstclObj.addOffset(width/2, height/2 - 50);
+			transObstclObj.rotate(PI);
+		}
+		
+		if(transObstclObj.property.index == 7){
+			
+			transObstclObj.addOffset(width/2 + 50, height/2);
+			transObstclObj.rotate(-PI/2);
+		}
+		
+	}
 	@Override
 	public void addTuioCursor(TuioCursor tcur) {
 		// Hit test for all objects: first gets the hit, ordered by creation.
