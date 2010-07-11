@@ -237,8 +237,8 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 			if (showDebugPath) {
 				Debug.displayAllPaths(pathsList);
 			}
-			Debug.drawFrameRate();
-			Debug.drawFrameCount();
+//			Debug.drawFrameRate();
+//			Debug.drawFrameCount();
 			
 			if (showOverlay){
 				

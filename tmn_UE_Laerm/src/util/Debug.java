@@ -28,7 +28,7 @@ public class Debug {
 	 * @see #writeIMGs()
 	 * 
 	 */
-	public static boolean writeImg = false;
+	public static boolean writeImg = true;
 	/**
 	 * the PApplet
 	 */
