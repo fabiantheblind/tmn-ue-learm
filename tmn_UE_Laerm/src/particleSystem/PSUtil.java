@@ -133,6 +133,10 @@ public class PSUtil {
 		return ptclsList;
 	}
 
+	/**
+	 * initalze the Propertys
+	 * @return an ArrayList of propertys
+	 */
 	public static ArrayList<Property> initPropertysList() {
 		
 		ArrayList<Property> propertysList = new ArrayList<Property>();
@@ -173,6 +177,11 @@ public class PSUtil {
 
 	}
 
+	/**
+	 * @param someRepellers
+	 * @param propertysList
+	 * @deprecated
+	 */
 	public static void makeSomeRepellersWithPropertys(
 			ArrayList<Repeller> someRepellers, ArrayList<Property> propertysList) {
 
@@ -195,6 +204,10 @@ public class PSUtil {
 
 	}
 
+	/**this builds 9 paths to follow
+	 * @param pathsList
+	 * @see #initCirclePath(int, int, int, int)
+	 */
 	public static void makeSpaces(ArrayList<Path> pathsList) {
 
 		setNumOfPaths(9);
@@ -251,6 +264,10 @@ public class PSUtil {
 		}
 	}
 
+	/**
+	 * resets the Pathpoints
+	 * @param pathsList
+	 */
 	public static void resetPath(ArrayList<Path> pathsList) {
 
 		// TODO Auto-generated method stub

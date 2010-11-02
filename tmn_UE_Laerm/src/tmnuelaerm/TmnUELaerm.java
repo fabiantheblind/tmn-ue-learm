@@ -93,7 +93,7 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	/**
 	 * number of <code>Particle</code>'s
 	 */
-	int numPtcls = 1005;
+	int numPtcls = 1000;
 	/**
 	 * An ArrayList of {@link PSUtil#initPropertysList()} for all the Objects
 	 * 
@@ -126,9 +126,21 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 	boolean showDebugPath = false;
 	
 	
+	/**
+	 * 
+	 */
 	boolean showOverlay = false;
 
+	/**On Object of the class overlay
+	 * would be good to move all displayed stuff from debug to overlay
+	 * 
+	 */
 	private Overlay overlay;
+	
+	/**
+	 * show the life of one particle
+	 */
+	private boolean showDebugPtcl = false;
 
 	/*
 	 * (non-Javadoc)
@@ -188,8 +200,8 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 		}
 
 		// we need the particle system to interact with the TNObstacleObject
-		ps = new ParticleSystem(this, new PVector(width / 2, height / 2),ptclsList);
-
+//		ps = new ParticleSystem(this, new PVector(width / 2, height / 2),ptclsList);
+		ps = new ParticleSystem(this, 100, new PVector(width / 2, height / 2), ptclsList);
 
 		overlay = new Overlay(this);
 	}
@@ -206,7 +218,6 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 		DAY = Style.switchTime(DAY);
 		switchPath = Style.switchPath(DAY,switchPath);
 		Style.theBackground();
-		
 		// this is for the <code>Particle</code>'s that make the paths
 		// to get them back into their original position we have to reset them
 		// in the function Path.resetPointPtcls() you can set
@@ -230,7 +241,11 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 
 		// DEBUGGING START press "d"
 		if (showDebug) {
-			Debug.watchAParticle(ptclsList, ps);
+			
+			if (showDebugPtcl){
+				Debug.watchAParticle(ptclsList, ps);
+			
+			}
 //			Debug.watchARepellers(someRepellers);
 //			PSUtil.displaySomeRepellers(someRepellers);
 
@@ -486,6 +501,15 @@ public class TmnUELaerm extends PApplet implements TuioListener {
 			} else {
 				
 				showOverlay = true;
+			}
+		}
+		if (key == 'k'){
+			
+			if(showDebugPtcl){
+				showDebugPtcl = false;
+			} else {
+				
+				showDebugPtcl = true;
 			}
 		}
 

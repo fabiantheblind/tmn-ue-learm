@@ -40,6 +40,9 @@ public class Overlay {
 
 	}
 
+	/**Displays the overlay
+	 * 
+	 */
 	public void display() {
 		p.smooth();
 		for (int i = 2; i < Style.pathsRadius9.length; i+=3) {
@@ -65,7 +68,7 @@ public class Overlay {
 	}
 
 	/**
-	 * @return the center
+	 * @return the center of the circles
 	 */
 	public synchronized PVector getCenter() {
 		return center;
