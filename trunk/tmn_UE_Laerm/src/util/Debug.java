@@ -28,7 +28,7 @@ public class Debug {
 	 * @see #writeIMGs()
 	 * 
 	 */
-	public static boolean writeImg = true;
+	public static boolean writeImg = false;
 	/**
 	 * the PApplet
 	 */
@@ -134,6 +134,13 @@ public class Debug {
 		p.noStroke();
 	}
 
+	/**
+	 * makes a text about one particle in the upper right corner
+	 * @param pos
+	 * @param color
+	 * @param lineheight
+	 * @param myPtcl
+	 */
 	private static void makePtclTextWithShadow(PVector pos, int color,
 			int lineheight, Particle myPtcl) {
 
@@ -197,6 +204,13 @@ public class Debug {
 
 	}
 
+	/**
+	 * @param loc
+	 * @param color
+	 * @param lineheight
+	 * @param property
+	 * @deprecated
+	 */
 	private static void makeRepTextWithShadow(PVector loc, int color,
 			int lineheight, Property property) {
 		p.fill(color);
@@ -315,7 +329,7 @@ public class Debug {
 	 */
 	public static void saveFrame(float time) {
 		// TODO Auto-generated method stub
-		p.saveFrame("./bilder/MyImg" + time + ".jpg");
+		p.saveFrame("./bilder/MyImg" + time + ".tif");
 
 	}
 
